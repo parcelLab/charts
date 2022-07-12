@@ -21,13 +21,13 @@ parcellab` to see the charts.
 To install the `chart-name` chart:
 
 ```sh
-helm install my-<chart-name> <alias>/<chart-name>
+helm install <chart-name> parcellab/<chart-name>
 ```
 
 To uninstall the chart:
 
 ```sh
-helm delete my-<chart-name>
+helm delete <chart-name>
 ```
 
 ## Development
