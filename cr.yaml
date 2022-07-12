@@ -1,0 +1,3 @@
+# See https://github.com/helm/chart-releaser
+owner: parcellab
+git-repo: charts
