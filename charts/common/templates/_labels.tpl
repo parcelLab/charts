@@ -30,3 +30,9 @@ package: {{ .Chart.Name | quote }}
 part-of: {{ include "common.chart" . }}
 managed-by: argocd
 {{- end -}}
+
+{{- define "common.datadog" -}}
+tags.datadoghq.com/env: {{ .Values.env | quote }}
+tags.datadoghq.com/service: {{ .Chart.Name | quote }}
+tags.datadoghq.com/version: {{ .Chart.AppVersion | quote }}
+{{- end -}}

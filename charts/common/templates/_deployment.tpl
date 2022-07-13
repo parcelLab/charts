@@ -14,6 +14,7 @@ metadata:
   name: {{ $fullname }}
   labels:
     {{- include "common.labels" . | nindent 4 }}
+    {{- include "common.datadog" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -31,12 +32,38 @@ spec:
       serviceAccountName: {{ include "common.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+        - hostPath:
+            path: /var/run/datadog/
+          name: apmsocketpath
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ include "common.imageurl" . }}
           imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: /var/run/datadog
+              name: apmsocketpath
+          env:
+            - name: DD_ENV
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/env']
+            - name: DD_SERVICE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/service']
+            - name: DD_VERSION
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/version']
+            - name: DD_LOGS_INJECTION
+              value: "true"
+            - name: DD_TRACE_ENABLED
+              value: "true"
+            - name: DD_TRACE_AGENT_URL
+              value: unix:///var/run/datadog/apm.socket
           envFrom:
             {{- if .Values.config }}
             - configMapRef:
