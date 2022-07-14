@@ -97,10 +97,7 @@ Create the full docker image url
   ) }}
 */}}
 {{- define "common.imageurl" -}}
-{{- if .Values.env }}
-{{- if and (eq .Chart.AppVersion "main") ((eq .Values.env "prod")) }}
-{{ required (printf "The %s docker tag is not allowed in %s environments" .Chart.AppVersion .Values.env) nil }}
-{{- end }}
-{{- end }}
-{{- printf "ghcr.io/parcellab/%s:%s" .Chart.Name .Chart.AppVersion -}}
+{{- $imageRepository := default .Chart.Name .Values.image.repository -}}
+{{- $tag := default .Chart.AppVersion .Values.image.tag -}}
+{{- printf "%s:%s" $imageRepository $tag -}}
 {{- end -}}

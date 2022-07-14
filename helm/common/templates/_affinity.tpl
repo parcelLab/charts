@@ -1,11 +1,11 @@
 {{/*
   Anti affinity rules to avoid pods from same app release to be in the same node:
-  {{ include "common.antiaffinity" (
+  {{ include "common.nodeExclusivity" (
     dict
       "Release" "the release scope"
   ) }}
 */}}
-{{- define "common.antiaffinity" -}}
+{{- define "common.nodeExclusivity" -}}
 podAntiAffinity:
   requiredDuringSchedulingIgnoredDuringExecution:
   - labelSelector:
