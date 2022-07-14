@@ -4,7 +4,6 @@
   {{ include "common.poddisruptionbudget" (
     dict
       "Values" "the values scope"
-      "Release" "the release scope"
   ) }}
 */}}
 {{- define "common.poddisruptionbudget" -}}
