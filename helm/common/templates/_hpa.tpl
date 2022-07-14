@@ -10,18 +10,18 @@
 */}}
 {{- define "common.hpa" -}}
 {{- if .Values.autoscaling.enabled -}}
-{{- $name := default (include "common.fullname" .) .name -}}
+{{- $fullname := default (include "common.fullname" .) .name -}}
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ $name }}
+  name: {{ $fullname }}
   labels:
     {{- include "common.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ $name }}
+    name: {{ $fullname }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

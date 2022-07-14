@@ -46,7 +46,7 @@ spec:
             - configMapRef:
                 name: {{ $fullname }}
             {{- end }}
-            {{- if .Values.secret }}
+            {{- if .Values.externalSecret }}
             - secretRef:
                 name: {{ $fullname }}
             {{- end }}

@@ -85,8 +85,8 @@ Create the internal Kubernetes service FQDN
   ) }}
 */}}
 {{- define "common.fqdn" -}}
-{{- $name := default (include "common.fullname" .) .name -}}
-{{- printf "%s.%s.svc.cluster.local" $name .Release.Namespace -}}
+{{- $fullname := default (include "common.fullname" .) .name -}}
+{{- printf "%s.%s.svc.cluster.local" $fullname .Release.Namespace -}}
 {{- end -}}
 
 {{/*
