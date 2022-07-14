@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-    - charts/**
+    - helm/**
   workflow_dispatch:
 
 jobs:
