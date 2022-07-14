@@ -1,0 +1,3 @@
+# Chart dependency files
+Chart.lock
+charts/**/charts
