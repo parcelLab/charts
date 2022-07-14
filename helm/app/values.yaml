@@ -88,6 +88,33 @@ readinessProbe:
     path: /
     port: http
 
+# Create a configmap whose attributes will be loaded to the container as
+# environment variables using the values defined here
 config: {}
 
-secret: {}
+# Create a secret whose attributes will be loaded to the container as
+# environment variables using the external-secrets project and an already
+# configured secret store reference
+externalSecret: {}
+  # secretStoreRef:
+  #   name: secretsmanager
+  #   kind: ClusterSecretStore
+  # data:
+  # - secretKey: key-in-secret-1
+  #   remoteRef:
+  #     key: aws-secret-key
+  #     property: aws-secret-json-key-1
+  #     version: AWSCURRENT
+  # - secretKey: key-in-secret-2
+  #   remoteRef:
+  #     key: aws-secret-key
+  #     property: aws-secret-json-key-2
+  #     version: AWSCURRENT
+
+podDisruptionBudget:
+  enabled: false
+  spec:
+    maxUnavailable: '50%'
+
+vpa:
+  enabled: false
