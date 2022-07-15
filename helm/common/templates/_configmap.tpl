@@ -8,7 +8,7 @@
 */}}
 {{- define "common.configmap" -}}
 {{- if .Values.config }}
-apiVersion: v2
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ include "common.fullname" . }}

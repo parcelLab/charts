@@ -1,0 +1,120 @@
+replicaCount: 1
+
+image:
+  repository: nginx
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  name: http
+  port: 80
+  targetPort: http
+  protocol: TCP
+  type: ClusterIP
+
+ingress:
+  enabled: false
+  className: "nginx"
+  annotations:
+    # kubernetes.io/tls-acme: "true"
+  hosts: []
+    # - host: app
+    #   paths:
+    #     - path: /
+    #       pathType: Prefix
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 50m
+  #   memory: 64Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# Avoid pod replicas to be in the same node
+nodeExclusivity: true
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+
+# Create a configmap whose attributes will be loaded to the container as
+# environment variables using the values defined here
+config: {}
+
+# Create a secret whose attributes will be loaded to the container as
+# environment variables using the external-secrets project and an already
+# configured secret store reference
+externalSecret: {}
+  # secretStoreRef:
+  #   name: secretsmanager
+  #   kind: ClusterSecretStore
+  # data:
+  # - secretKey: key-in-secret-1
+  #   remoteRef:
+  #     key: aws-secret-key
+  #     property: aws-secret-json-key-1
+  #     version: AWSCURRENT
+  # - secretKey: key-in-secret-2
+  #   remoteRef:
+  #     key: aws-secret-key
+  #     property: aws-secret-json-key-2
+  #     version: AWSCURRENT
+
+podDisruptionBudget:
+  enabled: false
+  spec:
+    maxUnavailable: '50%'
+
+vpa:
+  enabled: false

@@ -29,6 +29,10 @@ spec:
       labels:
         {{- include "common.labels" . | nindent 8 }}
     spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       serviceAccountName: {{ include "common.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
@@ -41,7 +45,7 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ include "common.imageurl" . }}
-          imagePullPolicy: Always
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
             - mountPath: /var/run/datadog
               name: apmsocketpath
@@ -69,7 +73,7 @@ spec:
             - configMapRef:
                 name: {{ $fullname }}
             {{- end }}
-            {{- if .Values.secret }}
+            {{- if .Values.externalSecret }}
             - secretRef:
                 name: {{ $fullname }}
             {{- end }}
@@ -91,8 +95,13 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-    {{- if .Values.includeAntiaffinity }}
+    {{- if .Values.nodeExclusivity }}
       affinity:
-        {{- include "common.antiaffinity" . | nindent 8 }}
+        {{- include "common.nodeExclusivity" . | nindent 8 }}
+    {{- else }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
     {{- end }}
 {{- end -}}
