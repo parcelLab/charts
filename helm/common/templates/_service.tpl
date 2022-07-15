@@ -13,12 +13,12 @@
 */}}
 {{- define "common.service" -}}
 {{- $extraSelectors := default "" .extraSelectors -}}
-{{- $name := default (include "common.fullname" .) .nameOverride -}}
+{{- $fullname := default (include "common.fullname" .) .nameOverride -}}
 {{- $service := default .Values.service .service -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ $name }}
+  name: {{ $fullname }}
   labels:
     {{- include "common.labels" . | nindent 4 }}
 spec:

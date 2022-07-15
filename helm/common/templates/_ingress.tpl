@@ -8,12 +8,12 @@
 */}}
 {{- define "common.ingress" -}}
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "common.fullname" . -}}
+{{- $fullname := include "common.fullname" . -}}
 {{- $svcPort := .Values.service.port -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
+  name: {{ $fullname }}
   labels:
     {{- include "common.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
@@ -44,7 +44,7 @@ spec:
             {{- end }}
             backend:
               service:
-                name: {{ $fullName }}
+                name: {{ $fullname }}
                 port:
                   number: {{ $svcPort }}
           {{- end }}
