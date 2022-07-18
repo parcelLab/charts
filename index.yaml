@@ -1,5 +1,18 @@
 apiVersion: v1
 entries:
+  app:
+  - apiVersion: v2
+    created: "2022-07-18T10:44:07.316304407Z"
+    dependencies:
+    - name: common
+      repository: https://charts.parcellab.dev
+      version: 0.0.1
+    description: Chart for generic applications.
+    digest: a5254c7a4ad19b16944cbbc78c03f547af08a848c179c92cb915ed9524969dae
+    name: app
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/app-0.0.1/app-0.0.1.tgz
+    version: 0.0.1
   common:
   - apiVersion: v2
     created: "2022-07-18T10:33:59.120994835Z"
@@ -13,4 +26,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/common-0.0.1/common-0.0.1.tgz
     version: 0.0.1
-generated: "2022-07-18T10:33:59.120998935Z"
+generated: "2022-07-18T10:44:07.316311268Z"
