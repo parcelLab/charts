@@ -26,32 +26,6 @@
 {{- end -}}
 
 {{/*
-  Keys transformed to snakecase and uppercase and quoted values generated from a given dict:
-  {{ include "common.envdata" (
-    dict
-      "data" "the config data dict whose keys will be converted to environment variable format"
-  ) }}
-*/}}
-{{- define "common.envdata" -}}
-{{- range $path, $config := .data }}
-{{ $path | snakecase | upper }}: {{ $config | quote }}
-{{- end -}}
-{{- end -}}
-
-{{/*
-  Keys transformed to snakecase and uppercase and b64 encoded values generated from a given dict:
-  {{ include "common.envdataencoded" (
-    dict
-      "data" "the secret data dict whose keys will be converted to environment variable format"
-  ) }}
-*/}}
-{{- define "common.envdataencoded" -}}
-{{- range $path, $config := .data }}
-{{ $path | snakecase | upper }}: {{ $config | b64enc }}
-{{- end -}}
-{{- end -}}
-
-{{/*
   File name keys and file content values generated from a given file glob:
   {{ include "common.filedata" (
     dict
