@@ -28,9 +28,5 @@ Common labels
 {{ include "common.parcellabtagsdomain" . }}/chart-version: {{ .Chart.Version | quote }}
 {{ include "common.parcellabtagsdomain" . }}/chart-name: {{ .Chart.Name | quote }}
 {{ include "common.parcellabtagsdomain" . }}/part-of: {{ include "common.chart" . }}
-{{- if and .Values.datadog .Values.datadog.enabled -}}
-tags.datadoghq.com/env: {{ include "common.env" . }}
-tags.datadoghq.com/service: {{ include "common.fullname" . }}
-tags.datadoghq.com/version: {{ include "common.version" . }}
 {{- end -}}
 {{- end -}}
