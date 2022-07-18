@@ -5,7 +5,8 @@ on:
     branches:
       - main
     paths:
-    - helm/**
+    - parcellab/**
+    - '!**.md'
   workflow_dispatch:
 
 jobs:
@@ -23,15 +24,7 @@ jobs:
       - name: Run chart-releaser library
         uses: helm/chart-releaser-action@v1.4.0
         with:
-          charts_dir: libraries
-          charts_repo_url: https://charts.parcellab.dev
-          config: cr.yaml
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-      - name: Run chart-releaser app
-        uses: helm/chart-releaser-action@v1.4.0
-        with:
-          charts_dir: applications
+          charts_dir: parcellab
           charts_repo_url: https://charts.parcellab.dev
           config: cr.yaml
         env:
