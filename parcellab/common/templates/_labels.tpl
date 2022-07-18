@@ -9,9 +9,9 @@ Labels to use as selectors
   ) }}
 */}}
 {{- define "common.selectors" -}}
-{{ include "common.domainvariables" . }}/app: {{ include "common.fullname" . }}
-{{ include "common.domainvariables" . }}/env: {{ include "common.env" . }}
-{{ include "common.domainvariables" . }}/version: {{ include "common.version" . }}
+{{ include "common.parcellabtagsdomain" . }}/app: {{ include "common.fullname" . }}
+{{ include "common.parcellabtagsdomain" . }}/env: {{ include "common.env" . }}
+{{ include "common.parcellabtagsdomain" . }}/version: {{ include "common.version" . }}
 {{- end -}}
 
 {{/*
@@ -25,7 +25,12 @@ Common labels
 */}}
 {{- define "common.labels" -}}
 {{ include "common.selectors" . }}
-{{ include "common.domainvariables" . }}/chart-version: {{ .Chart.Version | quote }}
-{{ include "common.domainvariables" . }}/chart-name: {{ .Chart.Name | quote }}
-{{ include "common.domainvariables" . }}/part-of: {{ include "common.chart" . }}
+{{ include "common.parcellabtagsdomain" . }}/chart-version: {{ .Chart.Version | quote }}
+{{ include "common.parcellabtagsdomain" . }}/chart-name: {{ .Chart.Name | quote }}
+{{ include "common.parcellabtagsdomain" . }}/part-of: {{ include "common.chart" . }}
+{{- if and .Values.datadog .Values.datadog.enabled -}}
+tags.datadoghq.com/env: {{ include "common.env" . }}
+tags.datadoghq.com/service: {{ include "common.fullname" . }}
+tags.datadoghq.com/version: {{ include "common.version" . }}
+{{- end -}}
 {{- end -}}

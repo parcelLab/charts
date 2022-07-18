@@ -8,6 +8,6 @@ Annotations to use in pods
   ) }}
 */}}
 {{- define "common.pod.annotations" -}}
-{{ include "common.domainvariables" . }}/name: {{ include "common.fullname" . }}
-{{ include "common.domainvariables" . }}/version: {{ include "common.version" . }}
+{{ include "common.parcellabtagsdomain" . }}/name: {{ include "common.fullname" . }}
+{{ include "common.parcellabtagsdomain" . }}/version: {{ include "common.version" . }}
 {{- end -}}

@@ -115,12 +115,12 @@ Create the application environment
 
 {{/*
 Create the application domain namespace for labels and annotation variables
-  {{ include "common.domainvariables" (
+  {{ include "common.parcellabtagsdomain" (
     dict
       "Values" "The Values scope"
   ) }}
 */}}
-{{- define "common.domainvariables" -}}
+{{- define "common.parcellabtagsdomain" -}}
 parcellab.dev
 {{- end -}}
 
