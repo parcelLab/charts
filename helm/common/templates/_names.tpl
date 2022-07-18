@@ -53,7 +53,9 @@
   ) }}
 */}}
 {{- define "common.fullname" -}}
-{{- if .Values.fullnameOverride -}}
+{{- if .Values.appName -}}
+{{- .Values.appName -}}
+{{- else if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
 {{- .Release.Name | trunc 63 | trimSuffix "-" -}}
@@ -90,6 +92,56 @@ Create the internal Kubernetes service FQDN
 {{- end -}}
 
 {{/*
+Create the application version
+  {{ include "common.version" (
+    dict
+      "Values" "The Values scope"
+  ) }}
+*/}}
+{{- define "common.version" -}}
+{{ default .Chart.AppVersion .Values.image.tag }}
+{{- end -}}
+
+{{/*
+Create the application environment
+  {{ include "common.env" (
+    dict
+      "Values" "The Values scope"
+  ) }}
+*/}}
+{{- define "common.env" -}}
+{{ default "prod" .Values.appEnv }}
+{{- end -}}
+
+{{/*
+Create the application domain namespace for labels and annotation variables
+  {{ include "common.domainvariables" (
+    dict
+      "Values" "The Values scope"
+  ) }}
+*/}}
+{{- define "common.domainvariables" -}}
+parcellab.dev
+{{- end -}}
+
+{{/*
+Create the image repository
+  {{ include "common.imagerepository" (
+    dict
+      "Values" "The Values scope"
+  ) }}
+*/}}
+{{- define "common.imagerepository" -}}
+{{- if and .Values.appName .Values.appOrgRepository -}}
+{{- printf "%s/%s" .Values.appOrgRepository .Values.appName -}}
+{{- else if .Values.appName -}}
+{{- .Values.appName -}}
+{{- else -}}
+{{- default .Chart.Name .Values.image.repository -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Create the full docker image url
   {{ include "common.imageurl" (
     dict
@@ -97,7 +149,5 @@ Create the full docker image url
   ) }}
 */}}
 {{- define "common.imageurl" -}}
-{{- $imageRepository := default .Chart.Name .Values.image.repository -}}
-{{- $tag := default .Chart.AppVersion .Values.image.tag -}}
-{{- printf "%s:%s" $imageRepository $tag -}}
+{{- printf "%s:%s" (include "common.imagerepository" .) (include "common.version" .) -}}
 {{- end -}}

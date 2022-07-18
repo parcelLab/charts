@@ -8,6 +8,6 @@ Annotations to use in pods
   ) }}
 */}}
 {{- define "common.pod.annotations" -}}
-parcellab.dev/name: {{ .Chart.Name }}
-parcellab.dev/version: {{ .Chart.AppVersion }}
+{{ include "common.domainvariables" . }}/name: {{ include "common.fullname" . }}
+{{ include "common.domainvariables" . }}/version: {{ include "common.version" . }}
 {{- end -}}

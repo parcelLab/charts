@@ -1,14 +1,16 @@
 replicaCount: 1
 
+appEnv: prod # The application environment
+appName: app # The application name
+appOrgRepository: ghcr.io/parcellab # The organization docker repository
+
 image:
-  repository: nginx
+  # repository: nginx  # Will apply if appOrgRepository and appName is not defined
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: stable
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created

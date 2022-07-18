@@ -9,9 +9,9 @@ Labels to use as selectors
   ) }}
 */}}
 {{- define "common.selectors" -}}
-app: {{ .Chart.Name | quote }}
-env: {{ .Values.env | quote }}
-version: {{ .Chart.AppVersion | quote }}
+{{ include "common.domainvariables" . }}/app: {{ include "common.fullname" . }}
+{{ include "common.domainvariables" . }}/env: {{ include "common.env" . }}
+{{ include "common.domainvariables" . }}/version: {{ include "common.version" . }}
 {{- end -}}
 
 {{/*
@@ -25,8 +25,7 @@ Common labels
 */}}
 {{- define "common.labels" -}}
 {{ include "common.selectors" . }}
-chart-version: {{ .Chart.Version | quote }}
-package: {{ .Chart.Name | quote }}
-part-of: {{ include "common.chart" . }}
-managed-by: argocd
+{{ include "common.domainvariables" . }}/chart-version: {{ .Chart.Version | quote }}
+{{ include "common.domainvariables" . }}/chart-name: {{ .Chart.Name | quote }}
+{{ include "common.domainvariables" . }}/part-of: {{ include "common.chart" . }}
 {{- end -}}
