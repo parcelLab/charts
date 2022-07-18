@@ -20,10 +20,18 @@ jobs:
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+      - name: Run chart-releaser library
+        uses: helm/chart-releaser-action@v1.4.0
+        with:
+          charts_dir: libraries
+          charts_repo_url: https://charts.parcellab.dev
+          config: cr.yaml
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       - name: Run chart-releaser app
         uses: helm/chart-releaser-action@v1.4.0
         with:
-          charts_dir: helm/app
+          charts_dir: applications
           charts_repo_url: https://charts.parcellab.dev
           config: cr.yaml
         env:
