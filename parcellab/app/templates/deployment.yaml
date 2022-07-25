@@ -5,11 +5,6 @@ metadata:
   name: {{ $fullname }}
   labels:
     {{- include "common.labels" . | nindent 4 }}
-    {{- if and .Values.datadog .Values.datadog.enabled }}
-    tags.datadoghq.com/env: {{ include "common.env" . }}
-    tags.datadoghq.com/service: {{ $fullname }}
-    tags.datadoghq.com/version: {{ include "common.version" . }}
-    {{- end }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
