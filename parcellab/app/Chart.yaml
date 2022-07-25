@@ -1,7 +1,7 @@
 apiVersion: v2
 name: app
 description: Chart for generic applications.
-version: 0.0.5
+version: 0.0.6
 dependencies:
   - name: common
     version: 0.0.5
