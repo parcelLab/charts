@@ -11,7 +11,6 @@ Labels to use as selectors
 {{- define "common.selectors" -}}
 {{ include "common.parcellabtagsdomain" . }}/app: {{ include "common.fullname" . }}
 {{ include "common.parcellabtagsdomain" . }}/env: {{ include "common.env" . }}
-{{ include "common.parcellabtagsdomain" . }}/version: {{ include "common.version" . }}
 {{- end -}}
 
 {{/*
@@ -28,4 +27,5 @@ Common labels
 {{ include "common.parcellabtagsdomain" . }}/chart-version: {{ .Chart.Version | quote }}
 {{ include "common.parcellabtagsdomain" . }}/chart-name: {{ .Chart.Name | quote }}
 {{ include "common.parcellabtagsdomain" . }}/part-of: {{ include "common.chart" . }}
+{{ include "common.parcellabtagsdomain" . }}/version: {{ include "common.version" . }}
 {{- end -}}
