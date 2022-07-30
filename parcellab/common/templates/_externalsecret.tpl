@@ -11,6 +11,7 @@
 {{- if .Values.externalSecret }}
 {{- $fullname := default (include "common.fullname" .) .nameOverride -}}
 {{- $externalSecret := default .Values.externalSecret .externalSecret -}}
+apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
   name: {{ $fullname }}
