@@ -23,7 +23,7 @@ spec:
     {{- toYaml .secretStoreRef | nindent 4 }}
   target:
     name: {{ $fullname }}
-    creationPolicy: {{ .target.creationPolicy | default "Owner" }}
+    creationPolicy: "Owner"
   data:
     {{- toYaml .data | nindent 4 }}
   {{- end }}
