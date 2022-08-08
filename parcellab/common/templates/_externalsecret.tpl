@@ -19,14 +19,7 @@ metadata:
     {{- include "common.labels" . | nindent 4 }}
 spec:
   {{- with $externalSecret }}
-  refreshInterval: {{ .refreshInterval | default "1m" }}
-  secretStoreRef:
-    {{- toYaml .secretStoreRef | nindent 4 }}
-  target:
-    name: {{ $fullname }}
-    creationPolicy: "Owner"
-  data:
-    {{- toYaml .data | nindent 4 }}
+  {{- toYaml . | nindent 2 }}
   {{- end }}
 {{- end }}
 {{- end -}}
