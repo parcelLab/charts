@@ -1,8 +1,8 @@
 apiVersion: v2
 name: app
 description: Chart for generic applications.
-version: 0.0.10
+version: 0.0.11
 dependencies:
   - name: common
-    version: 0.0.8
+    version: 0.0.9
     repository: https://charts.parcellab.dev
