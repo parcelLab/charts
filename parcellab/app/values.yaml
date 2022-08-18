@@ -1,14 +1,14 @@
 replicaCount: 1
 
-appEnv: prod # The application environment
-appName: app # The application name
-appOrgRepository: ghcr.io/parcellab # The organization docker repository
+env: prod # The application environment
+name: app # The application name
+orgRepository: ghcr.io/parcellab # The organization docker repository
 
 datadog:
   enabled: true
 
 image:
-  # repository: nginx  # Will apply if appOrgRepository and appName is not defined
+  # repository: nginx  # Will apply if orgRepository and name is not defined
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: stable

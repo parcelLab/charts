@@ -53,8 +53,8 @@
   ) }}
 */}}
 {{- define "common.fullname" -}}
-{{- if .Values.appName -}}
-{{- .Values.appName -}}
+{{- if .Values.name -}}
+{{- .Values.name -}}
 {{- else if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -110,7 +110,7 @@ Create the application environment
   ) }}
 */}}
 {{- define "common.env" -}}
-{{ default "prod" .Values.appEnv }}
+{{ default "prod" .Values.env }}
 {{- end -}}
 
 {{/*
@@ -132,10 +132,10 @@ Create the image repository
   ) }}
 */}}
 {{- define "common.imagerepository" -}}
-{{- if and .Values.appName .Values.appOrgRepository -}}
-{{- printf "%s/%s" .Values.appOrgRepository .Values.appName -}}
-{{- else if .Values.appName -}}
-{{- .Values.appName -}}
+{{- if and .Values.name .Values.orgRepository -}}
+{{- printf "%s/%s" .Values.orgRepository .Values.name -}}
+{{- else if .Values.name -}}
+{{- .Values.name -}}
 {{- else -}}
 {{- default .Chart.Name .Values.image.repository -}}
 {{- end -}}
