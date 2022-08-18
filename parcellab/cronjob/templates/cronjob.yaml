@@ -1,0 +1,4 @@
+{{- range $cronjob := .Values.cronjobs }}
+{{- include "cronjob.cronjob" (merge (deepCopy .) $cronjob) }}
+---
+{{- end }}
