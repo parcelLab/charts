@@ -86,10 +86,10 @@ spec:
           - name: DD_TRACE_AGENT_URL
             value: unix:///var/run/datadog/apm.socket
         {{- end }}
-      {{- with .Values.nodeSelector }}
+    {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
-      {{- end }}
+    {{- end }}
     {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
