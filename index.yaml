@@ -2,6 +2,18 @@ apiVersion: v1
 entries:
   app:
   - apiVersion: v2
+    created: "2022-08-18T09:57:17.178317105Z"
+    dependencies:
+    - name: common
+      repository: https://charts.parcellab.dev
+      version: 0.0.12
+    description: Chart for generic applications.
+    digest: a2ee6a0b738e87b1d273bc1d3c122bf5d398c9f838f871d8142e0589553b0a36
+    name: app
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/app-0.0.15/app-0.0.15.tgz
+    version: 0.0.15
+  - apiVersion: v2
     created: "2022-08-17T22:15:21.320711069Z"
     dependencies:
     - name: common
@@ -171,6 +183,18 @@ entries:
     version: 0.0.1
   common:
   - apiVersion: v2
+    created: "2022-08-18T09:57:17.366458859Z"
+    description: A Helm chart library for parcelLab charts
+    digest: 78ffe16e9a143ec967a1512ad344d1662e4105f097f8dd6a05002eeedbcd6c65
+    maintainers:
+    - email: engineering@parcellab.com
+      name: parcelLab
+    name: common
+    type: library
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/common-0.0.13/common-0.0.13.tgz
+    version: 0.0.13
+  - apiVersion: v2
     created: "2022-08-18T09:05:44.554911958Z"
     description: A Helm chart library for parcelLab charts
     digest: 799510a69543aaa796af95878435720edf8708d6e43d1445b340f5f2eb684a0d
@@ -314,4 +338,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/common-0.0.1/common-0.0.1.tgz
     version: 0.0.1
-generated: "2022-08-18T09:05:44.555009559Z"
+generated: "2022-08-18T09:57:17.366773662Z"
