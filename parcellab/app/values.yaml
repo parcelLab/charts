@@ -124,3 +124,9 @@ podDisruptionBudget:
 
 vpa:
   enabled: false
+
+# workload:
+  #   command:
+  #   - /bin/sh
+  #   - -c
+  #   - date; echo Hello from the Kubernetes cluster
