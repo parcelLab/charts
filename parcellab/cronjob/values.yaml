@@ -1,11 +1,18 @@
 replicaCount: 1
 
-env: prod # The cronjob environment
-name: cronjob # The cronjob name
-orgRepository: ghcr.io/parcellab # The organization docker repository
+env: "prod" # The cronjob environment
+name: "cronjob" # The cronjob name
+orgRepository: "ghcr.io/parcellab" # The organization docker repository
 
 datadog:
   enabled: true
+
+# Cronjob parameters (serve as defaults)
+concurrencyPolicy: "Allow"
+failedJobsHistoryLimit: 1
+schedule: "* * * * *"
+successfulJobsHistoryLimit: 3
+suspend: false
 
 cronjobs:
   # - name: action
@@ -80,3 +87,5 @@ externalSecret: {}
   #     key: aws-secret-key
   #     property: aws-secret-json-key-2
   #     version: AWSCURRENT
+
+volumes: []
