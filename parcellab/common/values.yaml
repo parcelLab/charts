@@ -1,0 +1,40 @@
+# Default values
+affinity: {}
+autoscaling:
+  enabled: false
+config: {}
+datadog:
+  enabled: false
+env: prod
+externalSecret: {}
+imagePullSecrets:
+- name: github-docker
+image:
+  pullPolicy: Always
+  tag: stable
+ingress:
+  enabled: false
+name: common
+nodeExclusivity: true
+nodeSelector: {}
+orgRepository: ghcr.io/parcellab
+podAnnotations: {}
+podDisruptionBudget:
+  enabled: false
+  spec:
+    maxUnavailable: '50%'
+podSecurityContext: {}
+replicaCount: 1
+resources: {}
+securityContext: {}
+serviceAccount:
+  create: false
+service:
+  name: "http"
+  port: 80
+  protocol: "TCP"
+  targetPort: "http"
+  type: "ClusterIP"
+tolerations: []
+vpa:
+  enabled: false
