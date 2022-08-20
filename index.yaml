@@ -424,6 +424,18 @@ entries:
     version: 0.0.1
   cronjob:
   - apiVersion: v2
+    created: "2022-08-20T21:38:49.980172065Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Chart for generic cron jobs.
+    digest: af604aeb276238cbc970b6d6fbfb70e4ece1508c713bcbbfad5acf9855474e2a
+    name: cronjob
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/cronjob-0.0.6/cronjob-0.0.6.tgz
+    version: 0.0.6
+  - apiVersion: v2
     created: "2022-08-20T21:29:20.315875455Z"
     dependencies:
     - name: common
@@ -471,4 +483,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/cronjob-0.0.1/cronjob-0.0.1.tgz
     version: 0.0.1
-generated: "2022-08-20T21:38:42.26498535Z"
+generated: "2022-08-20T21:38:49.980497672Z"
