@@ -1,4 +1,4 @@
-name: Release Charts
+name: Release Chart Libraries
 
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
       - name: Run chart-releaser library
         uses: helm/chart-releaser-action@v1.4.0
         with:
-          charts_dir: parcellab
+          charts_dir: libraries
           charts_repo_url: https://charts.parcellab.dev
           config: cr.yaml
         env:
