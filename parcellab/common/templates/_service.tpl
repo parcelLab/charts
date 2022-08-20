@@ -10,8 +10,8 @@
   ) }}
 */}}
 {{- define "common.service" -}}
-{{- $fullname := default (include "common.fullname" .) .nameOverride -}}
 {{- $service := default (dict) .service -}}
+{{- $fullname := default (include "common.fullname" .) $service.name -}}
 apiVersion: v1
 kind: Service
 metadata:

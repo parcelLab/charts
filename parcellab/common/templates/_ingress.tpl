@@ -4,27 +4,31 @@
   {{ include "common.ingress" (
     dict
       "Values" "the values scope"
+      "ingress" "The ingress spec configuration" /optional (defaults to empty)
   ) }}
 */}}
 {{- define "common.ingress" -}}
-{{- if .Values.ingress.enabled -}}
-{{- $fullname := include "common.fullname" . -}}
-{{- $svcPort := .Values.service.port -}}
+{{- $ingress := default (dict "enabled" false) .ingress -}}
+{{- if or .Values.ingress.enabled $ingress.enabled -}}
+{{- $fullname := default (include "common.fullname" .) $ingress.name -}}
+{{- $tls := default .Values.ingress.tls $ingress.tls -}}
+{{- $serviceName := default $fullname $ingress.serviceName -}}
+{{- $servicePort := default .Values.service.port $ingress.servicePort -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ $fullname }}
   labels:
     {{- include "common.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
+  {{- with default .Values.ingress.annotations $ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  ingressClassName: {{ .Values.ingress.className }}
-  {{- if .Values.ingress.tls }}
+  ingressClassName: {{ default .Values.ingress.className $ingress.className }}
+  {{- if $tls }}
   tls:
-    {{- range .Values.ingress.tls }}
+    {{- range $tls }}
     - hosts:
         {{- range .hosts }}
         - {{ . | quote }}
@@ -33,7 +37,7 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    {{- range .Values.ingress.hosts }}
+    {{- range default .Values.ingress.hosts $ingress.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:
@@ -44,9 +48,9 @@ spec:
             {{- end }}
             backend:
               service:
-                name: {{ $fullname }}
+                name: {{ $serviceName }}
                 port:
-                  number: {{ $svcPort }}
+                  number: {{ $servicePort }}
           {{- end }}
     {{- end }}
 {{- end }}

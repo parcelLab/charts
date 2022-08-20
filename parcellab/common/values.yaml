@@ -2,6 +2,9 @@
 affinity: {}
 autoscaling:
   enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
 config: {}
 datadog:
   enabled: false
@@ -38,3 +41,5 @@ service:
 tolerations: []
 vpa:
   enabled: false
+  mode: "Auto"
+  targetKind: "Deployment"
