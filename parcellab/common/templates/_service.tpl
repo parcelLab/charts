@@ -6,15 +6,12 @@
       "Chart" "the chart scope"
       "Release" "the release scope"
       "Values" "the values scope"
-      "extraSelectors" "Extra pod label selectors" /optional (defaults to empty)
-      "nameOverride" "Override the name of the service"
       "service" "The service spec configuration" /optional (defaults to .Values.service)
   ) }}
 */}}
 {{- define "common.service" -}}
-{{- $extraSelectors := default "" .extraSelectors -}}
 {{- $fullname := default (include "common.fullname" .) .nameOverride -}}
-{{- $service := default .Values.service .service -}}
+{{- $service := default (dict) .service -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -22,17 +19,15 @@ metadata:
   labels:
     {{- include "common.labels" . | nindent 4 }}
 spec:
-  {{- with $service }}
-  type: {{ .type | default "ClusterIP" }}
+  type: {{ default .Values.service.type $service.serviceType }}
   ports:
-    - port: {{ .port | default 80 }}
-      targetPort: {{ .targetPort | default "http" }}
-      protocol: {{ .protocol | default "TCP" }}
-      name: {{ .name | default "http" }}
-  {{- end }}
+    - port: {{ default .Values.service.port $service.portNumber }}
+      targetPort: {{ default .Values.service.targetPort $service.portName }}
+      protocol: {{ default .Values.service.protocol $service.portProtocol }}
+      name: {{ default .Values.service.name $service.portName }}
   selector:
     {{- include "common.selectors" . | nindent 4 }}
-    {{- if $extraSelectors }}
-    {{- toYaml $extraSelectors | nindent 4 }}
+    {{- if $service.extraSelectors }}
+    {{- toYaml $service.extraSelectors | nindent 4 }}
     {{- end }}
 {{- end -}}
