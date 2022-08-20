@@ -29,7 +29,6 @@ spec:
         metadata:
           annotations:
             {{- include "common.pod.annotations" . | nindent 12 }}
-            rollme: {{ randAlphaNum 5 | quote }}
           labels:
             {{- include "common.labels" . | nindent 12 }}
             {{- if and .Values.datadog .Values.datadog.enabled }}

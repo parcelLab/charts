@@ -68,6 +68,8 @@ containers:
     - name: {{ default .Values.service.name .pod.portName }}
       containerPort: {{ default .Values.service.port .pod.portNumber }}
       protocol: {{ default .Values.service.protocol .pod.portProtocol }}
+  {{- else if eq $type "cronjob" }}
+  restartPolicy: {{ default "OnFailure" .pod.restartPolicy }}
   {{- end }}
   resources:
     {{- toYaml (default .Values.resources .pod.resources) | nindent 4 }}
