@@ -5,12 +5,13 @@
     dict
       "Values" "the values scope"
       "externalSecret" "The externalSecret spec configuration" /optional (defaults to .Values.externalSecret)
+      "name" "The configmap name" /optional (defaults to empty)
   ) }}
 */}}
 {{- define "common.externalsecret" -}}
-{{- if .Values.externalSecret }}
-{{- $fullname := default (include "common.fullname" .) .nameOverride -}}
+{{- if or .Values.externalSecret .externalSecret }}
 {{- $externalSecret := default .Values.externalSecret .externalSecret -}}
+{{- $fullname := default (include "common.fullname" .) .name -}}
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:

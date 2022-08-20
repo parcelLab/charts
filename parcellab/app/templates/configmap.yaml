@@ -1,1 +1,10 @@
+{{- if .Values.services -}}
+{{- $root := . -}}
+{{- range $services := .Values.services }}
+{{- if .config -}}
+{{- include "common.configmap" (merge (deepCopy $root) (dict "config" .config "name" .name)) }}
+{{- end -}}
+---
+{{- end -}}
+{{- end -}}
 {{- include "common.configmap" . }}

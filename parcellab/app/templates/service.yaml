@@ -1,1 +1,9 @@
+{{- if .Values.services -}}
+{{- $root := . -}}
+{{- range $services := .Values.services }}
+{{- include "common.service" (merge (deepCopy $root) (dict "service" .)) }}
+---
+{{- end }}
+{{- else }}
 {{- include "common.service" . }}
+{{- end }}
