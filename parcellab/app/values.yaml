@@ -125,7 +125,7 @@ podDisruptionBudget:
 vpa:
   enabled: false
 
-services:
+services: []
   # - name: myservice
   #   command:
   #   - /bin/sh
@@ -133,3 +133,5 @@ services:
   #   - date; echo Hello from the Kubernetes cluster
 
 volumes: []
+
+ingresses: []
