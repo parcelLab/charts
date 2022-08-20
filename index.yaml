@@ -2,6 +2,18 @@ apiVersion: v1
 entries:
   app:
   - apiVersion: v2
+    created: "2022-08-20T21:27:59.099186006Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Chart for generic applications.
+    digest: e2d4a37f59d258edb9290e6ad93ada93c3cdfb2a4ed268c6ef45ca9221a0f15c
+    name: app
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/app-0.0.19/app-0.0.19.tgz
+    version: 0.0.19
+  - apiVersion: v2
     created: "2022-08-19T22:47:18.936603574Z"
     dependencies:
     - name: common
@@ -435,4 +447,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/cronjob-0.0.1/cronjob-0.0.1.tgz
     version: 0.0.1
-generated: "2022-08-20T21:24:27.403792637Z"
+generated: "2022-08-20T21:27:59.099502809Z"
