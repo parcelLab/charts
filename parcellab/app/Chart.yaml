@@ -4,5 +4,5 @@ description: Chart for generic applications.
 version: 0.0.18
 dependencies:
   - name: common
-    version: latest
+    version: "*"
     repository: file://../common

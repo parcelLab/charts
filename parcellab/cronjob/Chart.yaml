@@ -4,5 +4,5 @@ description: Chart for generic cron jobs.
 version: 0.0.4
 dependencies:
   - name: common
-    version: latest
+    version: "*"
     repository: file://../common
