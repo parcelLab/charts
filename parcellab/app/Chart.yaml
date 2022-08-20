@@ -4,5 +4,5 @@ description: Chart for generic applications.
 version: 0.0.18
 dependencies:
   - name: common
-    version: 0.0.15
-    repository: https://charts.parcellab.dev
+    version: latest
+    repository: file://../common
