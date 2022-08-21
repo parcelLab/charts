@@ -29,19 +29,8 @@ spec:
   jobTemplate:
     spec:
       template:
-        metadata:
-          annotations:
-            {{- include "common.pod.annotations" . | nindent 12 }}
-          labels:
-            {{- include "common.labels" . | nindent 12 }}
-            {{- if and .Values.datadog .Values.datadog.enabled }}
-            tags.datadoghq.com/env: {{ include "common.env" . | quote }}
-            tags.datadoghq.com/service: {{ $fullname | quote }}
-            tags.datadoghq.com/version: {{ include "common.version" . | quote }}
-            {{- end }}
-        spec:
-          {{- include "common.pod"
-            (merge (deepCopy .) (dict "pod" $cronjob "type" "cronjob")) | indent 10
-          }}
+        {{- include "common.pod"
+          (merge (deepCopy .) (dict "pod" $cronjob "type" "cronjob")) | nindent 8
+        }}
 {{- end }}
 {{- end -}}

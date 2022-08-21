@@ -27,18 +27,7 @@ spec:
     matchLabels:
       {{- include "common.selectors" . | nindent 6 }}
   template:
-    metadata:
-      annotations:
-        {{- include "common.pod.annotations" . | nindent 8 }}
-      labels:
-        {{- include "common.labels" . | nindent 8 }}
-        {{- if and .Values.datadog .Values.datadog.enabled }}
-        tags.datadoghq.com/env: {{ include "common.env" . | quote }}
-        tags.datadoghq.com/service: {{ $fullname | quote }}
-        tags.datadoghq.com/version: {{ include "common.version" . | quote }}
-        {{- end }}
-    spec:
-      {{- include "common.pod"
-        (merge (deepCopy .) (dict "pod" $service "type" "service")) | indent 6
-      }}
+    {{- include "common.pod"
+      (merge (deepCopy .) (dict "pod" $service "type" "service")) | nindent 4
+    }}
 {{- end -}}
