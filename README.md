@@ -3,7 +3,7 @@
 [![JSON](https://github.com/parcelLab/charts/actions/workflows/json.yaml/badge.svg)](https://github.com/parcelLab/charts/actions/workflows/json.yaml) [![pages-build-deployment](https://github.com/parcelLab/charts/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/parcelLab/charts/actions/workflows/pages/pages-build-deployment) [![Test](https://github.com/parcelLab/charts/actions/workflows/test.yaml/badge.svg)](https://github.com/parcelLab/charts/actions/workflows/test.yaml) [![YAML](https://github.com/parcelLab/charts/actions/workflows/yaml.yaml/badge.svg)](https://github.com/parcelLab/charts/actions/workflows/yaml.yaml)
 
 Popular applications and helm libraries, provided by parcelLab, ready to launch
-on Kubernetes using Kubernetes Helm.
+on Kubernetes using Helm.
 
 ## Usage
 
