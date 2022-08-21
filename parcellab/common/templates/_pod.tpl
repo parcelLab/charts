@@ -66,17 +66,6 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- end }}
-      {{- if or .Values.config .pod.configName .Values.externalSecret .pod.secretName }}
-      envFrom:
-        {{- if or .Values.config .pod.configName }}
-        - configMapRef:
-          name: {{ $configName }}
-        {{- end }}
-        {{- if or .Values.externalSecret .pod.secretName }}
-        - secretRef:
-          name: {{ $secretName }}
-        {{- end }}
-      {{- end }}
       {{- if eq $type "service" }}
       livenessProbe:
         {{- toYaml (default .Values.livenessProbe .pod.livenessProbe) | nindent 8 }}
@@ -106,15 +95,18 @@ spec:
         - name: DD_ENV
           valueFrom:
             fieldRef:
-            fieldPath: metadata.labels['tags.datadoghq.com/env']
+              apiVersion: v1
+              fieldPath: metadata.labels['tags.datadoghq.com/env']
         - name: DD_SERVICE
           valueFrom:
             fieldRef:
-            fieldPath: metadata.labels['tags.datadoghq.com/service']
+              apiVersion: v1
+              fieldPath: metadata.labels['tags.datadoghq.com/service']
         - name: DD_VERSION
           valueFrom:
             fieldRef:
-            fieldPath: metadata.labels['tags.datadoghq.com/version']
+              apiVersion: v1
+              fieldPath: metadata.labels['tags.datadoghq.com/version']
         - name: DD_LOGS_INJECTION
           value: "true"
         - name: DD_TRACE_ENABLED
@@ -122,6 +114,17 @@ spec:
         - name: DD_TRACE_AGENT_URL
           value: unix:///var/run/datadog/apm.socket
         {{- end }}
+      {{- if or .Values.config .pod.configName .Values.externalSecret .pod.secretName }}
+      envFrom:
+        {{- if or .Values.config .pod.configName }}
+        - configMapRef:
+            name: {{ $configName }}
+        {{- end }}
+        {{- if or .Values.externalSecret .pod.secretName }}
+        - secretRef:
+            name: {{ $secretName }}
+        {{- end }}
+      {{- end }}
   {{- if eq $type "cronjob" }}
   restartPolicy: {{ default "OnFailure" .pod.restartPolicy }}
   {{- end }}
