@@ -8,13 +8,15 @@
   ) }}
 */}}
 {{- define "common.deployment" -}}
-{{- $fullname := include "common.fullname" . -}}
 {{- $service := default (dict "autoscaling" (dict)) .service -}}
-{{- $serviceName := default $fullname $service.name -}}
+{{- $fullname := include "common.fullname" . -}}
+{{- if $service.name -}}
+{{- $fullname = printf "%s-%s" $fullname $service.name -}}
+{{- end -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ $serviceName }}
+  name: {{ $fullname }}
   labels:
     {{- include "common.labels" . | nindent 4 }}
 spec:
@@ -32,7 +34,7 @@ spec:
         {{- include "common.labels" . | nindent 8 }}
         {{- if and .Values.datadog .Values.datadog.enabled }}
         tags.datadoghq.com/env: {{ include "common.env" . | quote }}
-        tags.datadoghq.com/service: {{ $serviceName | quote }}
+        tags.datadoghq.com/service: {{ $fullname | quote }}
         tags.datadoghq.com/version: {{ include "common.version" . | quote }}
         {{- end }}
     spec:

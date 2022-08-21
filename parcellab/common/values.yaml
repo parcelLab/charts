@@ -1,4 +1,4 @@
-# Default values
+# Default values (to be defined in the caller chart based on the resources they use)
 affinity: {}
 autoscaling:
   enabled: false

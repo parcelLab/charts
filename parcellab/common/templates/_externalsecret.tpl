@@ -11,7 +11,10 @@
 {{- define "common.externalsecret" -}}
 {{- if or .Values.externalSecret .externalSecret }}
 {{- $externalSecret := default .Values.externalSecret .externalSecret -}}
-{{- $fullname := default (include "common.fullname" .) .name -}}
+{{- $fullname := include "common.fullname" . -}}
+{{- if .name -}}
+{{- $fullname = printf "%s-%s" $fullname .name -}}
+{{- end -}}
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
