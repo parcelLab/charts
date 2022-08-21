@@ -1,0 +1,167 @@
+env: prod # The application environment
+
+name: app # The application name
+
+orgRepository: ghcr.io/parcellab # The organization docker repository
+
+##
+## Service
+##
+
+service:
+  name: http
+  port: 80
+  targetPort: http
+  protocol: TCP
+  type: ClusterIP
+
+##
+## Ingress
+##
+
+ingress:
+  enabled: false
+  className: "nginx"
+  annotations:
+    # kubernetes.io/tls-acme: "true"
+  hosts: []
+    # - host: app
+    #   paths:
+    #     - path: /
+    #       pathType: Prefix
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+##
+## Cronjob
+##
+
+cronjob:
+  enabled: false
+  concurrencyPolicy: "Allow"
+  failedJobsHistoryLimit: 1
+  schedule: "* * * * *"
+  successfulJobsHistoryLimit: 3
+  suspend: false
+  #   command:
+  #   - /bin/sh
+  #   - -c
+  #   - date; echo Hello from the Kubernetes cluster
+
+##
+## Configuration
+##
+
+# Create a configmap whose attributes will be loaded to the container as
+# environment variables using the values defined here
+config: {}
+
+# Create a secret whose attributes will be loaded to the container as
+# environment variables using the external-secrets project and an already
+# configured secret store reference
+# See https://external-secrets.io/latest/spec/#external-secrets.io/v1beta1.ExternalSecretSpec
+externalSecret: {}
+  # secretStoreRef:
+  #   name: secretsmanager
+  #   kind: ClusterSecretStore
+  # dataFrom:
+  #   - extract:
+  #       key: app-key-in-secrets-manager
+
+##
+## Autoscaling
+##
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+podDisruptionBudget:
+  enabled: false
+  spec:
+    maxUnavailable: '50%'
+
+vpa:
+  enabled: false
+
+##
+## Pod
+##
+
+affinity: {}
+
+datadog:
+  enabled: true
+
+imagePullSecrets:
+- name: github-docker
+
+nodeExclusivity: true # Avoid pod replicas to be in the same node
+
+nodeSelector: {}
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+replicaCount: 1
+
+tolerations: []
+
+volumes: []
+
+##
+## Container
+##
+
+command:
+# - /bin/sh
+# - -c
+# - date; echo Hello from the Kubernetes cluster
+
+image:
+  # repository: nginx  # Will apply if orgRepository and name is not defined
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: stable
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 50m
+  #   memory: 64Mi
+
+# livenessProbe:
+#   httpGet:
+#     path: /
+#     port: http
+
+# readinessProbe:
+#   httpGet:
+#     path: /
+#     port: http
