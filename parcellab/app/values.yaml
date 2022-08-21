@@ -1,42 +1,16 @@
-replicaCount: 1
+#############
+## Globals ##
+#############
 
 env: prod # The application environment
+
 name: app # The application name
+
 orgRepository: ghcr.io/parcellab # The organization docker repository
 
-datadog:
-  enabled: true
-
-image:
-  # repository: nginx  # Will apply if orgRepository and name is not defined
-  pullPolicy: Always
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: stable
-
-imagePullSecrets:
-- name: github-docker
-
-serviceAccount:
-  # Specifies whether a service account should be created
-  create: false
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
-
-podAnnotations: {}
-
-podSecurityContext: {}
-  # fsGroup: 2000
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+##
+## Service
+##
 
 service:
   name: http
@@ -44,6 +18,10 @@ service:
   targetPort: http
   protocol: TCP
   type: ClusterIP
+
+##
+## Ingress
+##
 
 ingress:
   enabled: false
@@ -60,13 +38,45 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources: {}
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 50m
-  #   memory: 64Mi
+##
+## Cronjob
+##
+
+cronjob:
+  enabled: false
+  concurrencyPolicy: "Allow"
+  failedJobsHistoryLimit: 1
+  schedule: "* * * * *"
+  successfulJobsHistoryLimit: 3
+  suspend: false
+  #   command:
+  #   - /bin/sh
+  #   - -c
+  #   - date; echo Hello from the Kubernetes cluster
+
+##
+## Configuration
+##
+
+# Create a configmap whose attributes will be loaded to the container as
+# environment variables using the values defined here
+config: {}
+
+# Create a secret whose attributes will be loaded to the container as
+# environment variables using the external-secrets project and an already
+# configured secret store reference
+# See https://external-secrets.io/latest/spec/#external-secrets.io/v1beta1.ExternalSecretSpec
+externalSecret: {}
+  # secretStoreRef:
+  #   name: secretsmanager
+  #   kind: ClusterSecretStore
+  # dataFrom:
+  #   - extract:
+  #       key: app-key-in-secrets-manager
+
+##
+## Autoscaling
+##
 
 autoscaling:
   enabled: false
@@ -75,14 +85,80 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
-nodeSelector: {}
+podDisruptionBudget:
+  enabled: false
+  spec:
+    maxUnavailable: '50%'
 
-tolerations: []
+vpa:
+  enabled: false
+
+##
+## Pod
+##
 
 affinity: {}
 
-# Avoid pod replicas to be in the same node
-nodeExclusivity: true
+datadog:
+  enabled: true
+
+imagePullSecrets:
+- name: github-docker
+
+nodeExclusivity: true # Avoid pod replicas to be in the same node
+
+nodeSelector: {}
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+replicaCount: 1
+
+tolerations: []
+
+volumes: []
+
+##
+## Container
+##
+
+command:
+# - /bin/sh
+# - -c
+# - date; echo Hello from the Kubernetes cluster
+
+image:
+  # repository: nginx  # Will apply if orgRepository and name is not defined
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: stable
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 50m
+  #   memory: 64Mi
 
 # livenessProbe:
 #   httpGet:
@@ -94,44 +170,53 @@ nodeExclusivity: true
 #     path: /
 #     port: http
 
-# Create a configmap whose attributes will be loaded to the container as
-# environment variables using the values defined here
-config: {}
+############
+## Extras ##
+############
 
-# Create a secret whose attributes will be loaded to the container as
-# environment variables using the external-secrets project and an already
-# configured secret store reference
-externalSecret: {}
-  # secretStoreRef:
-  #   name: secretsmanager
-  #   kind: ClusterSecretStore
-  # data:
-  # - secretKey: key-in-secret-1
-  #   remoteRef:
-  #     key: aws-secret-key
-  #     property: aws-secret-json-key-1
-  #     version: AWSCURRENT
-  # - secretKey: key-in-secret-2
-  #   remoteRef:
-  #     key: aws-secret-key
-  #     property: aws-secret-json-key-2
-  #     version: AWSCURRENT
+extraCronjobs:
+# - name: mycronjob
+#   command:
+#   - /bin/sh
+#   - -c
+#   - date; echo Hello from the Kubernetes cluster
+#   concurrencyPolicy: "Allow"
+#   failedJobsHistoryLimit: 1
+#   schedule: "* * * * *"
+#   successfulJobsHistoryLimit: 3
+#   suspend: false
 
-podDisruptionBudget:
-  enabled: false
-  spec:
-    maxUnavailable: '50%'
+extraIngresses: []
+# - name: myingress
+#   hosts:
+#   - host: app
+#     paths:
+#     - path: /
+#       pathType: Prefix
+#   tls:
+#   - secretName: chart-example-tls
+#     hosts:
+#     - chart-example.local
 
-vpa:
-  enabled: false
-
-services: []
-  # - name: myservice
-  #   command:
-  #   - /bin/sh
-  #   - -c
-  #   - date; echo Hello from the Kubernetes cluster
-
-volumes: []
-
-ingresses: []
+extraServices: []
+# - name: myservice
+#   command:
+#   - /bin/sh
+#   - -c
+#   - date; echo Hello from the Kubernetes cluster
+#   portNumber: 3000
+#   livenessProbe:
+#     httpGet:
+#       path: /
+#       port: http
+#   readinessProbe:
+#     httpGet:
+#       path: /
+#       port: http
+#   resources:
+#     limits:
+#       cpu: 100m
+#       memory: 128Mi
+#     requests:
+#       cpu: 50m
+#       memory: 64Mi

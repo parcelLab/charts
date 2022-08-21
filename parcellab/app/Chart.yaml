@@ -1,7 +1,7 @@
 apiVersion: v2
 name: app
-description: Chart for generic applications.
-version: 0.0.20
+description: Application that may define multiple services and cronjobs
+version: 0.0.21
 dependencies:
   - name: common
     version: "*"

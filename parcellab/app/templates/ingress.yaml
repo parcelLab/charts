@@ -1,6 +1,6 @@
-{{- if .Values.ingresses -}}
+{{- if .Values.extraIngresses -}}
 {{- $root := . -}}
-{{- range $ingress := .Values.ingresses }}
+{{- range .Values.extraIngresses }}
 {{- include "common.ingress" (merge (deepCopy $root) (dict "ingress" .)) }}
 ---
 {{- end -}}
