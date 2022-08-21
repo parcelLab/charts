@@ -37,7 +37,8 @@ jobs:
       - name: Lint chart
         run: helm lint ${{ matrix.chart }}
       - name: Template chart
-        run: helm template ${{ matrix.chart }}
+        run: |
+          helm show chart parcellab/common | grep "type: library" || helm template ${{ matrix.chart }}
   release:
     if: github.ref == 'refs/heads/main'
     needs: test
