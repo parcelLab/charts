@@ -1,35 +1,66 @@
-replicaCount: 1
-
 env: "prod" # The cronjob environment
+
 name: "cronjob" # The cronjob name
+
 orgRepository: "ghcr.io/parcellab" # The organization docker repository
+
+##
+## Cronjob
+##
+
+cronjob:
+  enabled: true
+  concurrencyPolicy: "Allow"
+  failedJobsHistoryLimit: 1
+  schedule: "* * * * *"
+  successfulJobsHistoryLimit: 3
+  suspend: false
+
+##
+## Configuration
+##
+
+# Create a configmap whose attributes will be loaded to the container as
+# environment variables using the values defined here
+config: {}
+
+# Create a secret whose attributes will be loaded to the container as
+# environment variables using the external-secrets project and an already
+# configured secret store reference
+# See https://external-secrets.io/latest/spec/#external-secrets.io/v1beta1.ExternalSecretSpec
+externalSecret: {}
+  # secretStoreRef:
+  #   name: secretsmanager
+  #   kind: ClusterSecretStore
+  # dataFrom:
+  #   - extract:
+  #       key: app-key-in-secrets-manager
+
+##
+## Pod
+##
+
+affinity: {}
 
 datadog:
   enabled: true
 
-# Cronjob parameters (serve as defaults)
-concurrencyPolicy: "Allow"
-failedJobsHistoryLimit: 1
-schedule: "* * * * *"
-successfulJobsHistoryLimit: 3
-suspend: false
-
-cronjobs:
-  # - name: action
-  #   command:
-  #   - /bin/sh
-  #   - -c
-  #   - date; echo Hello from the Kubernetes cluster
-  #   schedule: "* * * * *"
-
-image:
-  # repository: nginx  # Will apply if orgRepository and name is not defined
-  pullPolicy: Always
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: stable
-
 imagePullSecrets:
 - name: github-docker
+
+nodeExclusivity: true # Avoid pod replicas to be in the same node
+
+nodeSelector: {}
+
+podAnnotations: {}
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -40,13 +71,27 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+tolerations: []
+
+volumes: []
+
+##
+## Container
+##
+
+command:
+# - /bin/sh
+# - -c
+# - date; echo Hello from the Kubernetes cluster
+
+image:
+  # repository: nginx  # Will apply if orgRepository and name is not defined
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: stable
+
+podSecurityContext: {}
+  # fsGroup: 2000
 
 resources: {}
   # limits:
@@ -55,37 +100,3 @@ resources: {}
   # requests:
   #   cpu: 50m
   #   memory: 64Mi
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
-
-# Avoid pod replicas to be in the same node
-nodeExclusivity: true
-
-# Create a configmap whose attributes will be loaded to the container as
-# environment variables using the values defined here
-config: {}
-
-# Create a secret whose attributes will be loaded to the container as
-# environment variables using the external-secrets project and an already
-# configured secret store reference
-externalSecret: {}
-  # secretStoreRef:
-  #   name: secretsmanager
-  #   kind: ClusterSecretStore
-  # data:
-  # - secretKey: key-in-secret-1
-  #   remoteRef:
-  #     key: aws-secret-key
-  #     property: aws-secret-json-key-1
-  #     version: AWSCURRENT
-  # - secretKey: key-in-secret-2
-  #   remoteRef:
-  #     key: aws-secret-key
-  #     property: aws-secret-json-key-2
-  #     version: AWSCURRENT
-
-volumes: []
