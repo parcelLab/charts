@@ -1,0 +1,58 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - parcellab/**
+      - "!**.md"
+  workflow_dispatch:
+
+jobs:
+  matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      charts: ${{ steps.generate-matrix.outputs.charts }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Load repos configuration file
+        id: generate-matrix
+        run: |
+          export CHARTS=$(ls -d parcellab/* | awk ' BEGIN { ORS = ""; print "["; } { print "\/\@"$0"\/\@"; } END { print "]"; }' | sed "s^\"^\\\\\"^g;s^\/\@\/\@^\", \"^g;s^\/\@^\"^g")
+          echo "::set-output name=charts::CHARTS"
+  test:
+    needs: matrix
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        chart: ${{ fromJSON(needs.matrix.outputs.charts) }}
+    steps:
+      - name: Update dependencies
+        run: helm dependency update ${{ matrix.chart }}
+      - name: Lint chart
+        run: helm lint ${{ matrix.chart }}
+      - name: Template chart
+        run: helm template ${{ matrix.chart }}
+  release:
+    if: github.ref == 'refs/heads/main'
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+      - name: Run chart-releaser library
+        uses: helm/chart-releaser-action@v1.4.0
+        with:
+          charts_dir: parcellab
+          charts_repo_url: https://charts.parcellab.dev
+          config: cr.yaml
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
