@@ -5,6 +5,7 @@ on:
     branches:
       - main
     paths:
+      - .github/workflows/test.yaml
       - parcellab/**
       - "!**.md"
   workflow_dispatch:
@@ -29,6 +30,8 @@ jobs:
       matrix:
         chart: ${{ fromJSON(needs.matrix.outputs.charts) }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Update dependencies
         run: helm dependency update ${{ matrix.chart }}
       - name: Lint chart
