@@ -579,4 +579,17 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/cronjob-0.0.1/cronjob-0.0.1.tgz
     version: 0.0.1
-generated: "2022-08-21T12:24:27.368803357Z"
+  microservice:
+  - apiVersion: v2
+    created: "2022-08-21T12:28:02.851450398Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Simple microservice
+    digest: 455cbcccd57978402ade5b0faa4800f51f7e4817e92b5a58a0c87661f424691c
+    name: microservice
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/microservice-0.0.1/microservice-0.0.1.tgz
+    version: 0.0.1
+generated: "2022-08-21T12:28:02.851775701Z"
