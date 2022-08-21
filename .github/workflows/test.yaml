@@ -21,7 +21,7 @@ jobs:
         id: generate-matrix
         run: |
           export CHARTS=$(ls -d parcellab/* | awk ' BEGIN { ORS = ""; print "["; } { print "\/\@"$0"\/\@"; } END { print "]"; }' | sed "s^\"^\\\\\"^g;s^\/\@\/\@^\", \"^g;s^\/\@^\"^g")
-          echo "::set-output name=charts::CHARTS"
+          echo "::set-output name=charts::$CHARTS"
   test:
     needs: matrix
     runs-on: ubuntu-latest
