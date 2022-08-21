@@ -1,5 +1,7 @@
 # cronjob
 
+[![Artifact HUB](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/cronjob)](https://artifacthub.io/packages/helm/parcellab/cronjob) ![Test](https://github.com/parcelLab/charts/actions/workflows/test.yaml/badge.svg)](https://github.com/parcelLab/charts/actions/workflows/test.yaml)
+
 Generic helm chart for Kubernetes cronjobs.
 
 ## Introduction

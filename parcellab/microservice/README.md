@@ -1,5 +1,7 @@
 # microservice
 
+[![Artifact HUB](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/microservice)](https://artifacthub.io/packages/helm/parcellab/microservice) ![Test](https://github.com/parcelLab/charts/actions/workflows/test.yaml/badge.svg)](https://github.com/parcelLab/charts/actions/workflows/test.yaml)
+
 Generic helm chart to create a Kubernetes microservice.
 
 ## Introduction

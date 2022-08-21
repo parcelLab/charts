@@ -1,5 +1,7 @@
 # app
 
+[![Artifact HUB](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/app)](https://artifacthub.io/packages/helm/parcellab/app) ![Test](https://github.com/parcelLab/charts/actions/workflows/test.yaml/badge.svg)](https://github.com/parcelLab/charts/actions/workflows/test.yaml)
+
 Generic helm chart for Kubernetes applications.
 
 ## Introduction
