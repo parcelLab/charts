@@ -22,10 +22,10 @@ needs.
 
 - `configmap`
   - The attributes defined in `config` will automatically be loaded as environment
-variables to the target cronjob pod.
+    variables to the target cronjob pod.
 - `externalsecret` -> `secret`
   - An [external secret](https://external-secrets.io/) can be defined with the `externalSecret` setting.
-Its generated secret's data values will be loaded as environment variables to the target cronjob pod.
+    Its generated secret's data values will be loaded as environment variables to the target cronjob pod.
 - `serviceaccount`
   - Configure a service account for the cronjob pods. Defined with `serviceAccount`.
 

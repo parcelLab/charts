@@ -1,8 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base"
-  ],
+  "extends": ["config:base"],
   "branchPrefix": "chore/renovate/",
   "commitBodyTable": true,
   "commitMessageAction": "Pin",
@@ -12,9 +10,7 @@
     {
       "commitMessageSuffix": "dev",
       "automerge": true,
-      "matchDepTypes": [
-        "devDependencies"
-      ]
+      "matchDepTypes": ["devDependencies"]
     }
   ],
   "prConcurrentLimit": 5,

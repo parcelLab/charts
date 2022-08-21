@@ -1,0 +1,3 @@
+**/templates/*.yaml
+**/templates/*.yml
+**/tests/test-connection.yaml

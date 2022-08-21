@@ -1,0 +1,22 @@
+{
+  "devDependencies": {
+    "@commitlint/cli": "17.0.3",
+    "@commitlint/config-conventional": "17.0.3",
+    "@parcellab/danger-plugin": "^0.0.16",
+    "danger": "^11.1.1",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "2.7.1",
+    "typescript": "^4.7.4"
+  },
+  "lint-staged": {
+    "**/*": "npm run format"
+  },
+  "scripts": {
+    "lint": "npm run lint:commit && npm run lint:prettier",
+    "lint:commit": "commitlint -x @commitlint/config-conventional --edit",
+    "lint:prettier": "prettier --check --ignore-unknown .",
+    "format": "prettier --write --ignore-unknown .",
+    "prepare": "husky install"
+  }
+}

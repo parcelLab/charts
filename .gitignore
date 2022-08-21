@@ -2,3 +2,4 @@
 Chart.lock
 parcellab/**/charts
 output.yaml
+node_modules

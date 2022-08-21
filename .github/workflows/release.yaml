@@ -5,8 +5,8 @@ on:
     branches:
       - main
     paths:
-    - parcellab/**
-    - '!**.md'
+      - parcellab/**
+      - "!**.md"
   workflow_dispatch:
 
 jobs:

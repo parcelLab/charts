@@ -23,10 +23,10 @@ needs.
 
 - `configmap`
   - The attributes defined in `config` will automatically be loaded as environment
-variables to the target pod.
+    variables to the target pod.
 - `externalsecret` -> `secret`
   - An [external secret](https://external-secrets.io/) can be defined with the `externalSecret` setting.
-Its generated secret's data values will be loaded as environment variables to the target pod.
+    Its generated secret's data values will be loaded as environment variables to the target pod.
 - `hpa`
   - Horizontal automatic scaling rules of pods. Can be defined with the `autoscaling` setting.
 - `ingress`

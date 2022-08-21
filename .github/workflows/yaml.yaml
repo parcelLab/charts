@@ -1,0 +1,25 @@
+name: YAML
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "**.yml"
+      - "**.yaml"
+  pull_request:
+    paths:
+      - "**.yml"
+      - "**.yaml"
+  workflow_dispatch:
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current git repository
+        uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+      - name: Install npm dependencies
+        run: npm i
+      - name: Lint YAML
+        run: npx prettier -c "**/*.{yaml,yml}"
