@@ -2,6 +2,18 @@ apiVersion: v1
 entries:
   app:
   - apiVersion: v2
+    created: "2022-08-22T09:41:58.912243796Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Application that may define multiple services and cronjobs
+    digest: 6bf45dbb9a7b81cb53c70a4c4fc011351f1d8372eff7952725bea81e4bc364af
+    name: app
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/app-0.0.23/app-0.0.23.tgz
+    version: 0.0.23
+  - apiVersion: v2
     created: "2022-08-21T12:28:41.992152409Z"
     dependencies:
     - name: common
@@ -628,4 +640,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/microservice-0.0.1/microservice-0.0.1.tgz
     version: 0.0.1
-generated: "2022-08-22T09:03:14.515710636Z"
+generated: "2022-08-22T09:41:58.912442292Z"
