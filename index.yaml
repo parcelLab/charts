@@ -532,6 +532,18 @@ entries:
     version: 0.0.1
   cronjob:
   - apiVersion: v2
+    created: "2022-08-22T10:05:31.764890928Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Single cron job
+    digest: 563bfebd18a032fe8dc9d9ee7f4be7dd807b4203790b226ee11e27d0087fe490
+    name: cronjob
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/cronjob-0.0.11/cronjob-0.0.11.tgz
+    version: 0.0.11
+  - apiVersion: v2
     created: "2022-08-21T12:28:24.422320586Z"
     dependencies:
     - name: common
@@ -640,4 +652,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/microservice-0.0.1/microservice-0.0.1.tgz
     version: 0.0.1
-generated: "2022-08-22T09:41:58.912442292Z"
+generated: "2022-08-22T10:05:31.765094429Z"
