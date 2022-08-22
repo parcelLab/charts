@@ -677,6 +677,18 @@ entries:
     version: 0.0.1
   microservice:
   - apiVersion: v2
+    created: "2022-08-22T17:12:13.68529584Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Simple microservice
+    digest: ae6388eaf355e85f08d02bd4753379004f108376e6e215cf5cec39ce11c5651b
+    name: microservice
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/microservice-0.0.2/microservice-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
     created: "2022-08-21T12:28:02.851450398Z"
     dependencies:
     - name: common
@@ -688,4 +700,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/microservice-0.0.1/microservice-0.0.1.tgz
     version: 0.0.1
-generated: "2022-08-22T14:11:25.371629932Z"
+generated: "2022-08-22T17:12:13.685499341Z"
