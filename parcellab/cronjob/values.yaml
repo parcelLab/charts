@@ -5,9 +5,11 @@ name: "cronjob" # The cronjob name
 orgRepository: "ghcr.io/parcellab" # The organization docker repository
 
 ##
-## Cronjob
+## Cronjobs
 ##
 
+# Serve as defaults for the cronjob template
+# Do not configure the cronjob with this map, use "cronjobs" instead
 cronjob:
   enabled: true
   concurrencyPolicy: "Allow"
@@ -15,6 +17,18 @@ cronjob:
   schedule: "* * * * *"
   successfulJobsHistoryLimit: 3
   suspend: false
+
+extraCronjobs:
+# - name: mycronjob
+#   command:
+#   - /bin/sh
+#   - -c
+#   - date; echo Hello from the Kubernetes cluster
+#   concurrencyPolicy: "Allow"
+#   failedJobsHistoryLimit: 1
+#   schedule: "* * * * *"
+#   successfulJobsHistoryLimit: 3
+#   suspend: false
 
 ##
 ## Configuration
