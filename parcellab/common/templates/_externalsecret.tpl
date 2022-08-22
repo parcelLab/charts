@@ -22,6 +22,10 @@ metadata:
   labels:
     {{- include "common.labels" . | nindent 4 }}
 spec:
+  target:
+    creationPolicy: Owner
+    deletionPolicy: Retain
+    name: {{ $fullname }}
   {{- with $externalSecret }}
   {{- toYaml . | nindent 2 }}
   {{- end }}
