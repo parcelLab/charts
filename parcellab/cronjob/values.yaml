@@ -8,8 +8,6 @@ orgRepository: "ghcr.io/parcellab" # The organization docker repository
 ## Cronjobs
 ##
 
-# Serve as defaults for the cronjob template
-# Do not configure the cronjob with this map, use "cronjobs" instead
 cronjob:
   enabled: true
   concurrencyPolicy: "Allow"
