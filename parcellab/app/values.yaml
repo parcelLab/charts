@@ -1,7 +1,3 @@
-#############
-## Globals ##
-#############
-
 env: prod # The application environment
 
 name: app # The application name
@@ -18,6 +14,29 @@ service:
   targetPort: http
   protocol: TCP
   type: ClusterIP
+
+extraServices: []
+# - name: myservice
+#   command:
+#   - /bin/sh
+#   - -c
+#   - date; echo Hello from the Kubernetes cluster
+#   portNumber: 3000
+#   livenessProbe:
+#     httpGet:
+#       path: /
+#       port: http
+#   readinessProbe:
+#     httpGet:
+#       path: /
+#       port: http
+#   resources:
+#     limits:
+#       cpu: 100m
+#       memory: 128Mi
+#     requests:
+#       cpu: 50m
+#       memory: 64Mi
 
 ##
 ## Ingress
@@ -39,6 +58,18 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+extraIngresses: []
+# - name: myingress
+#   hosts:
+#   - host: app
+#     paths:
+#     - path: /
+#       pathType: Prefix
+#   tls:
+#   - secretName: chart-example-tls
+#     hosts:
+#     - chart-example.local
+
 ##
 ## Cronjob
 ##
@@ -54,6 +85,18 @@ cronjob:
   #   - /bin/sh
   #   - -c
   #   - date; echo Hello from the Kubernetes cluster
+
+extraCronjobs:
+# - name: mycronjob
+#   command:
+#   - /bin/sh
+#   - -c
+#   - date; echo Hello from the Kubernetes cluster
+#   concurrencyPolicy: "Allow"
+#   failedJobsHistoryLimit: 1
+#   schedule: "* * * * *"
+#   successfulJobsHistoryLimit: 3
+#   suspend: false
 
 ##
 ## Configuration
@@ -164,64 +207,11 @@ resources:
   # requests:
   #   cpu: 50m
   #   memory: 64Mi
-
 # livenessProbe:
 #   httpGet:
 #     path: /
 #     port: http
-
 # readinessProbe:
 #   httpGet:
 #     path: /
 #     port: http
-
-############
-## Extras ##
-############
-
-extraCronjobs:
-# - name: mycronjob
-#   command:
-#   - /bin/sh
-#   - -c
-#   - date; echo Hello from the Kubernetes cluster
-#   concurrencyPolicy: "Allow"
-#   failedJobsHistoryLimit: 1
-#   schedule: "* * * * *"
-#   successfulJobsHistoryLimit: 3
-#   suspend: false
-
-extraIngresses: []
-# - name: myingress
-#   hosts:
-#   - host: app
-#     paths:
-#     - path: /
-#       pathType: Prefix
-#   tls:
-#   - secretName: chart-example-tls
-#     hosts:
-#     - chart-example.local
-
-extraServices: []
-# - name: myservice
-#   command:
-#   - /bin/sh
-#   - -c
-#   - date; echo Hello from the Kubernetes cluster
-#   portNumber: 3000
-#   livenessProbe:
-#     httpGet:
-#       path: /
-#       port: http
-#   readinessProbe:
-#     httpGet:
-#       path: /
-#       port: http
-#   resources:
-#     limits:
-#       cpu: 100m
-#       memory: 128Mi
-#     requests:
-#       cpu: 50m
-#       memory: 64Mi
