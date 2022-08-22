@@ -7,4 +7,13 @@
 ---
 {{- end -}}
 {{- end -}}
+{{- if .Values.extraCronjobs -}}
+{{- $root := . -}}
+{{- range .Values.extraCronjobs }}
+{{- if .config -}}
+{{- include "common.configmap" (merge (deepCopy $root) (dict "config" .config "name" .name)) }}
+{{- end -}}
+---
+{{- end -}}
+{{- end -}}
 {{- include "common.configmap" . }}
