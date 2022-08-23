@@ -2,6 +2,18 @@ apiVersion: v1
 entries:
   app:
   - apiVersion: v2
+    created: "2022-08-23T11:42:27.522304343Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Application that may define multiple services and cronjobs
+    digest: b1f8a15fd3d561f22974a2c28b47c68b2a567083d619a2cd151a1d30b3608482
+    name: app
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/app-0.0.25/app-0.0.25.tgz
+    version: 0.0.25
+  - apiVersion: v2
     created: "2022-08-22T14:07:32.065439871Z"
     dependencies:
     - name: common
@@ -278,6 +290,18 @@ entries:
     - https://github.com/parcelLab/charts/releases/download/app-0.0.1/app-0.0.1.tgz
     version: 0.0.1
   common:
+  - apiVersion: v2
+    created: "2022-08-23T11:42:27.689916906Z"
+    description: A Helm chart library for parcelLab charts
+    digest: 25fc08bb8ba32eb7c808869edcaf01c4d98b84ba29658f53e2377ea29795b3b8
+    maintainers:
+    - email: engineering@parcellab.com
+      name: parcelLab
+    name: common
+    type: library
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/common-0.0.24/common-0.0.24.tgz
+    version: 0.0.24
   - apiVersion: v2
     created: "2022-08-22T13:06:52.666090609Z"
     description: A Helm chart library for parcelLab charts
@@ -556,6 +580,18 @@ entries:
     version: 0.0.1
   cronjob:
   - apiVersion: v2
+    created: "2022-08-23T11:42:27.851891716Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Single cron job
+    digest: c66e2e9cee93055b3229862eec02169867ec81ac036a74e9e2ab1ef8a455c5da
+    name: cronjob
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/cronjob-0.0.13/cronjob-0.0.13.tgz
+    version: 0.0.13
+  - apiVersion: v2
     created: "2022-08-22T14:11:25.371414633Z"
     dependencies:
     - name: common
@@ -677,6 +713,18 @@ entries:
     version: 0.0.1
   microservice:
   - apiVersion: v2
+    created: "2022-08-23T11:42:28.021187483Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Simple microservice
+    digest: 617cbec40fcfb0809b89f9cf560a0118186baef18da481945b653aec9b54af41
+    name: microservice
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/microservice-0.0.3/microservice-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
     created: "2022-08-22T17:12:13.68529584Z"
     dependencies:
     - name: common
@@ -700,4 +748,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/microservice-0.0.1/microservice-0.0.1.tgz
     version: 0.0.1
-generated: "2022-08-22T17:12:13.685499341Z"
+generated: "2022-08-23T11:42:28.021762619Z"
