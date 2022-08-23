@@ -1,4 +1,4 @@
-env: prod # The application environment
+environment: prod # The application environment
 
 name: app # The application name
 
@@ -147,6 +147,10 @@ image:
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: stable
+
+env: []
+# - name: MY_ENV_VAR
+#   value: "myvalue"
 
 podSecurityContext:
   {}
