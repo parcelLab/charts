@@ -1,4 +1,4 @@
-environment: prod # The application environment
+env: prod # The application environment
 
 name: app # The application name
 
@@ -148,7 +148,7 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: stable
 
-env: []
+containerEnv: []
 # - name: MY_ENV_VAR
 #   value: "myvalue"
 

@@ -6,10 +6,10 @@ autoscaling:
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
 config: {}
+containerEnv: {}
 datadog:
   enabled: false
-env: {}
-environment: prod
+env: prod
 externalSecret: {}
 imagePullSecrets:
   - name: github-docker

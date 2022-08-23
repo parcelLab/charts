@@ -1,4 +1,4 @@
-environment: "prod" # The cronjob environment
+env: "prod" # The cronjob environment
 
 name: "cronjob" # The cronjob name
 
@@ -104,7 +104,7 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: stable
 
-env: []
+containerEnv: []
 # - name: MY_ENV_VAR
 #   value: "myvalue"
 
