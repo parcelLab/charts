@@ -13,6 +13,7 @@
 {{- $podName := default $fullname .pod.name -}}
 {{- $configName := default $fullname .pod.configName -}}
 {{- $secretName := default $fullname .pod.secretName -}}
+{{- $env := default .Values.env .pod.env -}}
 {{- $podVolumes := default .Values.volumes .pod.volumes -}}
 {{- $type := default "service" .type -}}
 metadata:
@@ -113,6 +114,9 @@ spec:
           value: "true"
         - name: DD_TRACE_AGENT_URL
           value: unix:///var/run/datadog/apm.socket
+        {{- end }}
+        {{- with $env }}
+        {{- toYaml . | nindent 8 }}
         {{- end }}
       {{- if or .Values.config .pod.configName .Values.externalSecret .pod.secretName }}
       envFrom:

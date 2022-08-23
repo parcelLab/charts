@@ -110,7 +110,7 @@ Create the application environment
   ) }}
 */}}
 {{- define "common.env" -}}
-{{ default "prod" .Values.env }}
+{{ default "prod" .Values.environment }}
 {{- end -}}
 
 {{/*

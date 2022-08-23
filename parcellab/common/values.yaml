@@ -8,7 +8,8 @@ autoscaling:
 config: {}
 datadog:
   enabled: false
-env: prod
+env: {}
+environment: prod
 externalSecret: {}
 imagePullSecrets:
   - name: github-docker

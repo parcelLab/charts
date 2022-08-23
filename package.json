@@ -13,10 +13,13 @@
     "**/*": "npm run format"
   },
   "scripts": {
-    "lint": "npm run lint:commit && npm run lint:prettier",
+    "deps": "find parcellab -type d -maxdepth 1 -mindepth 1 | xargs -I {} helm dependency update {}",
+    "lint": "npm run lint:commit && npm run lint:helm && npm run lint:prettier",
     "lint:commit": "commitlint -x @commitlint/config-conventional --edit",
+    "lint:helm": "npm run deps && find parcellab -type d -maxdepth 1 -mindepth 1 | xargs -I {} helm lint {}",
     "lint:prettier": "prettier --check --ignore-unknown .",
     "format": "prettier --write --ignore-unknown .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "template": "find parcellab -type d -maxdepth 1 -mindepth 1 -not -path parcellab/common | xargs -I {} helm template {}"
   }
 }
