@@ -1,0 +1,8 @@
+apiVersion: v2
+name: worker
+description: Set of workers that do not expose a service
+version: 0.0.1
+dependencies:
+  - name: common
+    version: "*"
+    repository: file://../common
