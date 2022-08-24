@@ -796,4 +796,17 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/microservice-0.0.1/microservice-0.0.1.tgz
     version: 0.0.1
-generated: "2022-08-23T15:23:14.613810047Z"
+  worker:
+  - apiVersion: v2
+    created: "2022-08-24T14:39:10.203555099Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Set of workers that do not expose a service
+    digest: 350d50d75783d88a1269a47f95ce4438479860c9e571728c53592603ed451b2a
+    name: worker
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/worker-0.0.1/worker-0.0.1.tgz
+    version: 0.0.1
+generated: "2022-08-24T14:39:10.203970002Z"
