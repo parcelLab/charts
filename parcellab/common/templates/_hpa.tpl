@@ -15,7 +15,7 @@
 {{- $fullname := default (include "common.fullname" .) .name -}}
 {{- $targetCPUUtilizationPercentage := default .Values.autoscaling.targetCPUUtilizationPercentage $autoscaling.targetCPUUtilizationPercentage -}}
 {{- $targetMemoryUtilizationPercentage := default .Values.autoscaling.targetMemoryUtilizationPercentage $autoscaling.targetMemoryUtilizationPercentage -}}
-apiVersion: autoscaling/v2beta2
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ $fullname }}

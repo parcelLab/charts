@@ -8,7 +8,11 @@
   ) }}
 */}}
 {{- define "common.deployment" -}}
-{{- $service := default (dict "autoscaling" (dict)) .service -}}
+{{- $service := default dict .service -}}
+{{- $autoscalingEnabled := .Values.autoscaling.enabled -}}
+{{- if $service.autoscaling -}}
+{{- $autoscalingEnabled = $service.autoscaling.enabled -}}
+{{- end -}}
 {{- $fullname := include "common.fullname" . -}}
 {{- if $service.name -}}
 {{- $fullname = printf "%s-%s" $fullname $service.name -}}
@@ -20,7 +24,7 @@ metadata:
   labels:
     {{- include "common.labels" . | nindent 4 }}
 spec:
-  {{- if not (default .Values.autoscaling.enabled $service.autoscaling.enabled) }}
+  {{- if not $autoscalingEnabled }}
   replicas: {{ default .Values.replicaCount $service.replicaCount }}
   {{- end }}
   selector:
