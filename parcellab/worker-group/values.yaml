@@ -1,6 +1,6 @@
 env: prod # The application environment
 
-name: worker # The application name
+name: worker-group # The application name
 
 orgRepository: ghcr.io/parcellab # The organization docker repository
 
