@@ -10,4 +10,7 @@ Annotations to use in pods
 {{- define "common.pod.annotations" -}}
 {{ include "common.parcellabtagsdomain" . }}/name: {{ include "common.fullname" . | quote }}
 {{ include "common.parcellabtagsdomain" . }}/version: {{ include "common.version" . | quote }}
+{{- if .Values.podAnnotations -}}
+{{ .Values.podAnnotations }}
+{{- end -}}
 {{- end -}}
