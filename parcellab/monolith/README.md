@@ -1,12 +1,12 @@
-# app
+# monolith
 
-[![Artifact HUB](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/app)](https://artifacthub.io/packages/helm/parcellab/app) [![Test](https://github.com/parcelLab/charts/actions/workflows/test.yaml/badge.svg)](https://github.com/parcelLab/charts/actions/workflows/test.yaml)
+[![Artifact HUB](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/monolith)](https://artifacthub.io/packages/helm/parcellab/monolith) [![Test](https://github.com/parcelLab/charts/actions/workflows/test.yaml/badge.svg)](https://github.com/parcelLab/charts/actions/workflows/test.yaml)
 
-Generic helm chart for Kubernetes applications.
+Generic helm chart for monolith applications.
 
 ## Introduction
 
-This chart creates an app with commonly used Kubernetes resources
+This chart creates a monolith app with commonly used Kubernetes resources
 using the [Helm](https://helm.sh) package manager. The goal is to allow the
 consumers to toggle resources that are common in most deployment scenarios.
 
@@ -51,7 +51,7 @@ helm repo add parcellab https://charts.parcellab.dev
 Install the chart:
 
 ```bash
-helm install --name my-app-name parcellab/app
+helm install --name my-monolith-name parcellab/monolith
 ```
 
 ## Uninstalling the Chart
@@ -59,7 +59,7 @@ helm install --name my-app-name parcellab/app
 To delete the deployed chart:
 
 ```bash
-helm uninstall my-app-name
+helm uninstall my-monolith-name
 ```
 
 The command removes all the Kubernetes components associated with the chart
@@ -71,5 +71,5 @@ You can update the chart values and trigger a pod reload.
 If the configmap changes, it will automatically retrieve the new values.
 
 ```bash
-helm upgrade -f values.yaml my-app-name parcellab/app
+helm upgrade -f values.yaml my-monolith-name parcellab/monolith
 ```
