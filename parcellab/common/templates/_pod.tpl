@@ -18,7 +18,12 @@
 {{- $type := default "service" .type -}}
 metadata:
   annotations:
-    {{- include "common.pod.annotations" . | nindent 4 }}
+  {{- if .Values.podAnnotations }}
+  {{- with .Values.podAnnotations }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- end }}
+    {{- include "common.pod.annotations" . | nindent 4 }} 
   labels:
     {{- include "common.labels" . | nindent 4 }}
     {{- if and .Values.datadog .Values.datadog.enabled }}
