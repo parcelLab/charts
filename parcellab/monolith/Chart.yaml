@@ -1,5 +1,5 @@
 apiVersion: v2
-name: app
+name: monolith
 description: Application that may define multiple services and cronjobs
 version: 0.0.1
 dependencies:
