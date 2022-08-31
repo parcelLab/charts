@@ -18,10 +18,8 @@
 {{- $type := default "service" .type -}}
 metadata:
   annotations:
-  {{- if .Values.podAnnotations }}
   {{- with .Values.podAnnotations }}
     {{- toYaml . | nindent 4 }}
-  {{- end }}
   {{- end }}
     {{- include "common.pod.annotations" . | nindent 4 }} 
   labels:
