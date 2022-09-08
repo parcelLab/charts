@@ -21,7 +21,7 @@ metadata:
   {{- with .Values.podAnnotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
-    {{- include "common.pod.annotations" . | nindent 4 }} 
+    {{- include "common.pod.annotations" . | nindent 4 }}
   labels:
     {{- include "common.labels" . | nindent 4 }}
     {{- if and .Values.datadog .Values.datadog.enabled }}
@@ -147,13 +147,8 @@ spec:
   tolerations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
-  {{- if default .Values.nodeExclusivity .pod.nodeExclusivity }}
-  affinity:
-    {{- include "common.nodeExclusivity" . | nindent 4 }}
-  {{- else }}
   {{- with default .Values.affinity .pod.affinity }}
   affinity:
     {{- toYaml . | nindent 4 }}
-  {{- end }}
   {{- end }}
 {{- end -}}

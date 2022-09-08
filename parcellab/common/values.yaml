@@ -19,7 +19,6 @@ image:
 ingress:
   enabled: false
 name: common
-nodeExclusivity: true
 nodeSelector: {}
 orgRepository: ghcr.io/parcellab
 podAnnotations: {}
