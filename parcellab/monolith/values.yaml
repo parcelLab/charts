@@ -16,27 +16,28 @@ service:
   type: ClusterIP
 
 extraServices:
-  - name: myservice
-    command:
-      - /bin/sh
-      - -c
-      - date; echo Hello from the Kubernetes cluster
-    portNumber: 3000
-    livenessProbe:
-      httpGet:
-        path: /
-        port: http
-    readinessProbe:
-      httpGet:
-        path: /
-        port: http
-    resources:
-      limits:
-        cpu: 100m
-        memory: 128Mi
-      requests:
-        cpu: 50m
-        memory: 64Mi
+  []
+  # - name: myservice
+  #   command:
+  #     - /bin/sh
+  #     - -c
+  #     - date; echo Hello from the Kubernetes cluster
+  #   portNumber: 3000
+  #   livenessProbe:
+  #     httpGet:
+  #       path: /
+  #       port: http
+  #   readinessProbe:
+  #     httpGet:
+  #       path: /
+  #       port: http
+  #   resources:
+  #     limits:
+  #       cpu: 100m
+  #       memory: 128Mi
+  #     requests:
+  #       cpu: 50m
+  #       memory: 64Mi
 
 ##
 ## Ingress
@@ -103,30 +104,31 @@ extraCronjobs:
 ##
 
 workers:
-  - name: myworker
-    command:
-      - /bin/sh
-      - -c
-      - date; echo Hello from the Kubernetes cluster
-    portNumber: 3000
-    livenessProbe:
-      httpGet:
-        path: /
-        port: http
-    readinessProbe:
-      httpGet:
-        path: /
-        port: http
-    resources:
-      limits:
-        cpu: 100m
-        memory: 128Mi
-      requests:
-        cpu: 50m
-        memory: 64Mi
-    containerEnv:
-      - name: MY_ENV_VAR
-        value: "myvalue"
+  []
+  # - name: myworker
+  #   command:
+  #     - /bin/sh
+  #     - -c
+  #     - date; echo Hello from the Kubernetes cluster
+  #   portNumber: 3000
+  #   livenessProbe:
+  #     httpGet:
+  #       path: /
+  #       port: http
+  #   readinessProbe:
+  #     httpGet:
+  #       path: /
+  #       port: http
+  #   resources:
+  #     limits:
+  #       cpu: 100m
+  #       memory: 128Mi
+  #     requests:
+  #       cpu: 50m
+  #       memory: 64Mi
+  #   containerEnv:
+  #     - name: MY_ENV_VAR
+  #       value: "myvalue"
 
 ##
 ## Configuration
