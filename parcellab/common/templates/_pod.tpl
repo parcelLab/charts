@@ -74,11 +74,11 @@ spec:
       livenessProbe:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- if eq $type "service" }}
       {{- with (default .Values.readinessProbe .pod.readinessProbe) }}
       readinessProbe:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if eq $type "service" }}
       ports:
         - name: {{ default .Values.service.name .pod.portName }}
           containerPort: {{ default .Values.service.port .pod.portNumber }}

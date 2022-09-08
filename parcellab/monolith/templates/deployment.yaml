@@ -1,9 +1,1 @@
-{{- if .Values.extraServices -}}
-{{- $root := . -}}
-{{- range .Values.extraServices }}
-{{- include "common.deployment" (merge (deepCopy $root) (dict "service" .)) }}
----
-{{- end }}
-{{- else }}
 {{- include "common.deployment" . }}
-{{- end }}

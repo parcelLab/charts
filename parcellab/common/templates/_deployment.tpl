@@ -5,6 +5,7 @@
     dict
       "Values" "the values scope"
       "service" "The specific service configuration /optional (defaults to empty)"
+      "type" "The tye of pod to define /optional (defaults to 'service')"
   ) }}
 */}}
 {{- define "common.deployment" -}}
@@ -17,6 +18,7 @@
 {{- if $service.name -}}
 {{- $fullname = printf "%s-%s" $fullname $service.name -}}
 {{- end -}}
+{{- $type := default "service" .type -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -32,6 +34,6 @@ spec:
       {{- include "common.selectors" . | nindent 6 }}
   template:
     {{- include "common.pod"
-      (merge (deepCopy .) (dict "pod" $service "type" "service")) | nindent 4
+      (merge (deepCopy .) (dict "pod" $service "type" $type)) | nindent 4
     }}
 {{- end -}}
