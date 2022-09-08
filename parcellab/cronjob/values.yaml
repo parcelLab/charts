@@ -15,6 +15,9 @@ cronjob:
   schedule: "* * * * *"
   successfulJobsHistoryLimit: 3
   suspend: false
+  job:
+    activeDeadlineSeconds: 900 # 15 minutes
+    backoffLimit: 2
 
 extraCronjobs:
 # - name: mycronjob
@@ -113,10 +116,9 @@ podSecurityContext:
   # fsGroup: 2000
 
 resources:
-  {}
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 50m
-  #   memory: 64Mi
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
