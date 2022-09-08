@@ -8,7 +8,7 @@
   ) }}
 */}}
 {{- define "common.cronjob" -}}
-{{- $cronjob := default (dict "enabled" false) .cronjob -}}
+{{- $cronjob := default (dict "enabled" false "job" (dict)) .cronjob -}}
 {{- if or .Values.cronjob.enabled $cronjob.enabled -}}
 {{- $fullname := include "common.fullname" . -}}
 {{- if $cronjob.name -}}
@@ -27,6 +27,8 @@ spec:
   successfulJobsHistoryLimit: {{ default .Values.cronjob.successfulJobsHistoryLimit $cronjob.successfulJobsHistoryLimit }}
   suspend: {{ default .Values.cronjob.suspend $cronjob.suspend }}
   jobTemplate:
+    activeDeadlineSeconds: {{ default .Values.cronjob.job.activeDeadlineSeconds $cronjob.job.activeDeadlineSeconds }}
+    backoffLimit: {{ default .Values.cronjob.job.backoffLimit $cronjob.job.backoffLimit }}
     spec:
       template:
         {{- include "common.pod"
