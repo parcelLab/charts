@@ -13,7 +13,7 @@ cronjob:
   concurrencyPolicy: "Allow"
   failedJobsHistoryLimit: 1
   schedule: "* * * * *"
-  successfulJobsHistoryLimit: 3
+  successfulJobsHistoryLimit: 0
   suspend: false
   job:
     activeDeadlineSeconds: 900 # 15 minutes
@@ -28,7 +28,7 @@ extraCronjobs:
 #   concurrencyPolicy: "Allow"
 #   failedJobsHistoryLimit: 1
 #   schedule: "* * * * *"
-#   successfulJobsHistoryLimit: 3
+#   successfulJobsHistoryLimit: 0
 #   suspend: false
 
 ##
