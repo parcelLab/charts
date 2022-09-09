@@ -31,6 +31,8 @@ spec:
   suspend: {{ default .Values.cronjob.suspend $cronjob.suspend }}
   jobTemplate:
     spec:
+      activeDeadlineSeconds: {{ default .Values.cronjob.job.activeDeadlineSeconds $cronjob.job.activeDeadlineSeconds }}
+      backoffLimit: {{ default .Values.cronjob.job.backoffLimit $cronjob.job.backoffLimit }}
       template:
         {{- include "common.pod"
           (merge (deepCopy .) (dict "pod" $cronjob "type" "cronjob")) | nindent 8
