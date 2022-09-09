@@ -8,7 +8,10 @@
   ) }}
 */}}
 {{- define "common.cronjob" -}}
-{{- $cronjob := default (dict "enabled" false "job" (dict)) .cronjob -}}
+{{- $cronjob := default (dict "enabled" false) .cronjob -}}
+{{- if not $cronjob.job -}}
+{{- $_ := set $cronjob "job" dict -}}
+{{- end -}}
 {{- if or .Values.cronjob.enabled $cronjob.enabled -}}
 {{- $fullname := include "common.fullname" . -}}
 {{- if $cronjob.name -}}

@@ -75,29 +75,35 @@ extraIngresses: []
 ## Cronjob
 ##
 
+# Only for the defaults
 cronjob:
-  enabled: false
+  enabled: true
   concurrencyPolicy: "Allow"
   failedJobsHistoryLimit: 1
   schedule: "* * * * *"
   successfulJobsHistoryLimit: 3
   suspend: false
+  job:
+    activeDeadlineSeconds: 900 # 15 minutes
+    backoffLimit: 2
+
   #   command:
   #   - /bin/sh
   #   - -c
   #   - date; echo Hello from the Kubernetes cluster
 
-extraCronjobs:
-# - name: mycronjob
-#   command:
-#   - /bin/sh
-#   - -c
-#   - date; echo Hello from the Kubernetes cluster
-#   concurrencyPolicy: "Allow"
-#   failedJobsHistoryLimit: 1
-#   schedule: "* * * * *"
-#   successfulJobsHistoryLimit: 3
-#   suspend: false
+cronjobs:
+  []
+  # - name: mycronjob
+  #   command:
+  #     - /bin/sh
+  #     - -c
+  #     - date; echo Hello from the Kubernetes cluster
+  #   concurrencyPolicy: "Allow"
+  #   failedJobsHistoryLimit: 1
+  #   schedule: "* * * * *"
+  #   successfulJobsHistoryLimit: 3
+  #   suspend: false
 
 ##
 ## Workers

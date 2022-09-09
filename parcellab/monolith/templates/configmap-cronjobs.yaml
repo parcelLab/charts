@@ -1,6 +1,6 @@
 {{- $root := . -}}
-{{- if .Values.extraCronjobs -}}
-{{- range .Values.extraCronjobs }}
+{{- if .Values.cronjobs -}}
+{{- range .Values.cronjobs }}
 {{- if .config -}}
 {{- include "common.configmap" (merge (deepCopy $root) (dict "config" .config "name" .name)) }}
 {{- end -}}
