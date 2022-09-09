@@ -70,6 +70,8 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- end }}
+      {{- if eq $type "service" }}
+      {{/* Retrieve liveness and readiness probes from the global if not defined */}}
       {{- with (default .Values.livenessProbe .pod.livenessProbe) }}
       livenessProbe:
         {{- toYaml . | nindent 8 }}
@@ -78,11 +80,20 @@ spec:
       readinessProbe:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- if eq $type "service" }}
       ports:
         - name: {{ default .Values.service.name .pod.portName }}
           containerPort: {{ default .Values.service.port .pod.portNumber }}
           protocol: {{ default .Values.service.protocol .pod.portProtocol }}
+      {{- else }}
+      {{/* Force liveness and readiness probes to be defined if the deployment is not a service */}}
+      {{- with .pod.livenessProbe }}
+      livenessProbe:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .pod.readinessProbe }}
+      readinessProbe:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- end }}
       resources:
         {{- toYaml (default .Values.resources .pod.resources) | nindent 8 }}
