@@ -315,6 +315,18 @@ entries:
     version: 0.0.1
   common:
   - apiVersion: v2
+    created: "2022-09-09T14:36:45.00908345Z"
+    description: A Helm chart library for parcelLab charts
+    digest: e0b95991b0be4f31566ad65f0e41608eaea21de88ccb987b28730ef5f8aa65a1
+    maintainers:
+    - email: engineering@parcellab.com
+      name: parcelLab
+    name: common
+    type: library
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/common-0.0.33/common-0.0.33.tgz
+    version: 0.0.33
+  - apiVersion: v2
     created: "2022-09-09T11:39:05.696681759Z"
     description: A Helm chart library for parcelLab charts
     digest: 290f669aeaacedf0855eff85a88499528e538ff2ac63723d42e22fa17b6baaaa
@@ -700,6 +712,18 @@ entries:
     version: 0.0.1
   cronjob:
   - apiVersion: v2
+    created: "2022-09-09T14:36:45.136622992Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Single cron job
+    digest: 51ee0a757beee13819e36dff25abca32b3eee2b845f754f750dea8bad8ae1c18
+    name: cronjob
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/cronjob-0.0.19/cronjob-0.0.19.tgz
+    version: 0.0.19
+  - apiVersion: v2
     created: "2022-09-08T10:36:07.621176841Z"
     dependencies:
     - name: common
@@ -990,6 +1014,18 @@ entries:
     version: 0.0.1
   monolith:
   - apiVersion: v2
+    created: "2022-09-09T14:36:45.258635108Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Application that may define multiple services and cronjobs
+    digest: e2467d38f7cfca59c4bfbdea032ad28e909def01d7d7bdee4b6af36e085efaf2
+    name: monolith
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/monolith-0.0.8/monolith-0.0.8.tgz
+    version: 0.0.8
+  - apiVersion: v2
     created: "2022-09-09T11:39:05.835063108Z"
     dependencies:
     - name: common
@@ -1134,4 +1170,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/worker-group-0.0.1/worker-group-0.0.1.tgz
     version: 0.0.1
-generated: "2022-09-09T11:39:05.835637416Z"
+generated: "2022-09-09T14:36:45.259760094Z"
