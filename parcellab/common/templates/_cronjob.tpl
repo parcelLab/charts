@@ -29,9 +29,9 @@ spec:
   schedule: {{ default .Values.cronjob.schedule $cronjob.schedule | quote }}
   successfulJobsHistoryLimit: {{ default .Values.cronjob.successfulJobsHistoryLimit $cronjob.successfulJobsHistoryLimit }}
   suspend: {{ default .Values.cronjob.suspend $cronjob.suspend }}
+  activeDeadlineSeconds: {{ default .Values.cronjob.job.activeDeadlineSeconds $cronjob.job.activeDeadlineSeconds }}
+  backoffLimit: {{ default .Values.cronjob.job.backoffLimit $cronjob.job.backoffLimit }}
   jobTemplate:
-    activeDeadlineSeconds: {{ default .Values.cronjob.job.activeDeadlineSeconds $cronjob.job.activeDeadlineSeconds }}
-    backoffLimit: {{ default .Values.cronjob.job.backoffLimit $cronjob.job.backoffLimit }}
     spec:
       template:
         {{- include "common.pod"
