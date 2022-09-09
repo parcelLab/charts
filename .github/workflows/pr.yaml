@@ -31,6 +31,6 @@ jobs:
       - name: Label PR based on pushed file paths
         uses: actions/labeler@v4
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.REPO_ACCESS_TOKEN_OPEN_SOURCE }}
           configuration-path: .github/workflows/configs/managed/labeler.yaml
           sync-labels: true
