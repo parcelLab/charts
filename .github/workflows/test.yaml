@@ -39,7 +39,7 @@ jobs:
       - name: Template chart
         run: |
           helm show chart ${{ matrix.chart }} | grep "type: library" || helm template ${{ matrix.chart }} > output.yaml
-      - if: matrix.chart != 'common'
+      - if: matrix.chart != 'parcellab/common'
         name: Evaluate k8s resources
         uses: instrumenta/kubeval-action@master
         with:
