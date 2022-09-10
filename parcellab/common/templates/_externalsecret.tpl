@@ -14,12 +14,12 @@
 {{- if .name -}}
 {{- $fullname = printf "%s-%s" $fullname .name -}}
 {{- end -}}
-{{- $targetSpec := dict "creationPolicy" "owner" "deletionPolicy" "retain" "name" $fullname -}}
+{{- $targetSpec := dict "creationPolicy" "Owner" "deletionPolicy" "Retain" "name" $fullname -}}
 {{- $secretStoreRefSpec := dict "name" "secretsmanager" "kind" "ClusterSecretStore" -}}
 {{- $externalSecret := mergeOverwrite
   (dict "target" $targetSpec "secretStoreRef" $secretStoreRefSpec)
   (default .Values.externalSecret .externalSecret)
--}}
+}}
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
