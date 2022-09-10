@@ -10,11 +10,16 @@
 */}}
 {{- define "common.externalsecret" -}}
 {{- if or .Values.externalSecret .externalSecret }}
-{{- $externalSecret := default .Values.externalSecret .externalSecret -}}
 {{- $fullname := include "common.fullname" . -}}
 {{- if .name -}}
 {{- $fullname = printf "%s-%s" $fullname .name -}}
 {{- end -}}
+{{- $targetSpec := dict "creationPolicy" "owner" "deletionPolicy" "retain" "name" $fullname -}}
+{{- $secretStoreRefSpec := dict "name" "secretsmanager" "kind" "ClusterSecretStore" -}}
+{{- $externalSecret := mergeOverwrite
+  (dict "target" $targetSpec "secretStoreRef" $secretStoreRefSpec)
+  (default .Values.externalSecret .externalSecret)
+-}}
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
@@ -22,12 +27,6 @@ metadata:
   labels:
     {{- include "common.labels" . | nindent 4 }}
 spec:
-  target:
-    creationPolicy: Owner
-    deletionPolicy: Retain
-    name: {{ $fullname }}
-  {{- with $externalSecret }}
-  {{- toYaml . | nindent 2 }}
-  {{- end }}
+  {{- toYaml $externalSecret | nindent 2 }}
 {{- end }}
 {{- end -}}

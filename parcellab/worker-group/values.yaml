@@ -18,9 +18,6 @@ config: {}
 # See https://external-secrets.io/latest/spec/#external-secrets.io/v1beta1.ExternalSecretSpec
 externalSecret:
   {}
-  # secretStoreRef:
-  #   name: secretsmanager
-  #   kind: ClusterSecretStore
   # dataFrom:
   #   - extract:
   #       key: app-key-in-secrets-manager
