@@ -38,7 +38,11 @@ jobs:
         run: helm lint ${{ matrix.chart }}
       - name: Template chart
         run: |
-          helm show chart parcellab/common | grep "type: library" || helm template ${{ matrix.chart }}
+          helm show chart parcellab/common | grep "type: library" || helm template ${{ matrix.chart }} > output.yaml
+      - name: Evaluate k8s resources
+        uses: instrumenta/kubeval-action@master
+        with:
+          files: output.yaml
   release:
     if: github.ref == 'refs/heads/main'
     needs: test
