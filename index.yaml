@@ -1110,6 +1110,18 @@ entries:
     version: 0.0.1
   monolith:
   - apiVersion: v2
+    created: "2022-09-12T16:46:47.331698507Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Application that may define multiple services and cronjobs
+    digest: 722b8c4aac8d27970600f49e23c922da6b7aaeb16e59b654026f0b494a104103
+    name: monolith
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/monolith-0.0.12/monolith-0.0.12.tgz
+    version: 0.0.12
+  - apiVersion: v2
     created: "2022-09-10T15:54:17.917501533Z"
     dependencies:
     - name: common
@@ -1243,6 +1255,18 @@ entries:
     version: 0.0.1
   worker-group:
   - apiVersion: v2
+    created: "2022-09-12T16:46:47.494099504Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Set of workers that do not expose a service
+    digest: 699c9ff85d9e9162e7caa7a7fc734738df47b4f68cf1d197fc8fe5b3174faa89
+    name: worker-group
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/worker-group-0.0.8/worker-group-0.0.8.tgz
+    version: 0.0.8
+  - apiVersion: v2
     created: "2022-09-10T15:54:18.186307115Z"
     dependencies:
     - name: common
@@ -1326,4 +1350,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/worker-group-0.0.1/worker-group-0.0.1.tgz
     version: 0.0.1
-generated: "2022-09-10T15:54:18.18728395Z"
+generated: "2022-09-12T16:46:47.494936212Z"
