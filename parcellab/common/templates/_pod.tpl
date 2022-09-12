@@ -10,10 +10,11 @@
 {{- define "common.pod" -}}
 {{- $fullname := include "common.fullname" . -}}
 {{- $containerName := default $fullname .pod.containerName -}}
-{{- $podName := default $fullname .pod.name -}}
-{{- $configName := default $fullname .pod.configName -}}
-{{- $secretName := default $fullname .pod.secretName -}}
 {{- $containerEnv := default .Values.containerEnv .pod.containerEnv -}}
+{{- $podName := $fullname -}}
+{{- if .pod.name -}}
+{{- $podName = printf "%s-%s" $fullname .pod.name -}}
+{{- end -}}
 {{- $podVolumes := default .Values.volumes .pod.volumes -}}
 {{- $type := default "service" .type -}}
 metadata:
@@ -71,7 +72,7 @@ spec:
       {{- end }}
       {{- end }}
       {{- if eq $type "service" }}
-      {{/* Retrieve liveness and readiness probes from the global if not defined */}}
+      {{- /* Retrieve liveness and readiness probes from the global if not defined */ -}}
       {{- with (default .Values.livenessProbe .pod.livenessProbe) }}
       livenessProbe:
         {{- toYaml . | nindent 8 }}
@@ -85,7 +86,7 @@ spec:
           containerPort: {{ default .Values.service.port .pod.portNumber }}
           protocol: {{ default .Values.service.protocol .pod.portProtocol }}
       {{- else }}
-      {{/* Force liveness and readiness probes to be defined if the deployment is not a service */}}
+      {{- /* Force liveness and readiness probes to be defined if the deployment is not a service */ -}}
       {{- with .pod.livenessProbe }}
       livenessProbe:
         {{- toYaml . | nindent 8 }}
@@ -138,13 +139,25 @@ spec:
         {{- end }}
       {{- if or .Values.config .pod.configName .Values.externalSecret .pod.secretName }}
       envFrom:
-        {{- if or .Values.config .pod.configName }}
+        {{- /* Config common to all pods */ -}}
+        {{- if .Values.config }}
         - configMapRef:
-            name: {{ $configName }}
+            name: {{ $fullname }}
         {{- end }}
-        {{- if or .Values.externalSecret .pod.secretName }}
+        {{- if and .pod.config .pod.name }}
+        {{- /* Config scoped to a specific pod */ -}}
+        - configMapRef:
+            name: {{ $podName }}
+        {{- end }}
+        {{- /* External secret common to all pods */ -}}
+        {{- if .Values.externalSecret }}
         - secretRef:
-            name: {{ $secretName }}
+            name: {{ $fullname }}
+        {{- end }}
+        {{- /* External secret scoped to a specific pod */ -}}
+        {{- if and .pod.externalSecret .pod.name }}
+        - secretRef:
+            name: {{ $podName }}
         {{- end }}
       {{- end }}
   {{- if eq $type "cronjob" }}
