@@ -315,6 +315,18 @@ entries:
     version: 0.0.1
   common:
   - apiVersion: v2
+    created: "2022-09-12T18:10:43.834788488Z"
+    description: A Helm chart library for parcelLab charts
+    digest: 1043b913fc8468891fce19a7d24b80fc178078ed60bb3e7411ea4ec7f9125de7
+    maintainers:
+    - email: engineering@parcellab.com
+      name: parcelLab
+    name: common
+    type: library
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/common-1.0.1/common-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
     created: "2022-09-10T15:54:17.123722632Z"
     description: A Helm chart library for parcelLab charts
     digest: cc80b7056ceb060de2e31d26ce29e34b5d96a102192c542a7f8a3f580cb7c141
@@ -1255,6 +1267,18 @@ entries:
     version: 0.0.1
   worker-group:
   - apiVersion: v2
+    created: "2022-09-12T18:10:44.00531466Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Set of workers that do not expose a service
+    digest: a7ee260a605db63000cd6b068d6d010da7fc6093d9e960e26c5eed84dbe500f4
+    name: worker-group
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/worker-group-0.0.9/worker-group-0.0.9.tgz
+    version: 0.0.9
+  - apiVersion: v2
     created: "2022-09-12T16:46:47.494099504Z"
     dependencies:
     - name: common
@@ -1350,4 +1374,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/worker-group-0.0.1/worker-group-0.0.1.tgz
     version: 0.0.1
-generated: "2022-09-12T16:46:47.494936212Z"
+generated: "2022-09-12T18:10:44.006037684Z"
