@@ -10,7 +10,10 @@
 */}}
 {{- define "common.deployment" -}}
 {{- $service := default dict .service -}}
-{{- $autoscalingEnabled := .Values.autoscaling.enabled -}}
+{{- $autoscalingEnabled := false -}}
+{{- if .Values.autoscaling -}}
+{{- $autoscalingEnabled = .Values.autoscaling.enabled -}}
+{{- end -}}
 {{- if $service.autoscaling -}}
 {{- $autoscalingEnabled = $service.autoscaling.enabled -}}
 {{- end -}}

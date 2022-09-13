@@ -27,6 +27,7 @@
     "template": "find parcellab -type d -maxdepth 1 -mindepth 1 -not -path parcellab/common | xargs -I {} helm template {}",
     "test:common": "helm lint parcellab/common",
     "test:cronjob": "helm dependency update parcellab/cronjob && helm lint parcellab/cronjob && helm template parcellab/cronjob",
+    "test:metabase": "helm dependency update parcellab/metabase && helm lint parcellab/metabase && helm template parcellab/metabase",
     "test:microservice": "helm dependency update parcellab/microservice && helm lint parcellab/microservice && helm template parcellab/microservice",
     "test:monolith": "helm dependency update parcellab/monolith && helm lint parcellab/monolith && helm template parcellab/monolith",
     "test:worker-group": "helm dependency update parcellab/worker-group && helm lint parcellab/worker-group && helm template parcellab/worker-group",
