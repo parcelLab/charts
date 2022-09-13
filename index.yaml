@@ -315,6 +315,18 @@ entries:
     version: 0.0.1
   common:
   - apiVersion: v2
+    created: "2022-09-13T13:46:03.250525341Z"
+    description: A Helm chart library for parcelLab charts
+    digest: aa65bf48b7b51bc1eea7d80b43acdc2cd8ec8c3e4a4c71bed19d0a2d3ef03726
+    maintainers:
+    - email: engineering@parcellab.com
+      name: parcelLab
+    name: common
+    type: library
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/common-1.0.2/common-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v2
     created: "2022-09-12T18:10:43.834788488Z"
     description: A Helm chart library for parcelLab charts
     digest: 1043b913fc8468891fce19a7d24b80fc178078ed60bb3e7411ea4ec7f9125de7
@@ -999,6 +1011,19 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/cronjob-0.0.1/cronjob-0.0.1.tgz
     version: 0.0.1
+  metabase:
+  - apiVersion: v2
+    created: "2022-09-13T13:46:03.571224147Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Metabase chart
+    digest: 81bb7de7910c16a9b766008c91f9941c4ac1b1c02cc50151707ec3f980b122b6
+    name: metabase
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/metabase-0.0.1/metabase-0.0.1.tgz
+    version: 0.0.1
   microservice:
   - apiVersion: v2
     created: "2022-09-10T15:54:17.641448895Z"
@@ -1374,4 +1399,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/worker-group-0.0.1/worker-group-0.0.1.tgz
     version: 0.0.1
-generated: "2022-09-12T18:10:44.006037684Z"
+generated: "2022-09-13T13:46:03.57182264Z"
