@@ -1,0 +1,44 @@
+build:
+  - "Makefile"
+  - "**/tsconfig.*"
+  - "tsconfig.*"
+ci:
+  - ".github/workflows/*"
+  - ".github/workflows/**/*"
+deps:
+  - "go.mod"
+  - "go.sum"
+  - "package.json"
+  - "package-lock.json"
+deployment:
+  - ".dockerignore"
+  - "Containerfile"
+  - "Dockerfile"
+  - "plconfig.yaml"
+docs:
+  - "CODEOWNERS"
+  - "*.md"
+  - "**/*.md"
+json:
+  - "*.json"
+  - "**/*.json"
+shell:
+  - "*.sh"
+  - "**/*.sh"
+style:
+  - ".eslintignore"
+  - ".eslintrc.js"
+  - ".prettierignore"
+  - ".prettierrc.json"
+test:
+  - "**/*.spec.js"
+  - "**/*.spec.ts"
+  - "**/*.test.js"
+  - "**/*.test.ts"
+  - "**/__test__/*"
+  - "**/__test__/**/*"
+yaml:
+  - "*.yaml"
+  - "*.yml"
+  - "**/*.yaml"
+  - "**/*.yml"
