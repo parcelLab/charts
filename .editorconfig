@@ -8,8 +8,9 @@ end_of_line = lf
 charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
+max_line_length = 80
 
-[{*.gyp,*.md,*.json,*.tpl,*.yml,*.yaml}]
+[{*.gyp,*.md,*.json,*.tf,*.tpl,*.yml,*.yaml}]
 indent_style = space
 indent_size = 2
 
