@@ -1,0 +1,7 @@
+{{- if .Values.presyncjobs -}}
+{{- $root := . -}}
+{{- range .Values.presyncjobs }}
+{{- include "common.presyncjob" (merge (deepCopy $root) (dict "presyncjob" .)) }}
+---
+{{- end }}
+{{- end }}
