@@ -112,9 +112,8 @@ cronjobs:
 # Only for the defaults
 job:
   enabled: true
-  job:
-    backoffLimit: 1
-    activeDeadlineSeconds: 300
+  backoffLimit: 1
+  activeDeadlineSeconds: 300
 
 jobs: []
 #  - name: migrate

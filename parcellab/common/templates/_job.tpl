@@ -1,8 +1,5 @@
 {{- define "common.job" -}}
 {{- $job := default (dict "enabled" false) .job -}}
-{{- if not $job.job -}}
-{{- $_ := set $job "job" dict -}}
-{{- end -}}
 {{- if or .Values.job.enabled $job.enabled -}}
 {{- $fullname := include "common.fullname" . -}}
 {{- if $job.name -}}
@@ -17,8 +14,8 @@ metadata:
   labels:
     {{- include "common.labels" . | nindent 4 }}
 spec:
-  activeDeadlineSeconds: {{ default .Values.job.job.activeDeadlineSeconds $job.job.activeDeadlineSeconds }}
-  backoffLimit: {{ default .Values.job.job.backoffLimit $job.job.backoffLimit }}
+  activeDeadlineSeconds: {{ default .Values.job.activeDeadlineSeconds $job.activeDeadlineSeconds }}
+  backoffLimit: {{ default .Values.job.backoffLimit $job.backoffLimit }}
   template:
     {{- include "common.pod"
       (merge (deepCopy .) (dict "pod" $job "type" "job")) | nindent 4
