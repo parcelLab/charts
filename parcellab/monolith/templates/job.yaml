@@ -1,0 +1,7 @@
+{{- if .Values.jobs -}}
+{{- $root := . -}}
+{{- range .Values.jobs }}
+{{- include "common.job" (merge (deepCopy $root) (dict "job" .)) }}
+---
+{{- end }}
+{{- end }}
