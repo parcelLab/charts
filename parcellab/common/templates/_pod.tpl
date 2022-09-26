@@ -160,7 +160,7 @@ spec:
             name: {{ $podName }}
         {{- end }}
       {{- end }}
-  {{- if eq $type "cronjob" }}
+  {{- if or (eq $type "cronjob") (eq $type "job") }}
   restartPolicy: {{ default "OnFailure" .pod.restartPolicy }}
   {{- end }}
   {{- with default .Values.nodeSelector .pod.nodeSelector }}
