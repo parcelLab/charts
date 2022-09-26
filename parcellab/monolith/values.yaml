@@ -106,6 +106,31 @@ cronjobs:
   #   suspend: false
 
 ##
+## Jobs / Hooks
+##
+
+# Only for the defaults
+job:
+  enabled: true
+  backoffLimit: 1
+  activeDeadlineSeconds: 300
+
+jobs: []
+#  - name: migrate
+#    hook: PreSync
+#    command:
+#      - /bin/sh
+#      - -c
+#      - date; echo Hello from the Kubernetes cluster
+#    resources:
+#      limits:
+#        cpu: 100m
+#        memory: 128Mi
+#      requests:
+#        cpu: 50m
+#        memory: 64Mi
+
+##
 ## Workers
 ##
 
