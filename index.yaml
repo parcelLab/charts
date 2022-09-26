@@ -315,6 +315,18 @@ entries:
     version: 0.0.1
   common:
   - apiVersion: v2
+    created: "2022-09-26T07:23:19.828055696Z"
+    description: A Helm chart library for parcelLab charts
+    digest: 9986b437249f7a73f7ce67febaf9a0e904585317307826341742c08b4e75777c
+    maintainers:
+    - email: engineering@parcellab.com
+      name: parcelLab
+    name: common
+    type: library
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/common-1.0.3/common-1.0.3.tgz
+    version: 1.0.3
+  - apiVersion: v2
     created: "2022-09-13T13:46:03.250525341Z"
     description: A Helm chart library for parcelLab charts
     digest: aa65bf48b7b51bc1eea7d80b43acdc2cd8ec8c3e4a4c71bed19d0a2d3ef03726
@@ -1147,6 +1159,18 @@ entries:
     version: 0.0.1
   monolith:
   - apiVersion: v2
+    created: "2022-09-26T07:23:20.112102222Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Application that may define multiple services and cronjobs
+    digest: 47654be8472654eaf26b7c1a8d1a60c2c57c0bd0db0742f8ee2884c5dfe47b7f
+    name: monolith
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/monolith-0.0.13/monolith-0.0.13.tgz
+    version: 0.0.13
+  - apiVersion: v2
     created: "2022-09-12T16:46:47.331698507Z"
     dependencies:
     - name: common
@@ -1399,4 +1423,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/worker-group-0.0.1/worker-group-0.0.1.tgz
     version: 0.0.1
-generated: "2022-09-13T13:46:03.57182264Z"
+generated: "2022-09-26T07:23:20.112981725Z"
