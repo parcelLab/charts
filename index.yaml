@@ -1340,6 +1340,18 @@ entries:
     version: 0.0.1
   worker-group:
   - apiVersion: v2
+    created: "2022-09-28T22:59:38.205461195Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Set of workers that do not expose a service
+    digest: 157ea4e795ca9a1787b5702a81f66ea262073908ad8717571d5ea0246521478b
+    name: worker-group
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/worker-group-0.0.11/worker-group-0.0.11.tgz
+    version: 0.0.11
+  - apiVersion: v2
     created: "2022-09-28T22:38:45.527817611Z"
     dependencies:
     - name: common
@@ -1459,4 +1471,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/worker-group-0.0.1/worker-group-0.0.1.tgz
     version: 0.0.1
-generated: "2022-09-28T22:38:45.528612286Z"
+generated: "2022-09-28T22:59:38.206578052Z"
