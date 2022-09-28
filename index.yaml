@@ -315,6 +315,18 @@ entries:
     version: 0.0.1
   common:
   - apiVersion: v2
+    created: "2022-09-28T23:04:48.647692949Z"
+    description: A Helm chart library for parcelLab charts
+    digest: 5c071da9e0725343923648459eab0a4163bee965a9f6b4cb5b65f8c7def4a941
+    maintainers:
+    - email: engineering@parcellab.com
+      name: parcelLab
+    name: common
+    type: library
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/common-1.0.5/common-1.0.5.tgz
+    version: 1.0.5
+  - apiVersion: v2
     created: "2022-09-26T08:15:49.806780935Z"
     description: A Helm chart library for parcelLab charts
     digest: 49b0d39c463a5966a785f92146f1428dae282beb26a3ea6b65c6f8070fa4036c
@@ -1471,4 +1483,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/worker-group-0.0.1/worker-group-0.0.1.tgz
     version: 0.0.1
-generated: "2022-09-28T22:59:38.206578052Z"
+generated: "2022-09-28T23:04:48.648338871Z"
