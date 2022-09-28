@@ -14,7 +14,7 @@
 {{- $fullname := include "common.fullname" . -}}
 {{- if .name -}}
 {{- $fullname = printf "%s-%s" $fullname .name -}}
-{{- end -}}
+{{- end }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
