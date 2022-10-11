@@ -315,6 +315,18 @@ entries:
     version: 0.0.1
   common:
   - apiVersion: v2
+    created: "2022-10-11T09:33:16.361235814Z"
+    description: A Helm chart library for parcelLab charts
+    digest: fec17b20e0f58081a17c2594c53be357b2de24e86a548347b69da5aa0554da76
+    maintainers:
+    - email: engineering@parcellab.com
+      name: parcelLab
+    name: common
+    type: library
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/common-1.0.6/common-1.0.6.tgz
+    version: 1.0.6
+  - apiVersion: v2
     created: "2022-09-28T23:04:48.647692949Z"
     description: A Helm chart library for parcelLab charts
     digest: 5c071da9e0725343923648459eab0a4163bee965a9f6b4cb5b65f8c7def4a941
@@ -808,6 +820,18 @@ entries:
     version: 0.0.1
   cronjob:
   - apiVersion: v2
+    created: "2022-10-11T09:33:16.537227503Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Single cron job
+    digest: e7b7d9849412718376f2ec4a271be2c60a95cb757989cfbf3818fbff6ec5369e
+    name: cronjob
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/cronjob-0.0.23/cronjob-0.0.23.tgz
+    version: 0.0.23
+  - apiVersion: v2
     created: "2022-09-10T15:54:17.387977954Z"
     dependencies:
     - name: common
@@ -1062,6 +1086,18 @@ entries:
     version: 0.0.1
   microservice:
   - apiVersion: v2
+    created: "2022-10-11T09:33:16.710939136Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Simple microservice
+    digest: 9ff88b75bd1abb4bb0626b8fc94def5a978e0f4fd7ea6e1101b3df667c86d0cf
+    name: microservice
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/microservice-0.0.11/microservice-0.0.11.tgz
+    version: 0.0.11
+  - apiVersion: v2
     created: "2022-09-10T15:54:17.641448895Z"
     dependencies:
     - name: common
@@ -1182,6 +1218,18 @@ entries:
     - https://github.com/parcelLab/charts/releases/download/microservice-0.0.1/microservice-0.0.1.tgz
     version: 0.0.1
   monolith:
+  - apiVersion: v2
+    created: "2022-10-11T09:33:16.881843298Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Application that may define multiple services and cronjobs
+    digest: 4f37f5d565690d917cb447e4ffd670587189cae38e390ccfac9f6bc54a26ac27
+    name: monolith
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/monolith-0.0.15/monolith-0.0.15.tgz
+    version: 0.0.15
   - apiVersion: v2
     created: "2022-09-26T08:15:49.998309214Z"
     dependencies:
@@ -1352,6 +1400,18 @@ entries:
     version: 0.0.1
   worker-group:
   - apiVersion: v2
+    created: "2022-10-11T09:33:17.089301373Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Set of workers that do not expose a service
+    digest: 92f9eecb08f595da01b5438cf65828ff06ae6caf8ed451975624f5bd68335480
+    name: worker-group
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/worker-group-0.0.15/worker-group-0.0.15.tgz
+    version: 0.0.15
+  - apiVersion: v2
     created: "2022-09-29T08:51:04.919533184Z"
     dependencies:
     - name: common
@@ -1519,4 +1579,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/worker-group-0.0.1/worker-group-0.0.1.tgz
     version: 0.0.1
-generated: "2022-09-29T08:51:04.921508368Z"
+generated: "2022-10-11T09:33:17.090084892Z"
