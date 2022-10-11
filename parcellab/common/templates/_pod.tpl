@@ -167,6 +167,10 @@ spec:
   nodeSelector:
     {{- toYaml . | nindent 4 }}
   {{- end }}
+  {{- with default .pod.hostAliases }}
+  hostAliases:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   {{- with default .Values.tolerations .pod.tolerations }}
   tolerations:
     {{- toYaml . | nindent 4 }}
