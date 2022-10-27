@@ -63,6 +63,24 @@
 {{- end -}}
 
 {{/*
+  Create a component name out of the global fullname if applicable.
+  This name is used to differentiate the same application with different entry points.
+  {{ include "common.componentname" (
+    dict
+      "Release" "The Release scope"
+      "Values" "The Values scope",
+      "component" "the component of the app /optional (defaults to empty)"
+  ) }}
+*/}}
+{{- define "common.componentname" -}}
+{{- if .component -}}
+{{- printf "%s-%s" (include "common.fullname" .) .component -}}
+{{- else -}}
+{{- include "common.fullname" . -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Create the name of the service account to use
   {{ include "common.serviceAccountName" (
     dict
