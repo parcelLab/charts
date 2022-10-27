@@ -10,11 +10,9 @@
 */}}
 {{- define "common.externalsecret" -}}
 {{- if or .Values.externalSecret .externalSecret }}
-{{- $fullname := include "common.fullname" . -}}
-{{- if .name -}}
-{{- $fullname = printf "%s-%s" $fullname .name -}}
-{{- end -}}
-{{- $targetSpec := dict "creationPolicy" "Owner" "deletionPolicy" "Retain" "name" $fullname -}}
+{{- $componentValues := (merge (deepCopy .) (dict "component" .name)) -}}
+{{- $name := include "common.componentname" $componentValues -}}
+{{- $targetSpec := dict "creationPolicy" "Owner" "deletionPolicy" "Retain" "name" $name -}}
 {{- $secretStoreRefSpec := dict "name" "secretsmanager" "kind" "ClusterSecretStore" -}}
 {{- $externalSecret := mergeOverwrite
   (dict "target" $targetSpec "secretStoreRef" $secretStoreRefSpec)
@@ -23,9 +21,9 @@
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
-  name: {{ $fullname }}
+  name: {{ $name }}
   labels:
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "common.labels" $componentValues | nindent 4 }}
 spec:
   {{- toYaml $externalSecret | nindent 2 }}
 {{- end }}

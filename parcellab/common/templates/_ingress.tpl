@@ -10,16 +10,17 @@
 {{- define "common.ingress" -}}
 {{- $ingress := default (dict "enabled" false) .ingress -}}
 {{- if or .Values.ingress.enabled $ingress.enabled -}}
-{{- $fullname := default (include "common.fullname" .) $ingress.name -}}
+{{- $componentValues := (merge (deepCopy .) (dict "component" $ingress.name)) -}}
+{{- $name := include "common.componentname" $componentValues -}}
 {{- $tls := default .Values.ingress.tls $ingress.tls -}}
-{{- $serviceName := default $fullname $ingress.serviceName -}}
+{{- $serviceName := default $name $ingress.serviceName -}}
 {{- $servicePort := default .Values.service.port $ingress.servicePort -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ $fullname }}
+  name: {{ $name }}
   labels:
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "common.labels" $componentValues | nindent 4 }}
   {{- with default .Values.ingress.annotations $ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}

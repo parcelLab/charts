@@ -13,16 +13,14 @@
 {{- $_ := set $cronjob "job" dict -}}
 {{- end -}}
 {{- if or .Values.cronjob.enabled $cronjob.enabled -}}
-{{- $fullname := include "common.fullname" . -}}
-{{- if $cronjob.name -}}
-{{- $fullname = printf "%s-%s" $fullname $cronjob.name -}}
-{{- end -}}
+{{- $componentValues := (merge (deepCopy .) (dict "component" $cronjob.name)) -}}
+{{- $name := include "common.componentname" $componentValues -}}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ $fullname }}
+  name: {{ $name }}
   labels:
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "common.labels" $componentValues | nindent 4 }}
 spec:
   concurrencyPolicy: {{ default .Values.cronjob.concurrencyPolicy $cronjob.concurrencyPolicy }}
   failedJobsHistoryLimit: {{ default .Values.cronjob.failedJobsHistoryLimit $cronjob.failedJobsHistoryLimit }}
