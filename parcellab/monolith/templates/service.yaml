@@ -4,6 +4,5 @@
 {{- include "common.service" (merge (deepCopy $root) (dict "service" .)) }}
 ---
 {{- end }}
-{{- else }}
-{{- include "common.service" . }}
 {{- end }}
+{{- include "common.service" . }}

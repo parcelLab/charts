@@ -9,12 +9,10 @@
 */}}
 {{- define "common.pod" -}}
 {{- $fullname := include "common.fullname" . -}}
-{{- $containerName := default $fullname .pod.containerName -}}
+{{- $componentValues := (merge (deepCopy .) (dict "component" .pod.name)) -}}
+{{- $name := include "common.componentname" $componentValues -}}
+{{- $containerName := default $name .pod.containerName -}}
 {{- $containerEnv := default .Values.containerEnv .pod.containerEnv -}}
-{{- $podName := $fullname -}}
-{{- if .pod.name -}}
-{{- $podName = printf "%s-%s" $fullname .pod.name -}}
-{{- end -}}
 {{- $podVolumes := default .Values.volumes .pod.volumes -}}
 {{- $type := default "service" .type -}}
 metadata:
@@ -24,7 +22,7 @@ metadata:
   {{- end }}
     {{- include "common.pod.annotations" . | nindent 4 }}
   labels:
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "common.labels" $componentValues | nindent 4 }}
     {{- if and .Values.datadog .Values.datadog.enabled }}
     tags.datadoghq.com/env: {{ include "common.env" . | quote }}
     tags.datadoghq.com/service: {{ $fullname | quote }}
@@ -147,7 +145,7 @@ spec:
         {{- if and .pod.config .pod.name }}
         {{- /* Config scoped to a specific pod */ -}}
         - configMapRef:
-            name: {{ $podName }}
+            name: {{ $name }}
         {{- end }}
         {{- /* External secret common to all pods */ -}}
         {{- if .Values.externalSecret }}
@@ -157,7 +155,7 @@ spec:
         {{- /* External secret scoped to a specific pod */ -}}
         {{- if and .pod.externalSecret .pod.name }}
         - secretRef:
-            name: {{ $podName }}
+            name: {{ $name }}
         {{- end }}
       {{- end }}
   {{- if or (eq $type "cronjob") (eq $type "job") }}

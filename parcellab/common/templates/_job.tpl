@@ -1,18 +1,16 @@
 {{- define "common.job" -}}
 {{- $job := default (dict "enabled" false) .job -}}
 {{- if or .Values.job.enabled $job.enabled -}}
-{{- $fullname := include "common.fullname" . -}}
-{{- if $job.name -}}
-{{- $fullname = printf "%s-%s" $fullname $job.name -}}
-{{- end -}}
+{{- $componentValues := (merge (deepCopy .) (dict "component" $job.name)) -}}
+{{- $name := include "common.componentname" $componentValues -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  generateName: {{ $fullname }}-
+  generateName: {{ $name }}-
   annotations:
     argocd.argoproj.io/hook: {{ default "Skip" $job.hook }}
   labels:
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "common.labels" $componentValues | nindent 4 }}
 spec:
   activeDeadlineSeconds: {{ default .Values.job.activeDeadlineSeconds $job.activeDeadlineSeconds }}
   backoffLimit: {{ default .Values.job.backoffLimit $job.backoffLimit }}

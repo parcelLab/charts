@@ -11,13 +11,14 @@
 */}}
 {{- define "common.service" -}}
 {{- $service := default (dict) .service -}}
-{{- $fullname := default (include "common.fullname" .) $service.name -}}
+{{- $componentValues := (merge (deepCopy .) (dict "component" $service.name)) -}}
+{{- $name := include "common.componentname" $componentValues -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ $fullname }}
+  name: {{ $name }}
   labels:
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "common.labels" $componentValues | nindent 4 }}
 spec:
   type: {{ default .Values.service.type $service.serviceType }}
   ports:
@@ -26,7 +27,7 @@ spec:
       protocol: {{ default .Values.service.protocol $service.portProtocol }}
       name: {{ default .Values.service.name $service.portName }}
   selector:
-    {{- include "common.selectors" . | nindent 4 }}
+    {{- include "common.selectors" $componentValues | nindent 4 }}
     {{- if $service.extraSelectors }}
     {{- toYaml $service.extraSelectors | nindent 4 }}
     {{- end }}

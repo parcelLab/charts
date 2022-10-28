@@ -6,10 +6,14 @@ Labels to use as selectors
       "Chart" "the chart scope"
       "Release" "the release scope"
       "Values" "the chart values scope"
+      "component" "the component of the app /optional (defaults to empty)"
   ) }}
 */}}
 {{- define "common.selectors" -}}
 {{ include "common.parcellabtagsdomain" . }}/app: {{ include "common.fullname" . | quote }}
+{{- if .component }}
+{{ include "common.parcellabtagsdomain" . }}/component: {{ .component | quote }}
+{{- end }}
 {{ include "common.parcellabtagsdomain" . }}/env: {{ include "common.env" . | quote }}
 {{- end -}}
 
@@ -20,6 +24,7 @@ Common labels
       "Chart" "the chart scope"
       "Release" "the release scope"
       "Values" "the chart values scope"
+      "component" "the component of the app /optional (defaults to empty)"
   ) }}
 */}}
 {{- define "common.labels" -}}
