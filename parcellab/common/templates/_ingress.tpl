@@ -4,32 +4,28 @@
   {{ include "common.ingress" (
     dict
       "Values" "the values scope"
-      "ingress" "The ingress spec configuration" /optional (defaults to empty)
   ) }}
 */}}
 {{- define "common.ingress" -}}
-{{- $ingress := default (dict "enabled" false) .ingress -}}
-{{- if or .Values.ingress.enabled $ingress.enabled -}}
-{{- $componentValues := (merge (deepCopy .) (dict "component" $ingress.name)) -}}
-{{- $name := include "common.componentname" $componentValues -}}
-{{- $tls := default .Values.ingress.tls $ingress.tls -}}
-{{- $serviceName := default $name $ingress.serviceName -}}
-{{- $servicePort := default .Values.service.port $ingress.servicePort -}}
+{{- $ingress := .Values.ingress -}}
+{{- $defaultServicePort := .Values.service.port -}}
+{{- if $ingress.enabled -}}
+{{- $name := include "common.fullname" . }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ $name }}
   labels:
-    {{- include "common.labels" $componentValues | nindent 4 }}
-  {{- with default .Values.ingress.annotations $ingress.annotations }}
+    {{- include "common.labels" . | nindent 4 }}
+  {{- with $ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  ingressClassName: {{ default .Values.ingress.className $ingress.className }}
-  {{- if $tls }}
+  ingressClassName: {{ $ingress.className }}
+  {{- if $ingress.tls }}
   tls:
-    {{- range $tls }}
+    {{- range $ingress.tls }}
     - hosts:
         {{- range .hosts }}
         - {{ . | quote }}
@@ -38,7 +34,7 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    {{- range default .Values.ingress.hosts $ingress.hosts }}
+    {{- range $ingress.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:
@@ -47,11 +43,16 @@ spec:
             {{- if .pathType }}
             pathType: {{ .pathType }}
             {{- end }}
+            {{- if .backend }}
+            backend:
+              {{- toYaml .backend | nindent 14 }}
+            {{- else }}
             backend:
               service:
-                name: {{ $serviceName }}
+                name: {{ $name }}
                 port:
-                  number: {{ $servicePort }}
+                  number: {{ $defaultServicePort }}
+            {{- end }}
           {{- end }}
     {{- end }}
 {{- end }}
