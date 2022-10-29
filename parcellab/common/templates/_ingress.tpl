@@ -13,8 +13,6 @@
 {{- $componentValues := (merge (deepCopy .) (dict "component" $ingress.name)) -}}
 {{- $name := include "common.componentname" $componentValues -}}
 {{- $tls := default .Values.ingress.tls $ingress.tls -}}
-{{- $serviceName := default $name $ingress.serviceName -}}
-{{- $servicePort := default .Values.service.port $ingress.servicePort -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -49,9 +47,9 @@ spec:
             {{- end }}
             backend:
               service:
-                name: {{ $serviceName }}
+                name: {{ default .name $name }}
                 port:
-                  number: {{ $servicePort }}
+                  number: {{ default .number .Values.service.port }}
           {{- end }}
     {{- end }}
 {{- end }}
