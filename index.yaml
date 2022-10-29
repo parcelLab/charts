@@ -315,6 +315,18 @@ entries:
     version: 0.0.1
   common:
   - apiVersion: v2
+    created: "2022-10-29T15:26:22.447165174Z"
+    description: A Helm chart library for parcelLab charts
+    digest: 4e9244d1e49efc17fc72fa50e8994d0cce2627f816df7012d033e4af648171af
+    maintainers:
+    - email: engineering@parcellab.com
+      name: parcelLab
+    name: common
+    type: library
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/common-1.0.8/common-1.0.8.tgz
+    version: 1.0.8
+  - apiVersion: v2
     created: "2022-10-28T12:23:34.469097323Z"
     description: A Helm chart library for parcelLab charts
     digest: 694f7651a8bcbc1f1e108a301b9bb9a8164164ea16b70113567d7ce809472cfe
@@ -1110,6 +1122,18 @@ entries:
     version: 0.0.1
   microservice:
   - apiVersion: v2
+    created: "2022-10-29T15:26:22.585361505Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Simple microservice
+    digest: 87455b32c0182fc346d9be5a24031142ac14c044771dd482ddc3f85b7b114be4
+    name: microservice
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/microservice-0.0.12/microservice-0.0.12.tgz
+    version: 0.0.12
+  - apiVersion: v2
     created: "2022-10-11T09:33:16.710939136Z"
     dependencies:
     - name: common
@@ -1242,6 +1266,18 @@ entries:
     - https://github.com/parcelLab/charts/releases/download/microservice-0.0.1/microservice-0.0.1.tgz
     version: 0.0.1
   monolith:
+  - apiVersion: v2
+    created: "2022-10-29T15:26:22.734050375Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Application that may define multiple services and cronjobs
+    digest: 48f6515168a295532617d26446b65e1f7489d9c193ee6683d89a7df85b0f2ab5
+    name: monolith
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/monolith-0.0.17/monolith-0.0.17.tgz
+    version: 0.0.17
   - apiVersion: v2
     created: "2022-10-28T12:23:34.847322114Z"
     dependencies:
@@ -1627,4 +1663,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/worker-group-0.0.1/worker-group-0.0.1.tgz
     version: 0.0.1
-generated: "2022-10-28T12:23:35.025404675Z"
+generated: "2022-10-29T15:26:22.734731044Z"
