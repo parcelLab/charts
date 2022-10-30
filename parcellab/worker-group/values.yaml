@@ -125,6 +125,7 @@ resources:
 ## Workers
 ##
 
+# If empty list is given, no deployments will be created
 workers: []
 # - name: myworker
 #   command:
