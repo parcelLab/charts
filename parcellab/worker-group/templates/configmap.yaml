@@ -1,10 +1,1 @@
-{{- if .Values.workers -}}
-{{- $root := . -}}
-{{- range .Values.workers }}
-{{- if .config -}}
-{{- include "common.configmap" (merge (deepCopy $root) (dict "config" .config "name" .name)) }}
-{{- end }}
----
-{{- end }}
-{{- end }}
 {{- include "common.configmap" . }}
