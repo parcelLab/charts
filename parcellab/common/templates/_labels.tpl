@@ -13,6 +13,8 @@ Labels to use as selectors
 {{ include "common.parcellabtagsdomain" . }}/app: {{ include "common.fullname" . | quote }}
 {{- if .component }}
 {{ include "common.parcellabtagsdomain" . }}/component: {{ .component | quote }}
+{{- else }}
+{{ include "common.parcellabtagsdomain" . }}/component: "default"
 {{- end }}
 {{ include "common.parcellabtagsdomain" . }}/env: {{ include "common.env" . | quote }}
 {{- end -}}
