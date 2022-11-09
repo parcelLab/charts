@@ -2,7 +2,7 @@
   "devDependencies": {
     "@commitlint/cli": "17.2.0",
     "@commitlint/config-conventional": "17.2.0",
-    "@parcellab/danger-plugin": "^0.0.28",
+    "@parcellab/danger-plugin": "^0.0.29",
     "danger": "^11.1.4",
     "helm-test": "^1.3.2",
     "husky": "^8.0.2",
