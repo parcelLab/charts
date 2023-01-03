@@ -5,7 +5,7 @@
     "@parcellab/danger-plugin": "^0.0.34",
     "danger": "^11.2.0",
     "helm-test": "^1.3.2",
-    "husky": "^8.0.2",
+    "husky": "^8.0.3",
     "lint-staged": "^13.1.0",
     "prettier": "2.8.1"
   },
