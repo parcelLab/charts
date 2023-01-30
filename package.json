@@ -1,32 +1,27 @@
 {
+  "type": "module",
+  "engines": {
+    "node": ">=v18"
+  },
   "devDependencies": {
     "@commitlint/cli": "17.4.2",
     "@commitlint/config-conventional": "17.4.2",
-    "@parcellab/danger-plugin": "^0.0.34",
-    "danger": "^11.2.3",
-    "helm-test": "^1.3.2",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.0",
     "prettier": "2.8.3"
   },
-  "engines": {
-    "node": ">=v18"
-  },
-  "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
-  },
   "scripts": {
+    "commitlint": "commitlint -x @commitlint/config-conventional --edit",
     "deps": "find parcellab -type d -maxdepth 1 -mindepth 1 | xargs -I {} helm dependency update {}",
-    "lint": "npm run lint:commit && npm run lint:helm && npm run lint:prettier",
-    "lint:commit": "commitlint -x @commitlint/config-conventional --edit",
+    "lint": "npm run lint:helm && npm run lint:prettier",
     "lint:helm": "npm run deps && find parcellab -type d -maxdepth 1 -mindepth 1 | xargs -I {} helm lint {}",
     "lint:prettier": "prettier --check --ignore-unknown .",
+    "lint:staged": "lint-staged",
     "format": "prettier --write --ignore-unknown .",
     "prepare": "husky install",
     "template": "find parcellab -type d -maxdepth 1 -mindepth 1 -not -path parcellab/common | xargs -I {} helm template {}",
     "test:common": "helm lint parcellab/common",
     "test:cronjob": "helm dependency update parcellab/cronjob && helm lint parcellab/cronjob && helm template parcellab/cronjob",
-    "test:metabase": "helm dependency update parcellab/metabase && helm lint parcellab/metabase && helm template parcellab/metabase",
     "test:microservice": "helm dependency update parcellab/microservice && helm lint parcellab/microservice && helm template parcellab/microservice",
     "test:monolith": "helm dependency update parcellab/monolith && helm lint parcellab/monolith && helm template parcellab/monolith",
     "test:worker-group": "helm dependency update parcellab/worker-group && helm lint parcellab/worker-group && helm template parcellab/worker-group",
