@@ -49,6 +49,9 @@ spec:
     - name: apmsocketpath
       hostPath:
         path: /var/run/datadog/
+    - name: dsdsocketpath
+      hostPath:
+        path: /var/run/datadog/
     {{- end }}
   containers:
     - name: {{ $containerName }}
@@ -100,6 +103,8 @@ spec:
         {{- if and .Values.datadog .Values.datadog.enabled }}
         - name: apmsocketpath
           mountPath: /var/run/datadog
+        - name: dsdsocketpath
+          mountPath: /var/run/datadog
         {{- end }}
         {{- if $podVolumes }}
         {{- range $podVolumes -}}
@@ -131,6 +136,8 @@ spec:
           value: "true"
         - name: DD_TRACE_AGENT_URL
           value: unix:///var/run/datadog/apm.socket
+        - name: DD_DOGSTATSD_SOCKET
+          value: unix:///var/run/datadog/dsd.socket
         {{- end }}
         {{- with $containerEnv }}
         {{- toYaml . | nindent 8 }}
