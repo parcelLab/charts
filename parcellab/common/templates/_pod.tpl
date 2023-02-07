@@ -40,7 +40,7 @@ spec:
   {{- end }}
   volumes:
     {{- if $podVolumes }}
-    {{- range $podVolumes -}}
+    {{- range $podVolumes }}
     - name: {{ .name }}
       {{- toYaml .volumeTemplate | nindent 6 }}
     {{- end }}
@@ -102,7 +102,7 @@ spec:
           mountPath: /var/run/datadog
         {{- end }}
         {{- if $podVolumes }}
-        {{- range $podVolumes -}}
+        {{- range $podVolumes }}
         - name: {{ .name }}
           readOnly: {{ default true .readOnly }}
           mountPath: {{ .mountPath }}

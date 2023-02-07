@@ -2,7 +2,7 @@ apiVersion: v2
 name: common
 description: A Helm chart library for parcelLab charts
 type: library
-version: 1.0.11
+version: 1.0.12
 maintainers:
   - name: parcelLab
     email: engineering@parcellab.com
