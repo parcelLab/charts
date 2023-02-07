@@ -150,12 +150,14 @@ Create the image repository
   ) }}
 */}}
 {{- define "common.imagerepository" -}}
-{{- if and .Values.name .Values.orgRepository -}}
+{{- if .Values.image.repository -}}
+{{- .Values.image.repository -}}
+{{- else if and .Values.name .Values.orgRepository -}}
 {{- printf "%s/%s" .Values.orgRepository .Values.name -}}
 {{- else if .Values.name -}}
 {{- .Values.name -}}
 {{- else -}}
-{{- default .Chart.Name .Values.image.repository -}}
+{{- .Chart.Name -}}
 {{- end -}}
 {{- end -}}
 
