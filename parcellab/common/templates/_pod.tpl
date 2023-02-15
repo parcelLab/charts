@@ -14,6 +14,11 @@
 {{- $containerName := default $name .pod.containerName -}}
 {{- $containerEnv := default .Values.containerEnv .pod.containerEnv -}}
 {{- $podVolumes := default .Values.volumes .pod.volumes -}}
+{{- $commonExternalSecret := .Values.externalSecret -}}
+{{- $commonConfig := .Values.config -}}
+{{- $extraContainers := .Values.extraContainers -}}
+{{- $initContainers := .Values.initContainers -}}
+{{- $datadog := .Values.datadog -}}
 {{- $type := default "service" .type -}}
 metadata:
   annotations:
@@ -23,7 +28,7 @@ metadata:
     {{- include "common.pod.annotations" . | nindent 4 }}
   labels:
     {{- include "common.labels" $componentValues | nindent 4 }}
-    {{- if and .Values.datadog .Values.datadog.enabled }}
+    {{- if and $datadog $datadog.enabled }}
     tags.datadoghq.com/env: {{ include "common.env" . | quote }}
     tags.datadoghq.com/service: {{ $fullname | quote }}
     tags.datadoghq.com/version: {{ include "common.version" . | quote }}
@@ -45,11 +50,19 @@ spec:
       {{- toYaml .volumeTemplate | nindent 6 }}
     {{- end }}
     {{- end }}
-    {{- if and .Values.datadog .Values.datadog.enabled }}
+    {{- if and $datadog $datadog.enabled }}
     - name: apmsocketpath
       hostPath:
         path: /var/run/datadog/
     {{- end }}
+  {{- if $initContainers }}
+  {{- range $initContainers }}
+  initContainers:
+    {{- include "common.container"
+      (merge (deepCopy .) (dict "volumes" $podVolumes "containerEnv" $containerEnv "datadog" $datadog "externalSecret" $commonExternalSecret "config" $commonConfig "commonRefName" $fullname)) | nindent 4
+    }}
+  {{- end }}
+  {{- end }}
   containers:
     - name: {{ $containerName }}
       {{- with .Values.podSecurityContext }}
@@ -97,7 +110,7 @@ spec:
       resources:
         {{- toYaml (default .Values.resources .pod.resources) | nindent 8 }}
       volumeMounts:
-        {{- if and .Values.datadog .Values.datadog.enabled }}
+        {{- if and $datadog $datadog.enabled }}
         - name: apmsocketpath
           mountPath: /var/run/datadog
         {{- end }}
@@ -109,7 +122,7 @@ spec:
         {{- end }}
         {{- end }}
       env:
-        {{- if and .Values.datadog .Values.datadog.enabled }}
+        {{- if and $datadog $datadog.enabled }}
         - name: DD_ENV
           valueFrom:
             fieldRef:
@@ -138,7 +151,7 @@ spec:
       {{- if or .Values.config .pod.configName .Values.externalSecret .pod.secretName }}
       envFrom:
         {{- /* Config common to all pods */ -}}
-        {{- if .Values.config }}
+        {{- if $commonConfig }}
         - configMapRef:
             name: {{ $fullname }}
         {{- end }}
@@ -148,7 +161,7 @@ spec:
             name: {{ $name }}
         {{- end }}
         {{- /* External secret common to all pods */ -}}
-        {{- if .Values.externalSecret }}
+        {{- if $commonExternalSecret }}
         - secretRef:
             name: {{ $fullname }}
         {{- end }}
@@ -158,6 +171,13 @@ spec:
             name: {{ $name }}
         {{- end }}
       {{- end }}
+  {{- if $extraContainers }}
+  {{- range $extraContainers }}
+    {{- include "common.container"
+      (merge (deepCopy .) ($fullname "volumes" $podVolumes "containerEnv" $containerEnv "datadog" $datadog "externalSecret" $commonExternalSecret "config" $commonConfig "commonRefName" $fullname)) | nindent 4
+    }}
+  {{- end }}
+  {{- end }}
   {{- if or (eq $type "cronjob") (eq $type "job") }}
   restartPolicy: {{ default "OnFailure" .pod.restartPolicy }}
   {{- end }}

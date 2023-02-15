@@ -167,3 +167,29 @@ resources:
 #   httpGet:
 #     path: /
 #     port: http
+initContainers: []
+#  these containers share secrets, configmaps, volumes and environment variables from the settings above
+#  - name: myInitContainer1
+#    image:
+#      url: ghcr.io/parcellab/image
+#      pullPolicy: Never
+#      tag: commitTag
+#    ports:
+#      - name: http
+#        containerPort: 80
+#        protocol: TCP
+#    env:
+#      - name: foo
+#        value: "bar"
+#    resources:
+#      limits:
+#        cpu: 10m
+#        memory: 12Mi
+#      requests:
+#        cpu: 3m
+#        memory: 12Mi
+#    podSecurityContext:
+#      fsGroup: 2000
+
+extraContainers: []
+# same as initContainers
