@@ -192,4 +192,4 @@ initContainers: []
 #      fsGroup: 2000
 
 extraContainers: []
-# same as initContainers
+# sidecars configuration is identical to initContainers
