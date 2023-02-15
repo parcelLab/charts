@@ -122,29 +122,7 @@ spec:
         {{- end }}
         {{- end }}
       env:
-        {{- if and $datadog $datadog.enabled }}
-        - name: DD_ENV
-          valueFrom:
-            fieldRef:
-              apiVersion: v1
-              fieldPath: metadata.labels['tags.datadoghq.com/env']
-        - name: DD_SERVICE
-          valueFrom:
-            fieldRef:
-              apiVersion: v1
-              fieldPath: metadata.labels['tags.datadoghq.com/service']
-        - name: DD_VERSION
-          valueFrom:
-            fieldRef:
-              apiVersion: v1
-              fieldPath: metadata.labels['tags.datadoghq.com/version']
-        - name: DD_LOGS_INJECTION
-          value: "true"
-        - name: DD_TRACE_ENABLED
-          value: "true"
-        - name: DD_TRACE_AGENT_URL
-          value: unix:///var/run/datadog/apm.socket
-        {{- end }}
+        {{- include "common.datadogEnvironmentVariables" (dict "datadog" $datadog) | nindent 8 }}
         {{- with $containerEnv }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
