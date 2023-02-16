@@ -167,3 +167,19 @@ resources:
 #   httpGet:
 #     path: /
 #     port: http
+
+##
+## Postgresql
+##
+
+postgresql:
+  enabled: false
+  # See default values: https://artifacthub.io/packages/helm/bitnami/postgresql?modal=values
+
+##
+## Redis
+##
+
+redis:
+  enabled: false
+  # See default values: https://artifacthub.io/packages/helm/bitnami/redis?modal=values
