@@ -117,3 +117,19 @@ resources:
   requests:
     cpu: 50m
     memory: 64Mi
+
+##
+## Postgresql
+##
+
+postgresql:
+  enabled: false
+  # See default values: https://artifacthub.io/packages/helm/bitnami/postgresql?modal=values
+
+##
+## Redis
+##
+
+redis:
+  enabled: false
+  # See default values: https://artifacthub.io/packages/helm/bitnami/redis?modal=values

@@ -167,6 +167,7 @@ resources:
 #   httpGet:
 #     path: /
 #     port: http
+
 initContainers: []
 #  these containers share secrets, configmaps, volumes and environment variables from the settings above
 #  - name: myInitContainer1
@@ -193,3 +194,19 @@ initContainers: []
 
 extraContainers: []
 # sidecars configuration is identical to initContainers
+
+##
+## Postgresql
+##
+
+postgresql:
+  enabled: false
+  # See default values: https://artifacthub.io/packages/helm/bitnami/postgresql?modal=values
+
+##
+## Redis
+##
+
+redis:
+  enabled: false
+  # See default values: https://artifacthub.io/packages/helm/bitnami/redis?modal=values

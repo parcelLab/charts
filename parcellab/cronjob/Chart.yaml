@@ -1,8 +1,16 @@
 apiVersion: v2
 name: cronjob
 description: Single cron job
-version: 0.0.28
+version: 0.0.29
 dependencies:
   - name: common
     version: "*"
     repository: file://../common
+  - name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    version: 12.1.15
+    condition: postgresql.enabled
+  - name: redis
+    repository: https://charts.bitnami.com/bitnami
+    version: 17.7.3
+    condition: redis.enabled
