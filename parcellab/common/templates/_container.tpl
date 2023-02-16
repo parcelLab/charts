@@ -15,6 +15,8 @@
 {{- $podVolumes := .volumes -}}
 {{- $podSecurityContext := .podSecurityContext -}}
 {{- $datadog := .datadog -}}
+{{- $commonExternalSecret := .commonExternalSecret -}}
+{{- $commonConfig := .commonConfig -}}
 - name: {{ $name }}
   {{- with $podSecurityContext }}
   securityContext:
@@ -57,14 +59,24 @@
   {{- if or .config .externalSecret .secretName }}
   envFrom:
     {{- /* Config common to all pods */ -}}
-    {{- if .config }}
+    {{- if $commonConfig }}
     - configMapRef:
         name: {{ $commonRefName }}
     {{- end }}
+    {{- if and .config .name }}
+    {{- /* Config scoped to a specific pod */ -}}
+    - configMapRef:
+        name: {{ $name }}
+    {{- end }}
     {{- /* External secret common to all pods */ -}}
-    {{- if .externalSecret }}
+    {{- if $commonExternalSecret }}
     - secretRef:
         name: {{ $commonRefName }}
+    {{- end }}
+    {{- /* External secret scoped to a specific container */ -}}
+    {{- if and .externalSecret $name }}
+    - secretRef:
+        name: {{ $name }}
     {{- end }}
   {{- end }}
   {{- end }}

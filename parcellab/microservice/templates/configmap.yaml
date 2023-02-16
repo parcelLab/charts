@@ -1,1 +1,11 @@
 {{- include "common.configmap" . }}
+{{- range .Values.initContainers }}
+{{- if .config}}
+{{- include "common.configmap" . }}
+{{- end }}
+{{- end }}
+{{- range .Values.extraContainers }}
+{{- if .config}}
+{{- include "common.configmap" . }}
+{{- end }}
+{{- end }}
