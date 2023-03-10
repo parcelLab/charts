@@ -1,11 +1,9 @@
 {{/* vim: set filetype=mustache: */}}
 {{/*
   Create chart/subchart name and version as used by the chart/subchart label:
-  {{ include "common.chart" (
+  {{ include "common.datadogEnvironmentVariables" (
     dict
-      "Chart" "The Chart scope"
-      "Release" "The Release scope"
-      "Values" "The Values scope"
+      "enabled" "flag for datadog enabled"
   ) }}
 */}}
 {{- define "common.datadogEnvironmentVariables" -}}
