@@ -56,8 +56,8 @@ spec:
         path: /var/run/datadog/
     {{- end }}
   {{- if $initContainers }}
-  {{- range $initContainers }}
   initContainers:
+  {{- range $initContainers }}
     {{- include "common.container"
       (merge (deepCopy .) (dict "volumes" $podVolumes "containerEnv" $containerEnv "datadog" $datadog "commonExternalSecret" $commonExternalSecret "commonConfig" $commonConfig "commonRefName" $fullname)) | nindent 4
     }}
