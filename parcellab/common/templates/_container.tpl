@@ -26,7 +26,7 @@ name: {{ .name }}
 securityContext:
   {{- toYaml .podSecurityContext | nindent 4 }}
 {{- end }}
-image: {{- toYaml .image | nindent 4 }}
+image: {{- toYaml .image | nindent 2 }}
 {{- with .livenessProbe }}
 livenessProbe:
   {{- toYaml . | nindent 4 }}
@@ -56,9 +56,9 @@ volumeMounts:
   {{- end }}
   {{- end }}
 env:
-  {{- include "common.datadogEnvironmentVariables" (dict "datadog" .datadog) | nindent 4 }}
+  {{- include "common.datadogEnvironmentVariables" (dict "datadog" .datadog) | nindent 2 }}
   {{- with .containerEnv }}
-  {{- toYaml . | nindent 4 }}
+  {{- toYaml . | nindent 2 }}
   {{- end }}
 {{- if or .config .externalSecret .secretName }}
 envFrom:
@@ -83,4 +83,4 @@ envFrom:
       name: {{ printf "%s-%s" .commonRefName .name }}
   {{- end }}
 {{- end }}
-{{- end }}
+{{- end -}}

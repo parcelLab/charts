@@ -58,9 +58,7 @@ spec:
   {{- if $initContainers }}
   initContainers:
   {{- range $initContainers }}
-    - {{- include "common.container"
-      (merge (deepCopy .) (dict "volumes" $podVolumes "containerEnv" $containerEnv "datadog" $datadog "commonExternalSecret" $commonExternalSecret "commonConfig" $commonConfig "commonRefName" $fullname)) | nindent 4
-    }}
+    - {{- include "common.container" (merge (deepCopy .) (dict "volumes" $podVolumes "containerEnv" $containerEnv "datadog" $datadog "commonExternalSecret" $commonExternalSecret "commonConfig" $commonConfig "commonRefName" $fullname)) | nindent 6 }}
   {{- end }}
   {{- end }}
   containers:
@@ -151,9 +149,7 @@ spec:
       {{- end }}
   {{- if $extraContainers }}
   {{- range $extraContainers }}
-    - {{- include "common.container"
-      (merge (deepCopy .) (dict "volumes" $podVolumes "containerEnv" $containerEnv "datadog" $datadog "commonExternalSecret" $commonExternalSecret "commonConfig" $commonConfig "commonRefName" $fullname)) | nindent 4
-    }}
+    - {{- include "common.container" (merge (deepCopy .) (dict "volumes" $podVolumes "containerEnv" $containerEnv "datadog" $datadog "commonExternalSecret" $commonExternalSecret "commonConfig" $commonConfig "commonRefName" $fullname)) | nindent 6 }}
   {{- end }}
   {{- end }}
   {{- if or (eq $type "cronjob") (eq $type "job") }}
