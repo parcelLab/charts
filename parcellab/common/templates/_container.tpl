@@ -3,8 +3,21 @@
   Keys and quoted values generated from a given dict:
   {{ include "common.container" (
     dict
-      "container" "The specific pod configuration"
-      "type" "The tye of container to define /optional (defaults to 'service')"
+      "name": "Name for the container"
+      "image": "Image for the container"
+      "livenessProbe": "Liveness probe for the container"
+      "readinessProbe": "Readiness probe for the container"
+      "ports": "Dict of port specifications (name, containerPort, protocol)"
+      "resources": "Additional resources for the container"
+      "config": "Configmap for the container"
+      "commonConfig" "Configmap passed from the parent service to be present in the container as well"
+      "externalSecret": "ExternalSecret for the container"
+      "commonExternalSecret" "Secret passed from the parent service to be present in the container as well"
+      "podSecurityContext": "As the name tells"
+      "volumes" "list of volumes for the container, dict with name, readonly and mountPath"
+      "containerEnv" "Environment variables"
+      "datadog" "dict for datadog settings"
+      "commonRefName" "Name of the parent service to be included as prefix in the resource names for transparency"
   ) }}
 */}}
 {{- define "common.container" -}}
