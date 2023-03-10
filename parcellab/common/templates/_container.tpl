@@ -59,24 +59,24 @@
   {{- if or .config .externalSecret .secretName }}
   envFrom:
     {{- /* Config common to all pods */ -}}
-    {{ if $commonConfig }}
+    {{- if $commonConfig }}
     - configMapRef:
         name: {{ $commonRefName }}
-    {{ end }}
-    {{ if and .config $name }}
+    {{- end }}
     {{- /* Config scoped to a specific pod */ -}}
+    {{- if and .config $name }}
     - configMapRef:
-        name: {{ $name }}
-    {{ end }}
+        name: {{ printf "%s-%s" $commonRefName $name }}
+    {{- end }}
     {{- /* External secret common to all pods */ -}}
-    {{ if $commonExternalSecret }}
+    {{- if $commonExternalSecret }}
     - secretRef:
         name: {{ $commonRefName }}
-    {{ end }}
+    {{- end }}
     {{- /* External secret scoped to a specific container */ -}}
-    {{ if and .externalSecret $name }}
+    {{- if and .externalSecret $name }}
     - secretRef:
-        name: {{ $name }}
-    {{ end }}
+        name: {{ printf "%s-%s" $commonRefName $name }}
+    {{- end }}
   {{- end }}
   {{- end }}

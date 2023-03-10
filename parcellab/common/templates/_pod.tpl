@@ -152,7 +152,7 @@ spec:
   {{- if $extraContainers }}
   {{- range $extraContainers }}
     {{- include "common.container"
-      (merge (deepCopy .) ($fullname "volumes" $podVolumes "containerEnv" $containerEnv "datadog" $datadog "commonExternalSecret" $commonExternalSecret "commonConfig" $commonConfig "commonRefName" $fullname)) | nindent 4
+      (merge (deepCopy .) (dict "volumes" $podVolumes "containerEnv" $containerEnv "datadog" $datadog "commonExternalSecret" $commonExternalSecret "commonConfig" $commonConfig "commonRefName" $fullname)) | nindent 4
     }}
   {{- end }}
   {{- end }}

@@ -2,11 +2,13 @@
 {{- include "common.configmap" . }}
 {{- range .Values.initContainers }}
 {{ if .config}}
-{{- include "common.configmap" (merge (deepCopy .) (dict "env" $root.Values.env "Chart" $root.Chart "Values" (dict "env" $root.name "name" .name "image" .image) )) }}
+---
+{{- include "common.configmap" (merge (deepCopy .) (dict "env" $root.Values.env "Chart" $root.Chart "Values" (dict "env" $root.name "name" $root.Values.name "image" .image) )) }}
 {{ end }}
 {{- end }}
 {{- range .Values.extraContainers }}
 {{ if .config}}
-{{- include "common.configmap" (merge (deepCopy .) (dict "env" $root.Values.env "Chart" $root.Chart "Values" (dict "env" $root.name "name" .name "image" .image))) }}
+---
+{{- include "common.configmap" (merge (deepCopy .) (dict "env" $root.Values.env "Chart" $root.Chart "Values" (dict "env" $root.name "name" $root.Values.name "image" .image))) }}
 {{ end }}
 {{- end }}
