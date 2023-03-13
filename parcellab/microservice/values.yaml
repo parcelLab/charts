@@ -183,3 +183,36 @@ postgresql:
 redis:
   enabled: false
   # See default values: https://artifacthub.io/packages/helm/bitnami/redis?modal=values
+
+#  these containers share secrets, configmaps, volumes and environment variables from the settings above
+initContainers: []
+#  - name: myInitContainer1
+#    image:
+#      url: ghcr.io/parcellab/image
+#      pullPolicy: Never
+#      tag: commitTag
+#    ports:
+#      - name: http
+#        containerPort: 80
+#        protocol: TCP
+#    env:
+#      - name: foo
+#        value: "bar"
+#    resources:
+#      limits:
+#        cpu: 10m
+#        memory: 12Mi
+#      requests:
+#        cpu: 3m
+#        memory: 12Mi
+#    podSecurityContext:
+#      fsGroup: 2000
+#    config:
+#      MY_INIT_VALUE: bar
+#    externalSecret:
+#      dataFrom:
+#        - extract:
+#            key: app-key-in-secrets-manager
+
+extraContainers: []
+# sidecars configuration is identical to initContainers

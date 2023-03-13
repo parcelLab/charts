@@ -43,3 +43,5 @@ vpa:
   enabled: false
   mode: "Auto"
   targetKind: "Deployment"
+initContainers: []
+extraContainers: []
