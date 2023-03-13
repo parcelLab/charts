@@ -9,13 +9,10 @@
   ) }}
 */}}
 {{- define "common.configmap" -}}
-{{- if or .config .Values.config }}
+{{- if or .Values.config .config }}
 {{- $componentValues := (merge (deepCopy .) (dict "component" .name)) -}}
 {{- $name := include "common.componentname" $componentValues -}}
-{{- $config := .config -}}
-{{- if and (not (empty .Values)) (not (empty .Values.config)) -}}
-{{- $config = .Values.config -}}
-{{- end -}}
+{{- $config := default .Values.config .config -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
