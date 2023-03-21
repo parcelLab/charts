@@ -8,7 +8,7 @@
     "@commitlint/config-conventional": "17.4.4",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.0",
-    "prettier": "2.8.5"
+    "prettier": "2.8.6"
   },
   "scripts": {
     "commitlint": "commitlint -x @commitlint/config-conventional --edit",
