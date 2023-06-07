@@ -200,7 +200,9 @@ datadog:
 imagePullSecrets:
   - name: github-docker
 
-nodeSelector: {}
+nodeSelector:
+  type: karpenter
+  provisioner: default
 
 securityContext:
   {}
