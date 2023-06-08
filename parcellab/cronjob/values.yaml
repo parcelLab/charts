@@ -62,8 +62,7 @@ imagePullSecrets:
   - name: github-docker
 
 nodeSelector:
-  type: karpenter
-  provisioner: default
+  parcellab.dev/node-workloads: fault-tolerant
 
 podAnnotations: {}
 
