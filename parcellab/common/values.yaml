@@ -28,6 +28,7 @@ podDisruptionBudget:
     maxUnavailable: "50%"
 podSecurityContext: {}
 replicaCount: 1
+strategy: {}
 resources: {}
 securityContext: {}
 serviceAccount:

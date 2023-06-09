@@ -225,6 +225,8 @@ podAnnotations: {}
 
 replicaCount: 1
 
+strategy: {}
+
 tolerations: []
 
 volumes: []
