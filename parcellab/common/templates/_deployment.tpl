@@ -30,7 +30,7 @@ spec:
   {{- if not $autoscalingEnabled }}
   replicas: {{ default .Values.replicaCount $service.replicaCount }}
   {{- end }}
-  {{- with default .Values.strategy .deployment.strategy }}
+  {{- with .Values.strategy }}
   strategy:
     {{- toYaml . | nindent 4 }}
   {{- end }}

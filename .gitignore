@@ -3,3 +3,4 @@ Chart.lock
 parcellab/**/charts
 output.yaml
 node_modules
+.DS_Store
