@@ -30,6 +30,10 @@ spec:
   {{- if not $autoscalingEnabled }}
   replicas: {{ default .Values.replicaCount $service.replicaCount }}
   {{- end }}
+  {{- with default .Values.strategy .deployment.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "common.selectors" $componentValues | nindent 6 }}
