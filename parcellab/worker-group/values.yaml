@@ -53,8 +53,7 @@ datadog:
 imagePullSecrets:
   - name: github-docker
 
-nodeSelector:
-  parcellab.dev/node-workloads: uninterruptable
+nodeSelector: {}
 
 securityContext:
   {}
