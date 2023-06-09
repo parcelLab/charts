@@ -904,6 +904,26 @@ entries:
     version: 0.0.1
   cronjob:
   - apiVersion: v2
+    created: "2023-06-09T12:59:02.785850315Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.5.6
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 17.11.3
+    description: Single cron job
+    digest: 3d243eb44ea8b830971124d02b7d5ff4f21446f8fca1661696d654e374b8c201
+    name: cronjob
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/cronjob-0.0.32/cronjob-0.0.32.tgz
+    version: 0.0.32
+  - apiVersion: v2
     created: "2023-03-13T11:32:18.392730645Z"
     dependencies:
     - name: common
@@ -2155,4 +2175,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/worker-group-0.0.1/worker-group-0.0.1.tgz
     version: 0.0.1
-generated: "2023-03-13T11:32:18.923718328Z"
+generated: "2023-06-09T12:59:02.78636572Z"
