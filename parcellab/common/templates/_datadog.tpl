@@ -27,7 +27,7 @@
 - name: DD_LOGS_INJECTION
   value: "true"
 - name: DD_TRACE_ENABLED
-  value: "true"
+  value: "false"
 - name: DD_TRACE_AGENT_URL
   value: unix:///var/run/datadog/apm.socket
 {{- end -}}
