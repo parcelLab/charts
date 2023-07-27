@@ -1,7 +1,7 @@
 apiVersion: v2
 name: monolith
 description: Application that may define multiple services and cronjobs
-version: 0.0.29
+version: 0.0.30
 dependencies:
   - name: common
     version: "*"
