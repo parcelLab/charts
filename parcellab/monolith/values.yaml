@@ -108,7 +108,7 @@ job:
 jobs: []
 #  - name: migrate
 #    hook: PreSync
-#    ttlSecondsAfterFinished: 100
+#    hookDeletePolicy: HookSucceeded
 #    command:
 #      - /bin/sh
 #      - -c
