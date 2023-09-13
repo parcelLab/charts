@@ -9,6 +9,7 @@ metadata:
   generateName: {{ $name }}-
   annotations:
     argocd.argoproj.io/hook: {{ default "Skip" $job.hook }}
+    argocd.argoproj.io/hook-delete-policy: {{ default "HookSucceeded" $job.hookDeletePolicy }}
   labels:
     {{- include "common.labels" $componentValues | nindent 4 }}
 spec:
