@@ -17,7 +17,7 @@ jobs:
       charts: ${{ steps.generate-matrix.outputs.charts }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Load repos configuration file
         id: generate-matrix
         run: |
@@ -31,7 +31,7 @@ jobs:
         chart: ${{ fromJSON(needs.matrix.outputs.charts) }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Update dependencies
         run: helm dependency update ${{ matrix.chart }}
       - name: Lint chart
@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Configure Git
