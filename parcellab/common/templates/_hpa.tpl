@@ -27,7 +27,7 @@ spec:
     kind: Deployment
     name: {{ $fullname }}
   minReplicas: {{ default .Values.autoscaling.minReplicas $autoscaling.minReplicas }}
-  maxReplicas: {{ default .Values.autoscaling.maxReplicas $autoscaling.minReplicas }}
+  maxReplicas: {{ default .Values.autoscaling.maxReplicas $autoscaling.maxReplicas }}
   metrics:
     {{- if $targetCPUUtilizationPercentage }}
     - type: Resource
