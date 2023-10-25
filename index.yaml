@@ -1687,6 +1687,26 @@ entries:
     version: 0.0.1
   monolith:
   - apiVersion: v2
+    created: "2023-10-25T11:32:07.03696593Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.12.10
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.1.5
+    description: Application that may define multiple services and cronjobs
+    digest: 899f05320aac8c75a8d7a85b3b59bf9b8366fb505f6ebc4d218e51dbc2786a3e
+    name: monolith
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/monolith-0.0.33/monolith-0.0.33.tgz
+    version: 0.0.33
+  - apiVersion: v2
     created: "2023-09-14T07:28:42.399555038Z"
     dependencies:
     - name: common
@@ -2395,4 +2415,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/worker-group-0.0.1/worker-group-0.0.1.tgz
     version: 0.0.1
-generated: "2023-10-25T11:23:54.668305987Z"
+generated: "2023-10-25T11:32:07.03749234Z"
