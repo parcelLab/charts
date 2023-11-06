@@ -115,7 +115,7 @@ spec:
         {{- if $podVolumes }}
         {{- range $podVolumes }}
         - name: {{ .name }}
-          readOnly: {{ default true .readOnly }}
+          readOnly: {{ .readOnly }}
           mountPath: {{ .mountPath }}
         {{- end }}
         {{- end }}
