@@ -51,7 +51,7 @@ volumeMounts:
   {{- if .volumes }}
   {{- range .volumes }}
   - name: {{ .name }}
-    readOnly: {{ default true .readOnly }}
+    readOnly: {{ .readOnly }}
     mountPath: {{ .mountPath }}
   {{- end }}
   {{- end }}
