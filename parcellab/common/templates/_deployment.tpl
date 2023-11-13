@@ -20,9 +20,9 @@ metadata:
   labels:
     {{- include "common.labels" $componentValues | nindent 4 }}
 spec:
-  {{- if .Values.replicaCount -}}
+{{- if .Values.replicaCount -}}
   replicas: {{ default .Values.replicaCount $service.replicaCount }}
-  {{- end }}
+{{- end }}
   {{- with .Values.strategy }}
   strategy:
     {{- toYaml . | nindent 4 }}
