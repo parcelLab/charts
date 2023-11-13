@@ -4,7 +4,7 @@
     "node": ">=v18.18.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "18.4.0",
+    "@commitlint/cli": "18.4.1",
     "@commitlint/config-conventional": "18.4.0",
     "husky": "^8.0.3",
     "lint-staged": "^15.0.2",
