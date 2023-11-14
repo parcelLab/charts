@@ -15,6 +15,7 @@ metadata:
 spec:
   activeDeadlineSeconds: {{ default .Values.job.activeDeadlineSeconds $job.activeDeadlineSeconds }}
   backoffLimit: {{ default .Values.job.backoffLimit $job.backoffLimit }}
+  ttlSecondsAfterFinished: {{ default .Values.job.ttlSecondsAfterFinished $job.ttlSecondsAfterFinished }}
 
   template:
     {{- include "common.pod"

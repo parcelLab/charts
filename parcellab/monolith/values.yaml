@@ -104,6 +104,7 @@ job:
   backoffLimit: 1
   activeDeadlineSeconds: 300
   restartPolicy: Never
+  ttlSecondsAfterFinished: 3600
 
 jobs: []
 #  - name: migrate
