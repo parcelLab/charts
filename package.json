@@ -1,7 +1,7 @@
 {
   "type": "module",
   "engines": {
-    "node": ">=v18.18.2"
+    "node": ">=v20.9.0"
   },
   "devDependencies": {
     "@commitlint/cli": "18.4.1",
