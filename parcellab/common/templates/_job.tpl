@@ -15,6 +15,9 @@ metadata:
 spec:
   activeDeadlineSeconds: {{ default .Values.job.activeDeadlineSeconds $job.activeDeadlineSeconds }}
   backoffLimit: {{ default .Values.job.backoffLimit $job.backoffLimit }}
+  failedJobsHistoryLimit: {{ default .Values.job.failedJobsHistoryLimit $job.failedJobsHistoryLimit }}
+  successfulJobsHistoryLimit: {{ default .Values.job.successfulJobsHistoryLimit $job.successfulJobsHistoryLimit }}
+
   template:
     {{- include "common.pod"
       (merge (deepCopy .) (dict "pod" $job "type" "job")) | nindent 4
