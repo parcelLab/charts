@@ -104,8 +104,6 @@ job:
   backoffLimit: 1
   activeDeadlineSeconds: 300
   restartPolicy: Never
-  failedJobsHistoryLimit: 2
-  successfulJobsHistoryLimit: 1
 
 jobs: []
 #  - name: migrate
