@@ -20,7 +20,7 @@ metadata:
   labels:
     {{- include "common.labels" $componentValues | nindent 4 }}
 spec:
-  {{- if .Values.replicaCount }}
+  {{- if not (eq $service.disableReplicas true) }}
   replicas: {{ default .Values.replicaCount $service.replicaCount }}
   {{- end }}
   {{- with .Values.strategy }}

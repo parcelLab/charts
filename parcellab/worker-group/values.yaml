@@ -78,6 +78,7 @@ serviceAccount:
 podAnnotations: {}
 
 replicaCount: 1
+disableReplicas: false
 
 strategy:
   rollingUpdate:
