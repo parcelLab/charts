@@ -27,7 +27,7 @@ podDisruptionBudget:
   spec:
     maxUnavailable: "50%"
 podSecurityContext: {}
-replicaCount: 1
+# replicaCount: 1 # think we need to remove this
 revisionHistoryLimit: 0
 strategy: {}
 resources: {}

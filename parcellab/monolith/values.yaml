@@ -227,7 +227,7 @@ serviceAccount:
 
 podAnnotations: {}
 
-replicaCount: 1
+# replicaCount: 1
 
 strategy:
   rollingUpdate:
