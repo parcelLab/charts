@@ -152,6 +152,7 @@ workers:
   #   containerEnv:
   #     - name: MY_ENV_VAR
   #       value: "myvalue"
+  #   disableReplicas: false
 
 ##
 ## Configuration
