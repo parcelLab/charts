@@ -27,6 +27,7 @@ spec:
   strategy:
     {{- toYaml . | nindent 4 }}
   {{- end }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   selector:
     matchLabels:
       {{- include "common.selectors" $componentValues | nindent 6 }}

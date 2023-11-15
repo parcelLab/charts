@@ -4,6 +4,8 @@ name: "cronjob" # The cronjob name
 
 orgRepository: "ghcr.io/parcellab" # The organization docker repository
 
+revisionHistoryLimit: 0
+
 ##
 ## Cronjobs
 ##

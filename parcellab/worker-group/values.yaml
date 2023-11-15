@@ -8,6 +8,8 @@ orgRepository: ghcr.io/parcellab # The organization docker repository
 ## Configuration
 ##
 
+revisionHistoryLimit: 0
+
 # Create a configmap whose attributes will be loaded to the container as
 # environment variables using the values defined here
 config: {}
