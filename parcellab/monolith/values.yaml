@@ -228,6 +228,8 @@ serviceAccount:
 podAnnotations: {}
 
 replicaCount: 1
+# disables setting replica count in case of autoscaling enabled
+disableReplicas: false
 
 strategy:
   rollingUpdate:
