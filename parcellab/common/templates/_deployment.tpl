@@ -12,7 +12,7 @@
 {{- $service := default dict .service -}}
 {{- $componentValues := (merge (deepCopy .) (dict "component" $service.name)) -}}
 {{- $name := include "common.componentname" $componentValues -}}
-{{- $disableReplicaCount := default .Values.disableReplicaCount $service.disableReplicaCount -}}
+{{- $disableReplicaCount := (ternary $service.disableReplicaCount .Values.disableReplicaCount (hasKey $service "disableReplicaCount")) -}}
 {{- $type := default "service" .type -}}
 apiVersion: apps/v1
 kind: Deployment
