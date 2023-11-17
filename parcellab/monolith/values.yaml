@@ -154,7 +154,7 @@ workers:
   #   containerEnv:
   #     - name: MY_ENV_VAR
   #       value: "myvalue"
-  #   disableReplicas: false
+  #   disableReplicaCount: false
 
 ##
 ## Configuration
@@ -228,6 +228,8 @@ serviceAccount:
 podAnnotations: {}
 
 replicaCount: 1
+# disables setting replica count in case of autoscaling enabled
+disableReplicaCount: false
 
 strategy:
   rollingUpdate:

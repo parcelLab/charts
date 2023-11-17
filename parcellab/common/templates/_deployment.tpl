@@ -12,6 +12,7 @@
 {{- $service := default dict .service -}}
 {{- $componentValues := (merge (deepCopy .) (dict "component" $service.name)) -}}
 {{- $name := include "common.componentname" $componentValues -}}
+{{- $disableReplicaCount := default .Values.disableReplicaCount $service.disableReplicaCount -}}
 {{- $type := default "service" .type -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -20,7 +21,7 @@ metadata:
   labels:
     {{- include "common.labels" $componentValues | nindent 4 }}
 spec:
-  {{- if not (eq $service.disableReplicas true) }}
+  {{- if not (eq $disableReplicaCount true) }}
   replicas: {{ default .Values.replicaCount $service.replicaCount }}
   {{- end }}
   {{- with .Values.strategy }}

@@ -1,5 +1,6 @@
 # Default values (to be defined in the caller chart based on the resources they use)
 affinity: {}
+disableReplicaCount: false
 autoscaling:
   enabled: false
   minReplicas: 1
