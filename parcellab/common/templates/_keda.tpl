@@ -8,33 +8,35 @@
   ) }}
 */}}
 {{- define "keda.hpa" -}}
-{{- $keda := default dict . -}}
+{{- $service := default dict .service -}}
+{{- $componentValues := (merge (deepCopy .) (dict "component" $service.name)) -}}
+{{- $name := include "common.componentname" $componentValues -}}
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
   annotations:
     scaledobject.keda.sh/transfer-hpa-ownership: 'true'
     autoscaling.keda.sh/paused-replicas: "0"
-    autoscaling.keda.sh/paused: "{{ .keda.paused }}"
+    autoscaling.keda.sh/paused: "{{ $service.keda.paused }}"
 
   labels:
     argocd.argoproj.io/instance: keda
-  name: {{ .Release.Namespace }}-{{ .Values }}-keda-scale
-  namespace: {{ .Release.Namespace }}
+  name: {{/* */}}-{{ $name }}-keda-scale
+  namespace: {{/* */}}
 spec:
   advanced:
-    restoreToOriginalReplicaCount: {{ .keda.restoreToOriginalReplicaCount }}
-  cooldownPeriod: {{ .keda.cooldownPeriod }}
-  maxReplicaCount: {{ .keda.maxReplicaCount }}
-  minReplicaCount: {{ .keda.minReplicaCount }}
-  pollingInterval: {{ .keda.pollingInterval }}
+    restoreToOriginalReplicaCount: {{ $service.keda.restoreToOriginalReplicaCount }}
+  cooldownPeriod: {{ $service.cooldownPeriod }}
+  maxReplicaCount: {{ $service.maxReplicaCount }}
+  minReplicaCount: {{ $service.minReplicaCount }}
+  pollingInterval: {{ $service.pollingInterval }}
   scaleTargetRef:
-    name: {{ .keda.scaleTargetName }}
+    name: {{ $service.scaleTargetName }}
   triggers:
     - metadata:
-        awsRegion: {{ .keda.awsRegion }}
-        queueLength: {{ .keda.queueLength }}
-        queueURL: {{ .keda.queueURL }}
+        awsRegion: {{ $service.awsRegion }}
+        queueLength: {{ $service.queueLength }}
+        queueURL: {{ $service.queueURL }}
         identityOwner: pod
       type: aws-sqs-queue
       authenticationRef:

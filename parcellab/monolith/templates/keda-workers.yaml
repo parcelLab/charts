@@ -1,7 +1,7 @@
 {{- $root := . -}}
 {{- if .Values.workers -}}
 {{- range .Values.workers }}
-{{- include "keda.hpa" . }}
+{{- include "keda.hpa" (merge (deepCopy $root) (dict "service" . "type" "worker")) }}
 ---
 {{- end -}}
 {{- end -}}
