@@ -155,6 +155,20 @@ workers:
   #     - name: MY_ENV_VAR
   #       value: "myvalue"
   #   disableReplicaCount: false
+  #
+  #   KEDA configuration is optional
+  #
+  #   keda:
+  #     paused: false
+  #     restoreToOriginalReplicaCount: true
+  #     cooldownPeriod: 300
+  #     maxReplicaCount: 2
+  #     minReplicaCount: 1
+  #     pollingInterval: 3600
+  #     scaleTargetName: NAME_OF_DEPLOYMENT
+  #     awsRegion: "AWS_REGION"
+  #     queueLength: '100'
+  #     queueURL: SQS_QUEUE
 
 ##
 ## Configuration

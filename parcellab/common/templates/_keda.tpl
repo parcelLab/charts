@@ -18,25 +18,25 @@ metadata:
     scaledobject.keda.sh/transfer-hpa-ownership: 'true'
     autoscaling.keda.sh/paused-replicas: "0"
     autoscaling.keda.sh/paused: "{{ $service.keda.paused }}"
-
   labels:
     argocd.argoproj.io/instance: keda
   name: {{/* */}}-{{ $name }}-keda-scale
   namespace: {{/* */}}
+
 spec:
   advanced:
     restoreToOriginalReplicaCount: {{ $service.keda.restoreToOriginalReplicaCount }}
-  cooldownPeriod: {{ $service.cooldownPeriod }}
-  maxReplicaCount: {{ $service.maxReplicaCount }}
-  minReplicaCount: {{ $service.minReplicaCount }}
-  pollingInterval: {{ $service.pollingInterval }}
+  cooldownPeriod: {{ $service.keda.cooldownPeriod }}
+  maxReplicaCount: {{ $service.keda.maxReplicaCount }}
+  minReplicaCount: {{ $service.keda.minReplicaCount }}
+  pollingInterval: {{ $service.keda.pollingInterval }}
   scaleTargetRef:
-    name: {{ $service.scaleTargetName }}
+    name: {{ $service.keda.scaleTargetName }}
   triggers:
     - metadata:
-        awsRegion: {{ $service.awsRegion }}
-        queueLength: {{ $service.queueLength }}
-        queueURL: {{ $service.queueURL }}
+        awsRegion: "{{ $service.keda.awsRegion }}"
+        queueLength: "{{ $service.keda.queueLength }}"
+        queueURL: {{ $service.keda.queueURL }}
         identityOwner: pod
       type: aws-sqs-queue
       authenticationRef:
