@@ -20,7 +20,7 @@ metadata:
     autoscaling.keda.sh/paused: "{{ $service.keda.paused }}"
   labels:
     argocd.argoproj.io/instance: keda
-  name: {{ .Release.Namespace }}-{{ $name }}-keda-scale
+  name: {{ $name }}-keda-scale
   namespace: {{ .Release.Namespace }}
 
 spec:
