@@ -82,6 +82,10 @@ spec:
       {{- end }}
       {{- if eq $type "service" }}
       {{- /* Retrieve liveness and readiness probes from the global if not defined */ -}}
+      {{- with (default .Values.lifecycle .pod.lifecycle) }}
+      lifecycle:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- with (default .Values.livenessProbe .pod.livenessProbe) }}
       livenessProbe:
         {{- toYaml . | nindent 8 }}

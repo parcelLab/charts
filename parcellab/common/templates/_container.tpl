@@ -7,6 +7,7 @@
       "image": "Image for the container"
       "livenessProbe": "Liveness probe for the container"
       "readinessProbe": "Readiness probe for the container"
+      "lifecycle": "Lifecycle hooks for the container"
       "ports": "Dict of port specifications (name, containerPort, protocol)"
       "resources": "Additional resources for the container"
       "config": "Configmap for the container"
@@ -27,6 +28,17 @@ securityContext:
   {{- toYaml .podSecurityContext | nindent 4 }}
 {{- end }}
 image: {{- toYaml .image | nindent 2 }}
+{{- with .lifecycle }}
+lifecycle:
+  {{- if .preStop }}
+  preStop:
+    {{- toYaml .preStop | nindent 6 }}
+  {{- end }}
+  {{- if .postStart }}
+  postStart:
+    {{- toYaml .postStart | nindent 6 }}
+  {{- end }}
+{{- end }}
 {{- with .livenessProbe }}
 livenessProbe:
   {{- toYaml . | nindent 4 }}
