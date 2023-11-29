@@ -16,8 +16,6 @@ kind: ScaledObject
 metadata:
   annotations:
     scaledobject.keda.sh/transfer-hpa-ownership: 'true'
-    autoscaling.keda.sh/paused-replicas: "0"
-    autoscaling.keda.sh/paused: "{{ $service.keda.paused }}"
   labels:
     argocd.argoproj.io/instance: keda
   name: {{ $name }}-keda-scale
