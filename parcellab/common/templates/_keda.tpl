@@ -36,6 +36,7 @@ spec:
         queueLength: "{{ $service.keda.queueLength }}"
         queueURL: {{ $service.keda.queueURL }}
         identityOwner: pod
+        scaleOnInFlight: false
       type: aws-sqs-queue
       authenticationRef:
         name: cluster-trigger-authentication
