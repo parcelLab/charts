@@ -30,9 +30,5 @@
   value: "false"
 - name: DD_TRACE_AGENT_URL
   value: unix:///var/run/datadog/apm.socket
-- name: DD_AGENT_HOST
-  valueFrom:
-    fieldRef:
-      fieldPath: status.hostIP
 {{- end -}}
 {{- end -}}
