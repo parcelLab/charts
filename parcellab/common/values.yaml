@@ -15,7 +15,7 @@ externalSecret: {}
 imagePullSecrets:
   - name: github-docker
 image:
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   tag: stable
 ingress:
   enabled: false
