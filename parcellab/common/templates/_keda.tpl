@@ -10,6 +10,7 @@
 {{- define "keda.hpa" -}}
 {{- $service := default dict .service -}}
 {{- $componentValues := (merge (deepCopy .) (dict "component" $service.name)) -}}
+{{- $scaleOnInFlight := (ternary $service.keda.scaleOnInFlight false (eq (typeOf $service.keda.scaleOnInFlight) "bool" )) -}}
 {{- $name := include "common.componentname" $componentValues -}}
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
@@ -36,6 +37,7 @@ spec:
         queueLength: "{{ $service.keda.queueLength }}"
         queueURL: {{ $service.keda.queueURL }}
         identityOwner: pod
+        scaleOnInFlight: {{ $scaleOnInFlight }}
       type: aws-sqs-queue
       authenticationRef:
         name: cluster-trigger-authentication

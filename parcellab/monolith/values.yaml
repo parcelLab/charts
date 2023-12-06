@@ -169,6 +169,7 @@ workers:
   #     awsRegion: "AWS_REGION"
   #     queueLength: '100'
   #     queueURL: SQS_QUEUE
+  #     scaleOnInFlight: false
 
 ##
 ## Configuration
@@ -265,7 +266,7 @@ command:
 
 image:
   # repository: nginx  # Will apply if orgRepository and name is not defined
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: stable
 
