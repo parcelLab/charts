@@ -20,6 +20,7 @@ image:
 ingress:
   enabled: false
 name: common
+terminationGracePeriodSeconds: 30
 nodeSelector: {}
 orgRepository: ghcr.io/parcellab
 podAnnotations: {}

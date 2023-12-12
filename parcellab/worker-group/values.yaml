@@ -55,6 +55,8 @@ datadog:
 imagePullSecrets:
   - name: github-docker
 
+terminationGracePeriodSeconds: 30
+
 nodeSelector: {}
 
 securityContext:
