@@ -128,7 +128,8 @@ jobs: []
 ## Workers
 ##
 
-workers: []
+workers:
+  - []
 #  - name: myworker
 #    command:
 #      - /bin/sh
