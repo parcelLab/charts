@@ -43,6 +43,10 @@ spec:
   securityContext:
     {{- toYaml .Values.podSecurityContext | nindent 4 }}
   {{- end }}
+  {{- with .Values.hostAliases }}
+  hostAliases:
+    {{- toYaml .Values.podSecurityContext | nindent 4 }}
+  {{- end }}
   terminationGracePeriodSeconds: {{ default 30 .Values.terminationGracePeriodSeconds }}
   volumes:
     {{- if $podVolumes }}
