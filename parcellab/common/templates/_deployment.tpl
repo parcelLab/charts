@@ -11,6 +11,7 @@
 {{- define "common.deployment" -}}
 {{- $service := default dict .service -}}
 {{- $componentValues := (merge (deepCopy .) (dict "component" $service.name)) -}}
+{{- $strategy := default .Values.strategy $service.strategy -}}
 {{- $name := include "common.componentname" $componentValues -}}
 {{- $disableReplicaCount := (ternary $service.disableReplicaCount .Values.disableReplicaCount (hasKey $service "disableReplicaCount")) -}}
 {{- $type := default "service" .type -}}
@@ -24,12 +25,9 @@ spec:
   {{- if not (eq $disableReplicaCount true) }}
   replicas: {{ default .Values.replicaCount $service.replicaCount }}
   {{- end }}
-  {{- if hasKey $service "strategy" }}
+  {{- with $strategy }}
   strategy:
-    {{- toYaml $service.strategy | nindent 4 }}
-  {{- else }}
-  strategy:
-    {{- toYaml .Values.strategy | nindent 4 }}
+    {{- toYaml . | nindent 4 }}
   {{- end }}
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   selector:
