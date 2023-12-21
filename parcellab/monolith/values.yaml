@@ -127,7 +127,6 @@ jobs: []
 ##
 ## Workers
 ##
-
 worker:
   # only for default values
 #  resources:
@@ -145,6 +144,11 @@ workers: []
 #      - /bin/sh
 #      - -c
 #      - date; echo Hello from the Kubernetes cluster
+#   strategy:
+#     type: RollingUpdate
+#     rollingUpdate:
+#       maxSurge: 25%
+#       maxUnavailable: 25%
 #    portNumber: 3000
 #    hostAliases:
 #      - ip: "127.0.0.1"
