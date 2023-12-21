@@ -24,9 +24,12 @@ spec:
   {{- if not (eq $disableReplicaCount true) }}
   replicas: {{ default .Values.replicaCount $service.replicaCount }}
   {{- end }}
-  {{- with .Values.strategy }}
+  {{- if hasKey $service "strategy" }}
   strategy:
-    {{- toYaml . | nindent 4 }}
+    {{- toYaml $service.strategy | nindent 4 }}
+  {{- else }}
+  strategy:
+    {{- toYaml .Values.strategy | nindent 4 }}
   {{- end }}
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   selector:
