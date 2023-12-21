@@ -127,54 +127,60 @@ jobs: []
 ##
 ## Workers
 ##
+worker:
+  # only for default values
+#  resources:
+#    limits:
+#      cpu: 100m
+#      memory: 128Mi
+#    requests:
+#      cpu: 50m
+#      memory:
+#        64Mi
 
-workers:
-  []
-  # - name: myworker
-  #   command:
-  #     - /bin/sh
-  #     - -c
-  #     - date; echo Hello from the Kubernetes cluster
-  #   strategy:
-  #     type: RollingUpdate
-  #     rollingUpdate:
-  #       maxSurge: 25%
-  #       maxUnavailable: 25%
-  #   portNumber: 3000
-  #   livenessProbe:
-  #     httpGet:
-  #       path: /
-  #       port: http
-  #   readinessProbe:
-  #     httpGet:
-  #       path: /
-  #       port: http
-  #   resources:
-  #     limits:
-  #       cpu: 100m
-  #       memory: 128Mi
-  #     requests:
-  #       cpu: 50m
-  #       memory: 64Mi
-  #   containerEnv:
-  #     - name: MY_ENV_VAR
-  #       value: "myvalue"
-  #   disableReplicaCount: false
-  #
-  #   KEDA configuration is optional
-  #
-  #   keda:
-  #     paused: false
-  #     restoreToOriginalReplicaCount: true
-  #     cooldownPeriod: 300
-  #     maxReplicaCount: 2
-  #     minReplicaCount: 1
-  #     pollingInterval: 3600
-  #     scaleTargetName: NAME_OF_DEPLOYMENT
-  #     awsRegion: "AWS_REGION"
-  #     queueLength: '100'
-  #     queueURL: SQS_QUEUE
-  #     scaleOnInFlight: false
+workers: []
+#  - name: myworker
+#    command:
+#      - /bin/sh
+#      - -c
+#      - date; echo Hello from the Kubernetes cluster
+#   strategy:
+#     type: RollingUpdate
+#     rollingUpdate:
+#       maxSurge: 25%
+#       maxUnavailable: 25%
+#    portNumber: 3000
+#    hostAliases:
+#      - ip: "127.0.0.1"
+#        hostnames:
+#          - "foo.local"
+#          - "bar.local"
+#    livenessProbe:
+#      httpGet:
+#        path: /
+#        port: http
+#    readinessProbe:
+#      httpGet:
+#        path: /
+#        port: http
+#    containerEnv:
+#      - name: MY_ENV_VAR
+#        value: "myvalue"
+#
+#    # KEDA configuration is optional
+#
+#    keda:
+#      paused: false
+#      restoreToOriginalReplicaCount: true
+#      cooldownPeriod: 300
+#      maxReplicaCount: 2
+#      minReplicaCount: 1
+#      pollingInterval: 3600
+#      scaleTargetName: NAME_OF_DEPLOYMENT
+#      awsRegion: "AWS_REGION"
+#      queueLength: "100"
+#      queueURL: SQS_QUEUE
+#      scaleOnInFlight: false
 
 ##
 ## Configuration
@@ -300,6 +306,12 @@ resources:
 #   httpGet:
 #     path: /
 #     port: http
+
+# hostAliases:
+#   - ip: "127.0.0.1"
+#     hostnames:
+#       - "foo.local"
+#       - "bar.local"
 
 ##
 ## Postgresql

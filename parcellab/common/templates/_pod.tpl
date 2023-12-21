@@ -22,6 +22,9 @@
 {{- $type := default "service" .type -}}
 metadata:
   annotations:
+    {{- if and $datadog $datadog.enabled }}
+    "cluster-autoscaler.kubernetes.io/safe-to-evict-local-volumes": "apmsocketpath"
+    {{- end }}
   {{- with .Values.podAnnotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -42,6 +45,10 @@ spec:
   {{- with .Values.securityContext }}
   securityContext:
     {{- toYaml .Values.podSecurityContext | nindent 4 }}
+  {{- end }}
+  {{- with .Values.hostAliases }}
+  hostAliases:
+    {{- toYaml .Values.hostAliases | nindent 4 }}
   {{- end }}
   terminationGracePeriodSeconds: {{ default 30 .Values.terminationGracePeriodSeconds }}
   volumes:

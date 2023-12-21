@@ -1,7 +1,8 @@
 {{- $root := . -}}
+{{- $defaultWorker := .Values.worker}}
 {{- if .Values.workers -}}
 {{- range .Values.workers }}
-{{- include "common.deployment" (merge (deepCopy $root) (dict "service" . "type" "worker")) }}
+{{- include "common.deployment" (merge (deepCopy $root) (dict "service" (mergeOverwrite (deepCopy (default dict $defaultWorker)) .) "type" "worker")) }}
 ---
 {{- end -}}
 {{- end -}}
