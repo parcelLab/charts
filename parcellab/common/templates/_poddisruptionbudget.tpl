@@ -11,7 +11,7 @@
 {{- define "common.poddisruptionbudget" -}}
 {{- $podDisruptionBudget := default (dict "enabled" false) .podDisruptionBudget -}}
 {{- $fullname := default (include "common.fullname" .) .name -}}
-{{- if and $podDisruptionBudget.enabled (or .Values.podDisruptionBudget.enabled $podDisruptionBudget.enabled) }}
+{{- if or .Values.podDisruptionBudget.enabled $podDisruptionBudget.enabled }}
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
