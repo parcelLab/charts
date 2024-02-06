@@ -12,7 +12,6 @@ metadata:
     argocd.argoproj.io/hook-delete-policy: {{ default "HookSucceeded" $job.hookDeletePolicy }}
   labels:
     {{- include "common.labels" $componentValues | nindent 4 }}
-    disruption-allowed: "true"
 spec:
   activeDeadlineSeconds: {{ default .Values.job.activeDeadlineSeconds $job.activeDeadlineSeconds }}
   backoffLimit: {{ default .Values.job.backoffLimit $job.backoffLimit }}
@@ -23,7 +22,7 @@ spec:
     }}
 
 ---
-apiVersion: policy/v1
+apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
   name: {{ $name }}-pdb
