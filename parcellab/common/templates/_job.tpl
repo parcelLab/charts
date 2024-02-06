@@ -12,14 +12,25 @@ metadata:
     argocd.argoproj.io/hook-delete-policy: {{ default "HookSucceeded" $job.hookDeletePolicy }}
   labels:
     {{- include "common.labels" $componentValues | nindent 4 }}
+    disruption-allowed: "true"
 spec:
   activeDeadlineSeconds: {{ default .Values.job.activeDeadlineSeconds $job.activeDeadlineSeconds }}
   backoffLimit: {{ default .Values.job.backoffLimit $job.backoffLimit }}
   ttlSecondsAfterFinished: {{ default .Values.job.ttlSecondsAfterFinished $job.ttlSecondsAfterFinished }}
-
   template:
     {{- include "common.pod"
       (merge (deepCopy .) (dict "pod" $job "type" "job")) | nindent 4
     }}
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ $name }}-pdb
+spec:
+  minAvailable: 0
+  selector:
+    matchLabels:
+      disruption-allowed: "false"
 {{- end }}
 {{- end -}}
