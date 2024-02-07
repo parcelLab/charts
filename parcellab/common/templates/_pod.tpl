@@ -28,6 +28,9 @@ metadata:
   {{- with .Values.podAnnotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
+  {{- with .pod.annotations }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
     {{- include "common.pod.annotations" . | nindent 4 }}
   labels:
     {{- include "common.labels" $componentValues | nindent 4 }}
