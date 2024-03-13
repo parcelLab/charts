@@ -1,21 +1,22 @@
 {{/* vim: set filetype=mustache: */}}
 {{/*
   Keys and quoted values generated from a given dict:
-  {{ include "common.deployment" (
+  {{ include "common.rolloutdeployment" (
     dict
       "Values" "the values scope"
       "service" "The specific service configuration /optional (defaults to empty)"
-      "blueGreen" "The specific blueGreen rollout configuration /optional (defaults to empty)"
+      "type" "The tye of pod to define /optional (defaults to 'service')"
+      "rolloutDeployment" "The specific rollout configuration /optional (defaults to empty)"
   ) }}
 */}}
-{{- define "common.bluegreen" -}}
+{{- define "common.rolloutdeployment" -}}
 {{- $service := default dict .service -}}
 {{- $componentValues := (merge (deepCopy .) (dict "component" $service.name)) -}}
 {{- $name := include "common.componentname" $componentValues -}}
 {{- $disableReplicaCount := (ternary $service.disableReplicaCount .Values.disableReplicaCount (hasKey $service "disableReplicaCount")) -}}
-{{- $blueGreen := default (dict "enabled" false) .blueGreen -}}
+{{- $rolloutDeployment := default (dict "enabled" false) .rolloutDeployment -}}
 {{- $type := default "service" .type -}}
-{{- if or .Values.blueGreen.enabled $blueGreen.enabled }}
+{{- if or .Values.rolloutDeployment.enabled $rolloutDeployment.enabled }}
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
@@ -31,16 +32,32 @@ spec:
     matchLabels:
       {{- include "common.selectors" $componentValues | nindent 6 }}
   strategy:
+    {{- if .Values.rolloutDeployment.blueGreen }}
     blueGreen:
       activeService: {{ $name }}
       previewService: {{ $name }}-preview
-      {{- if .Values.blueGreen.spec }}
-      {{- toYaml .Values.blueGreen.spec | nindent 6 }}
-      {{- end }}
+      {{- toYaml .Values.rolloutDeployment.blueGreen | nindent 6 }}
+    {{- end }}
+    {{- if .Values.rolloutDeployment.canary }}
+    canary:
+      {{- toYaml .Values.rolloutDeployment.canary | nindent 6 }}
+    {{- end }}
   template:
     {{- include "common.pod"
       (merge (deepCopy .) (dict "pod" $service "type" $type)) | nindent 4
     }}
+---
+{{- if .Values.rolloutDeployment.metrics }}
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: {{ $name }}-analysys
+spec:
+  args:
+  - name: {{ $name }}
+  metrics:
+  {{- toYaml .Values.rolloutDeployment.metrics | nindent 2 }}
+{{- end }}
 ---
 apiVersion: v1
 kind: Service
