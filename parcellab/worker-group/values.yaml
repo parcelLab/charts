@@ -30,8 +30,7 @@ rolloutDeployment:
   enabled: false
   ## BlueGreen deployment example
   # blueGreen:
-  #   activeService: service-name
-  #   previewService: service-name-preview
+  #   autoPromotionEnabled: false
 
   ## Canary deployment example
   # canary:
@@ -58,8 +57,6 @@ rolloutDeployment:
   #         query: |
   #           sum:requests.error.rate{service:app}
   #   spec:
-  #     activeService: service-name
-  #     previewService: service-name-preview
   #     prePromotionAnalysis:
   #       templates:
   #       - templateName: smoke-tests-analysis

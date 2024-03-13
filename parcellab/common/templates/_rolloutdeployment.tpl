@@ -59,16 +59,13 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: AnalysisTemplate
 metadata:
-  name: {{ $metric.name }}-analysis
+  name: {{ $name }}-analysis
 spec:
   args:
   - name: {{ $metric.name }}
   metrics:
 {{ toYaml $metric | indent 4 }}
-
-{{- if ne (add $index 1) (len $rolloutSpec.metrics) }}
 ---
-{{- end }}
 {{- end }}
 {{- end }}
 ---
