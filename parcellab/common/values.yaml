@@ -8,7 +8,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 config: {}
 containerEnv: {}
-rolloutDeployment:
+argoRollout:
   enabled: false
 datadog:
   enabled: false
