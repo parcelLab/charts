@@ -8,6 +8,8 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 config: {}
 containerEnv: {}
+blueGreen:
+  enabled: false
 datadog:
   enabled: false
 env: prod

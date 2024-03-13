@@ -200,6 +200,13 @@ externalSecret:
   #   - extract:
   #       key: app-key-in-secrets-manager
 
+# Enabling blue green rollout deployments for ArgoCD
+# See https://argo-rollouts.readthedocs.io/en/stable/features/bluegreen/
+blueGreen:
+  enabled: false
+  spec:
+    autoPromotionEnabled: false
+
 ##
 ## Autoscaling
 ##
