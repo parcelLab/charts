@@ -9,7 +9,7 @@ autoscaling:
 config: {}
 containerEnv: {}
 rolloutDeployment:
-    enabled: false
+  enabled: false
 datadog:
   enabled: false
 env: prod
