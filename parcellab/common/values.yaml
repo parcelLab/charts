@@ -8,6 +8,8 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 config: {}
 containerEnv: {}
+rolloutDeployment:
+  enabled: false
 datadog:
   enabled: false
 env: prod
