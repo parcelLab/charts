@@ -47,16 +47,29 @@ spec:
       (merge (deepCopy .) (dict "pod" $service "type" $type)) | nindent 4
     }}
 ---
-{{- if .Values.rolloutDeployment.metrics }}
+{{- $rolloutSpec := dict }}
+{{- if .Values.rolloutDeployment.blueGreen }}
+  {{- $rolloutSpec = .Values.rolloutDeployment.blueGreen }}
+{{- end }}
+{{- if .Values.rolloutDeployment.canary }}
+  {{- $rolloutSpec = .Values.rolloutDeployment.canary }}
+{{- end }}
+{{- if $rolloutSpec.metrics }}
+{{- range $index, $metric := $rolloutSpec.metrics }}
 apiVersion: argoproj.io/v1alpha1
 kind: AnalysisTemplate
 metadata:
-  name: {{ $name }}-analysys
+  name: {{ $metric.name }}-analysis
 spec:
   args:
-  - name: {{ $name }}
+  - name: {{ $metric.name }}
   metrics:
-  {{- toYaml .Values.rolloutDeployment.metrics | nindent 2 }}
+{{ toYaml $metric | indent 4 }}
+
+{{- if ne (add $index 1) (len $rolloutSpec.metrics) }}
+---
+{{- end }}
+{{- end }}
 {{- end }}
 ---
 apiVersion: v1

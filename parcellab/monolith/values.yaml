@@ -206,13 +206,8 @@ rolloutDeployment:
   enabled: false
   ## BlueGreen deployment example
   # blueGreen:
-  #   scaleDownDelaySeconds: 600
-  #   prePromotionAnalysis:
-  #     templates:
-  #     - templateName: app-analysis
-  #   postPromotionAnalysis:
-  #     templates:
-  #     - templateName: app-analysis
+  #   activeService: service-name
+  #   previewService: service-name-preview
 
   ## Canary deployment example
   # canary:
@@ -224,25 +219,29 @@ rolloutDeployment:
   #       duration: 1h
   #   - setWeight: 20
   #   - pause: {}
-  #   - analysis:
+
+  ## BlueGreen deployment with Analysis template.
+  # blueGreen:
+  #   metrics:
+  #   - name: smoke-tests
+  #     interval: 5m
+  #     successCondition: result <= 0.01
+  #     failureLimit: 3
+  #     provider:
+  #       datadog:
+  #         apiVersion: v2
+  #         interval: 5m
+  #         query: |
+  #           sum:requests.error.rate{service:app}
+  #   spec:
+  #     activeService: service-name
+  #     previewService: service-name-preview
+  #     prePromotionAnalysis:
   #       templates:
-  #       - templateName: success-rate
+  #       - templateName: smoke-tests-analysis
   #       args:
   #       - name: service-name
-  #         value: guestbook-svc.default.svc.cluster.local
-
-  ## Creating Analysis templates
-  # metrics:
-  # - name: error-rate
-  #   interval: 5m
-  #   successCondition: result <= 0.01
-  #   failureLimit: 3
-  #   provider:
-  #     datadog:
-  #       apiVersion: v2
-  #       interval: 5m
-  #       query: |
-  #         sum:requests.error.rate{service:app}
+  #         value: preview-svc.default.svc.cluster.local
 
 ##
 ## Autoscaling
