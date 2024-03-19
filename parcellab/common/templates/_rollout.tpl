@@ -24,6 +24,14 @@ metadata:
   name: {{ $name }}
   labels:
     {{- include "common.labels" $componentValues | nindent 4 }}
+  {{- if $argoRollout.notifications }}
+  annotations:
+    {{- with .Values.argoRollout.notifications.triggers }}
+    {{- range . }}
+    notifications.argoproj.io/subscribe.{{ .name }}.slack: {{ join ";" .channels }}
+    {{- end }}
+    {{- end }}
+  {{- end }}
 spec:
   {{- if not (eq $disableReplicaCount true) }}
   replicas: {{ default .Values.replicaCount $service.replicaCount }}
