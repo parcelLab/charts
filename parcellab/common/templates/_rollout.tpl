@@ -58,7 +58,7 @@ spec:
       {{- end }}
 
       {{- if $argoRollout.blueGreenMetricsPostPromotion }}
-      prePromotionAnalysis:
+      postPromotionAnalysis:
         templates:
           - templateName: {{ $name }}-bluegreen-postpromotion-analysis
         args:
@@ -75,46 +75,19 @@ spec:
 
 {{- if and $argoRollout.canary $argoRollout.canaryMetrics }}
 {{- range $argoRollout.canaryMetrics }}
-apiVersion: argoproj.io/v1alpha1
-kind: AnalysisTemplate
-metadata:
-  name: {{ $name }}-canary-analysis
-spec:
-  args:
-  - name: service-name
-  metrics:
-{{ toYaml . | indent 4 }}
----
+{{- include "common.analysisTemplate" (dict "name" (printf "%s-canary-analysis" $name) "metrics" .) | nindent 0 }}
 {{- end }}
 {{- end }}
 
 {{- if and $argoRollout.blueGreen $argoRollout.blueGreenMetricsPrePromotion }}
 {{- range $argoRollout.blueGreenMetricsPrePromotion }}
-apiVersion: argoproj.io/v1alpha1
-kind: AnalysisTemplate
-metadata:
-  name: {{ $name }}-bluegreen-prepromotion-analysis
-spec:
-  args:
-  - name: service-name
-  metrics:
-{{ toYaml . | indent 4 }}
----
+{{- include "common.analysisTemplate" (dict "name" (printf "%s-bluegreen-prepromotion-analysis" $name) "metrics" .) | nindent 0 }}
 {{- end }}
 {{- end }}
 
 {{- if and $argoRollout.blueGreen $argoRollout.blueGreenMetricsPostPromotion }}
 {{- range $argoRollout.blueGreenMetricsPostPromotion }}
-apiVersion: argoproj.io/v1alpha1
-kind: AnalysisTemplate
-metadata:
-  name: {{ $name }}-bluegreen-postpromotion-analysis
-spec:
-  args:
-  - name: service-name
-  metrics:
-{{ toYaml . | indent 4 }}
----
+{{- include "common.analysisTemplate" (dict "name" (printf "%s-bluegreen-postpromotion-analysis" $name) "metrics" .) | nindent 0 }}
 {{- end }}
 {{- end }}
 
