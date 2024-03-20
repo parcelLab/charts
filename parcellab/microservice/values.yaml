@@ -73,43 +73,91 @@ externalSecret:
 
 # Enable Argo Rollouts Deployments Strategies
 # See https://argo-rollouts.readthedocs.io/en/stable/
-rolloutDeployment:
+argoRollout:
   enabled: false
-  ## BlueGreen deployment example
-  # blueGreen:
-  #   autoPromotionEnabled: false
 
-  ## Canary deployment example
-  # canary:
-  #   maxSurge: "25%"
-  #   maxUnavailable: 0
-  #   steps:
-  #   - setWeight: 10
-  #   - pause:
-  #       duration: 1h
-  #   - setWeight: 20
-  #   - pause: {}
+  # Argo Rollouts Notifications Configuration
+  # This section allows you to configure notifications for various Argo Rollouts events by specifying triggers.
+  # Each trigger  corresponds to a specific event in the rollout or analysis process, and you can define actions
+  # (like sending notifications) for each event. Below is a list of available triggers and a brief description
+  # of when they are activated. You can specify one or more actions for each trigger, such as sending notifications
+  # to different channels or endpoints.
 
-  ## BlueGreen deployment with Analysis template.
-  # blueGreen:
-  #   metrics:
-  #   - name: smoke-tests
-  #     interval: 5m
-  #     successCondition: result <= 0.01
-  #     failureLimit: 3
-  #     provider:
-  #       datadog:
-  #         apiVersion: v2
-  #         interval: 5m
-  #         query: |
-  #           sum:requests.error.rate{service:app}
-  #   spec:
-  #     prePromotionAnalysis:
-  #       templates:
-  #       - templateName: smoke-tests-analysis
-  #       args:
-  #       - name: service-name
-  #         value: preview-svc.default.svc.cluster.local
+  # List of Triggers and Descriptions:
+  # trigger.on-analysis-run-error: Triggered when an analysis run encounters an error.
+  # trigger.on-analysis-run-failed: Triggered when an analysis run fails.
+  # trigger.on-analysis-run-running: Triggered when an analysis run is currently running.
+  # trigger.on-rollout-aborted: Triggered when a rollout is aborted.
+  # trigger.on-rollout-completed: Triggered when a rollout is successfully completed.
+  # trigger.on-rollout-paused: Triggered when a rollout is paused.
+  # trigger.on-rollout-step-completed: Triggered when a step in the rollout process is completed.
+  # trigger.on-rollout-updated: Triggered when a rollout is updated (e.g., a new revision is deployed).
+  # trigger.on-scaling-replica-set: Triggered when the replica set is being scaled.
+  # Example configuration:
+
+  # notifications:
+  #   triggers:
+  #     - name: on-rollout-step-completed  # Trigger name for when a rollout step is completed.
+  #       channels:                       # List of Slack channels to notify for this trigger.
+  #         - my-channel1                 # Each channel is specified by its name.
+  #         - my-channel2
+  #     - name: on-rollout-updated        # Another trigger for when a rollout is updated.
+  #       channels:
+  #         - my-channel3                 # For this trigger, notifications go to a different channel.
+  #
+  # To add more triggers, follow the same structure: specify the trigger name and associated channels.
+  notifications:
+    triggers: []
+
+#  ## Canary deployment example with analysis
+#  canary:
+#    steps:
+#      - setWeight: 20
+#      - pause: { duration: 10m }
+#      - setWeight: 40
+#      - pause: { duration: 10m }
+#      - setWeight: 60
+#      - pause: { duration: 10m }
+#      - setWeight: 80
+#      - pause: { duration: 10m }
+#  canaryMetrics:
+#    - name: service-error-rate
+#      interval: 5m
+#      successCondition: result <= 0.01
+#      failureLimit: 3
+#      provider:
+#        datadog:
+#          apiVersion: v2
+#          interval: 5m
+#          query: |
+#            sum:requests.error.rate{service:{{args.service-name}}}
+#
+#
+#  ## BlueGreen deployment with Analysis template.
+#  blueGreen:
+#    autoPromotionEnabled: false
+#  blueGreenMetricsPrePromotion: # optional
+#  - name: smoke-tests
+#    interval: 5m
+#    successCondition: result >= 0.01
+#    failureLimit: 3
+#    provider:
+#      datadog:
+#        apiVersion: v2
+#        interval: 5m
+#        query: |
+#          sum:requests.success.rate{service:app}
+#  blueGreenMetricsPostPromotion: # optional
+#  - name: error-rate
+#    interval: 5m
+#    successCondition: result <= 0.01
+#    failureLimit: 3
+#    provider:
+#      datadog:
+#        apiVersion: v2
+#        interval: 5m
+#        query: |
+#          sum:requests.error.rate{service:app}
 
 ##
 ## Autoscaling

@@ -4,7 +4,7 @@
   {{ include "common.pod" (
     dict
       "pod" "The specific pod configuration"
-      "type" "The tye of pod to define /optional (defaults to 'service')"
+      "type" "The type of pod to define /optional (defaults to 'service')"
   ) }}
 */}}
 {{- define "common.pod" -}}
