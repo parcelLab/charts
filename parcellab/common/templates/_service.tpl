@@ -26,6 +26,14 @@ spec:
       targetPort: {{ default .Values.service.targetPort $service.portName }}
       protocol: {{ default .Values.service.protocol $service.portProtocol }}
       name: {{ default .Values.service.name $service.portName }}
+    {{- if .Values.service.extraPorts }}
+    {{- range .Values.service.extraPorts }}
+    - port: {{ .port }}
+      targetPort: {{ .targetPort }}
+      protocol: {{ default "TCP" .protocol }}
+      name: {{ .name }}
+    {{- end }}
+    {{- end }}
   selector:
     {{- include "common.selectors" $componentValues | nindent 4 }}
     {{- if $service.extraSelectors }}
