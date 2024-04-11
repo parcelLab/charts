@@ -99,8 +99,8 @@ spec:
 {{- end }}
 {{- end }}
 
-{{- end }}
 {{- $previewService := mergeOverwrite $service (dict "name" (printf "%s-preview" $name) ) -}}
 {{- include "common.service" (merge (deepCopy .) (dict "service" $previewService )) }}
 ---
+{{- end }}
 {{- end }}

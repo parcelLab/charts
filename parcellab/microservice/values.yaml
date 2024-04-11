@@ -14,6 +14,15 @@ service:
   targetPort: http
   protocol: TCP
   type: ClusterIP
+  # extraPorts:
+  # - name: https
+  #   port: 443
+  #   targetPort: https
+  #   protocol: TCP
+  # - name: metrics
+  #   port: 9100
+  #   targetPort: metrics
+  #   protocol: TCP
 
 revisionHistoryLimit: 0
 
