@@ -8,7 +8,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 config: {}
 containerEnv: {}
-rolloutDeployment:
+argoRollout:
   enabled: false
 datadog:
   enabled: false
@@ -44,6 +44,15 @@ service:
   protocol: "TCP"
   targetPort: "http"
   type: "ClusterIP"
+  # extraPorts:
+  # - name: https
+  #   port: 443
+  #   targetPort: https
+  #   protocol: TCP
+  # - name: metrics
+  #   port: 9100
+  #   targetPort: metrics
+  #   protocol: TCP
 tolerations: []
 vpa:
   enabled: false
