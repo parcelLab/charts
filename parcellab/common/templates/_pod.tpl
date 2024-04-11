@@ -4,7 +4,7 @@
   {{ include "common.pod" (
     dict
       "pod" "The specific pod configuration"
-      "type" "The tye of pod to define /optional (defaults to 'service')"
+      "type" "The type of pod to define /optional (defaults to 'service')"
   ) }}
 */}}
 {{- define "common.pod" -}}
@@ -26,6 +26,9 @@ metadata:
     "cluster-autoscaler.kubernetes.io/safe-to-evict-local-volumes": "apmsocketpath"
     {{- end }}
   {{- with .Values.podAnnotations }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .pod.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
     {{- include "common.pod.annotations" . | nindent 4 }}
@@ -106,6 +109,13 @@ spec:
         - name: {{ default .Values.service.name .pod.portName }}
           containerPort: {{ default .Values.service.port .pod.portNumber }}
           protocol: {{ default .Values.service.protocol .pod.portProtocol }}
+        {{- if .Values.service.extraPorts }}
+        {{- range .Values.service.extraPorts }}
+        - name: {{ .name }}
+          containerPort: {{ .port }}
+          protocol: {{ default "TCP" .protocol }}
+        {{- end }}
+        {{- end }}
       {{- else }}
       {{- /* Force liveness and readiness probes to be defined if the deployment is not a service */ -}}
       {{- with .pod.livenessProbe }}

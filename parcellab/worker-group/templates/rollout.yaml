@@ -1,0 +1,7 @@
+{{- $root := . -}}
+{{- if .Values.workers -}}
+{{- range .Values.workers }}
+{{- include "common.argorollout" (merge (deepCopy $root) (dict "service" . "type" "worker")) }}
+---
+{{- end -}}
+{{- end -}}
