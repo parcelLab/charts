@@ -18,11 +18,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Load repos configuration file
-        id: generate-matrix
-        run: |
-          export CHARTS=$(ls -d parcellab/* | awk ' BEGIN { ORS = ""; print "["; } { print "\/\@"$0"\/\@"; } END { print "]"; }' | sed "s^\"^\\\\\"^g;s^\/\@\/\@^\", \"^g;s^\/\@^\"^g")
-          echo "::set-output name=charts::$CHARTS"
+      # - name: Load repos configuration file
+      #   id: generate-matrix
+      #   run: |
+      #     export CHARTS=$(ls -d parcellab/* | awk ' BEGIN { ORS = ""; print "["; } { print "\/\@"$0"\/\@"; } END { print "]"; }' | sed "s^\"^\\\\\"^g;s^\/\@\/\@^\", \"^g;s^\/\@^\"^g")
+      #     echo "::set-output name=charts::$CHARTS"
       - name: Determine changed charts
         id: changed-charts
         run: |
@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        chart: ${{ fromJSON(needs.matrix.outputs.charts) }}
+        chart: ${{ fromJSON(needs.matrix.outputs.changed_charts) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
