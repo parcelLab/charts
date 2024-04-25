@@ -40,7 +40,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Update dependencies
-        run: helm dependency update ${{ matrix.chart }}
+        run: helm dependency update .
+        working-directory: ${{ matrix.chart }}
       - name: Lint chart
         run: helm lint ${{ matrix.chart }}
       - name: Template chart
