@@ -1,4 +1,4 @@
-name: Test
+name: Test and Release
 
 on:
   push:
@@ -50,19 +50,14 @@ jobs:
           CHANGED_CHARTS=()
           for chart in parcellab/*; do
             if [ -d "$chart" ]; then
-              CURRENT_VERSION=$(cat "$chart/Chart.yaml" | grep "version:" | cut -d " " -f 2)
-              PREVIOUS_VERSION=$(git show HEAD~1:$chart/Chart.yaml 2>/dev/null | grep "version:" | cut -d " " -f 2 || echo "")
+              CURRENT_VERSION=$(yq e '.version' "$chart/Chart.yaml")
+              PREVIOUS_VERSION=$(git show HEAD~1:"$chart/Chart.yaml" 2>/dev/null | yq e '.version' - || echo "")
               if [ "$CURRENT_VERSION" != "$PREVIOUS_VERSION" ]; then
-                CHANGED_CHARTS+=("$chart")
+                CHANGED_CHARTS+=("\"$chart\"")
               fi
             fi
           done
-          if [ ${#CHANGED_CHARTS[@]} -eq 0 ]; then
-            echo "No chart versions changed."
-            CHANGED_CHARTS_JSON="[]"
-          else
-            CHANGED_CHARTS_JSON=$(printf '%s\n' "${CHANGED_CHARTS[@]}" | jq -R . | jq -s .)
-          fi
+          CHANGED_CHARTS_JSON=$(printf '[%s]' "$(IFS=,; echo "${CHANGED_CHARTS[*]}")")
           echo "Changed charts: $CHANGED_CHARTS_JSON"
           echo "::set-output name=changed_charts::$CHANGED_CHARTS_JSON"
     outputs:
