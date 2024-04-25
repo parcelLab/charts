@@ -57,7 +57,12 @@ jobs:
               fi
             fi
           done
-          CHANGED_CHARTS_JSON=$(printf '%s\n' "${CHANGED_CHARTS[@]}" | jq -R . | jq -s .)
+          if [ ${#CHANGED_CHARTS[@]} -eq 0 ]; then
+            echo "No chart versions changed."
+            CHANGED_CHARTS_JSON="[]"
+          else
+            CHANGED_CHARTS_JSON=$(printf '%s\n' "${CHANGED_CHARTS[@]}" | jq -R . | jq -s .)
+          fi
           echo "Changed charts: $CHANGED_CHARTS_JSON"
           echo "::set-output name=changed_charts::$CHANGED_CHARTS_JSON"
     outputs:
