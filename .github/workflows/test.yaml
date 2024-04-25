@@ -64,12 +64,18 @@ jobs:
         id: chart_updated
         run: |
           CHART_PATH=${{ matrix.chart }}
-          LAST_COMMIT=$(git log -1 --format=format:%H --full-diff $CHART_PATH)
-          if [ "$(git rev-parse HEAD)" == "$LAST_COMMIT" ]; then
-            echo "Chart has not been updated since the last commit."
+          git fetch --depth=1000
+          CHART_LAST_COMMIT=$(git log -1 --format=format:%H -- $CHART_PATH)
+          LATEST_COMMIT=$(git rev-parse HEAD)
+
+          echo "Last commit in $CHART_PATH: $CHART_LAST_COMMIT"
+          echo "Latest commit in the repo: $LATEST_COMMIT"
+
+          if [ "$CHART_LAST_COMMIT" == "$LATEST_COMMIT" ]; then
+            echo "Chart $CHART_PATH has not been updated since the last commit."
             echo "::set-output name=updated::false"
           else
-            echo "Chart has been updated."
+            echo "Chart $CHART_PATH has been updated."
             echo "::set-output name=updated::true"
           fi
       - name: Run chart-releaser
