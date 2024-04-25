@@ -1,0 +1,9 @@
+{{- if .Values.workers -}}
+{{- $root := . -}}
+{{- range .Values.workers }}
+{{- if .podDisruptionBudget -}}
+{{- include "common.poddisruptionbudget" (merge (deepCopy $root) (dict "podDisruptionBudget" .podDisruptionBudget "name" .name)) }}
+---
+{{- end -}}
+{{- end -}}
+{{- end -}}
