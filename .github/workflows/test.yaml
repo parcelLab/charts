@@ -46,8 +46,11 @@ jobs:
           files: output.yaml
   release:
     if: github.ref == 'refs/heads/main'
-    needs: test
+    needs: [test, matrix]
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        chart: ${{ fromJSON(needs.matrix.outputs.charts) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -57,11 +60,23 @@ jobs:
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-      - name: Run chart-releaser library
+      - name: Check if chart has been updated
+        id: chart_updated
+        run: |
+          CHART_PATH=${{ matrix.chart }}
+          LAST_COMMIT=$(git log -1 --format=format:%H --full-diff $CHART_PATH)
+          if [ "$(git rev-parse HEAD)" == "$LAST_COMMIT" ]; then
+            echo "Chart has not been updated since the last commit."
+            echo "::set-output name=updated::false"
+          else
+            echo "Chart has been updated."
+            echo "::set-output name=updated::true"
+          fi
+      - name: Run chart-releaser
+        if: steps.chart_updated.outputs.updated == 'true'
         uses: helm/chart-releaser-action@v1.6.0
         with:
-          charts_dir: parcellab
-          charts_repo_url: https://charts.parcellab.dev
+          charts_dir: ${{ matrix.chart }}
           config: cr.yaml
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
