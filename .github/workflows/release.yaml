@@ -1,4 +1,4 @@
-name: Release
+name: Test
 
 on:
   push:
@@ -44,33 +44,10 @@ jobs:
         uses: instrumenta/kubeval-action@master
         with:
           files: output.yaml
-      - name: Check for chart version changes
-        id: check_version_changes
-        run: |
-          CHANGED_CHARTS=()
-          for chart in ${{ matrix.chart }}; do
-            if [ -d "$chart" ]; then
-              CURRENT_VERSION=$(yq e '.version' "$chart/Chart.yaml")
-              PREVIOUS_VERSION=$(git show HEAD~1:"$chart/Chart.yaml" 2>/dev/null | yq e '.version' - || echo "")
-              if [ "$CURRENT_VERSION" != "$PREVIOUS_VERSION" ]; then
-                echo "New version $CURRENT_VERSION detected in $chart"
-                CHANGED_CHARTS+=("\"$chart\"")
-              fi
-            fi
-          done
-          CHANGED_CHARTS_JSON=$(printf '[%s]' "$(IFS=,; echo "${CHANGED_CHARTS[*]}")")
-          echo "Changed charts: $CHANGED_CHARTS_JSON"
-          echo "::set-output name=changed_charts::$CHANGED_CHARTS_JSON"
-    outputs:
-      changed_charts: ${{ steps.check_version_changes.outputs.changed_charts }}
   release:
-    if: github.ref == 'refs/heads/main' && needs.test.outputs.changed_charts != '[]'
+    if: github.ref == 'refs/heads/main'
     needs: test
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        chart: ${{ fromJSON(needs.test.outputs.changed_charts) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -80,24 +57,11 @@ jobs:
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-      - name: Run chart-releaser
-        run: |
-          for chart in ${{ fromJSON(needs.test.outputs.changed_charts) }}; do
-            echo "Releasing $chart..."
-            # Extract the chart name without the path
-            CHART_NAME=$(basename $chart)
-            # Determine the current version of the chart
-            CURRENT_VERSION=$(yq e '.version' "$chart/Chart.yaml")
-            # Determine the last released version of the chart
-            LAST_RELEASED_TAG=$(git describe --tags --match "$CHART_NAME-*" --abbrev=0 2>/dev/null || echo "")
-            echo "Discovering changed charts since '$LAST_RELEASED_TAG'..."
-            if [ -z "$LAST_RELEASED_TAG" ] || [ "$LAST_RELEASED_TAG" != "$CHART_NAME-$CURRENT_VERSION" ]; then
-              # Run the chart-releaser-action or your custom release logic here
-              echo "Releasing $CHART_NAME version $CURRENT_VERSION..."
-              # ... your release commands ...
-            else
-              echo "No changes detected for $CHART_NAME since last release."
-            fi
-          done
+      - name: Run chart-releaser library
+        uses: helm/chart-releaser-action@v1.6.0
+        with:
+          charts_dir: parcellab
+          charts_repo_url: https://charts.parcellab.dev
+          config: cr.yaml
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
