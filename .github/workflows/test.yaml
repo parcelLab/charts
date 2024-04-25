@@ -62,7 +62,7 @@ jobs:
     outputs:
       changed_charts: ${{ steps.check_version_changes.outputs.changed_charts }}
   release:
-    if: github.ref == 'refs/heads/main' && needs.test.outputs.changed_charts != ''
+    if: github.ref == 'refs/heads/main' && needs.test.outputs.changed_charts != '[]'
     needs: test
     runs-on: ubuntu-latest
     strategy:
