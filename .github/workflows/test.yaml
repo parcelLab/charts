@@ -47,18 +47,19 @@ jobs:
       - name: Check for chart version changes
         id: check_version_changes
         run: |
-          CHANGED_CHARTS=""
+          CHANGED_CHARTS=()
           for chart in parcellab/*; do
             if [ -d "$chart" ]; then
               CURRENT_VERSION=$(cat "$chart/Chart.yaml" | grep "version:" | cut -d " " -f 2)
               PREVIOUS_VERSION=$(git show HEAD~1:$chart/Chart.yaml 2>/dev/null | grep "version:" | cut -d " " -f 2 || echo "")
               if [ "$CURRENT_VERSION" != "$PREVIOUS_VERSION" ]; then
-                CHANGED_CHARTS="$CHANGED_CHARTS$chart "
+                CHANGED_CHARTS+=("$chart")
               fi
             fi
           done
-          echo "Changed charts: $CHANGED_CHARTS"
-          echo "::set-output name=changed_charts::$(echo $CHANGED_CHARTS | xargs)"
+          CHANGED_CHARTS_JSON=$(printf '%s\n' "${CHANGED_CHARTS[@]}" | jq -R . | jq -s .)
+          echo "Changed charts: $CHANGED_CHARTS_JSON"
+          echo "::set-output name=changed_charts::$CHANGED_CHARTS_JSON"
     outputs:
       changed_charts: ${{ steps.check_version_changes.outputs.changed_charts }}
   release:
