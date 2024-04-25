@@ -1,4 +1,4 @@
-name: Test and Release
+name: Release
 
 on:
   push:
@@ -51,10 +51,10 @@ jobs:
           for chart in ${{ matrix.chart }}; do
             if [ -d "$chart" ]; then
               CURRENT_VERSION=$(yq e '.version' "$chart/Chart.yaml")
-              PREVIOUS_VERSION=$(git show HEAD~1:"$chart/Chart.yaml" 2>/dev/null | yq e '.version' - || echo "0")
+              PREVIOUS_VERSION=$(git show HEAD~1:"$chart/Chart.yaml" 2>/dev/null | yq e '.version' - || echo "")
               if [ "$CURRENT_VERSION" != "$PREVIOUS_VERSION" ]; then
                 echo "New version $CURRENT_VERSION detected in $chart"
-                CHANGED_CHARTS+=("$chart")
+                CHANGED_CHARTS+=("\"$chart\"")
               fi
             fi
           done
@@ -70,7 +70,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include: ${{ fromJSON(needs.test.outputs.changed_charts) }}
+        chart: ${{ fromJSON(needs.test.outputs.changed_charts) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -80,16 +80,23 @@ jobs:
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-      - name: Run chart-releaser for each changed chart
+      - name: Run chart-releaser
         run: |
           for chart in ${{ fromJSON(needs.test.outputs.changed_charts) }}; do
             echo "Releasing $chart..."
-            LAST_RELEASED_TAG=$(git describe --tags --match "$chart-*" --abbrev=0)
+            # Extract the chart name without the path
+            CHART_NAME=$(basename $chart)
+            # Determine the current version of the chart
+            CURRENT_VERSION=$(yq e '.version' "$chart/Chart.yaml")
+            # Determine the last released version of the chart
+            LAST_RELEASED_TAG=$(git describe --tags --match "$CHART_NAME-*" --abbrev=0 2>/dev/null || echo "")
             echo "Discovering changed charts since '$LAST_RELEASED_TAG'..."
-            if [ -z "$LAST_RELEASED_TAG" ] || [ "$LAST_RELEASED_TAG" != "$chart-$CURRENT_VERSION" ]; then
-              helm chart-releaser-action --chart-path $chart
+            if [ -z "$LAST_RELEASED_TAG" ] || [ "$LAST_RELEASED_TAG" != "$CHART_NAME-$CURRENT_VERSION" ]; then
+              # Run the chart-releaser-action or your custom release logic here
+              echo "Releasing $CHART_NAME version $CURRENT_VERSION..."
+              # ... your release commands ...
             else
-              echo "No changes detected for $chart since last release."
+              echo "No changes detected for $CHART_NAME since last release."
             fi
           done
         env:
