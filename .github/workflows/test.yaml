@@ -44,13 +44,31 @@ jobs:
         uses: instrumenta/kubeval-action@master
         with:
           files: output.yaml
+      - name: Check for chart version changes
+        id: check_version_changes
+        run: |
+          CHANGED_CHARTS=""
+          for chart in parcellab/*; do
+            if [ -d "$chart" ]; then
+              CURRENT_VERSION=$(cat "$chart/Chart.yaml" | grep "version:" | cut -d " " -f 2)
+              PREVIOUS_VERSION=$(git show HEAD~1:$chart/Chart.yaml 2>/dev/null | grep "version:" | cut -d " " -f 2 || echo "")
+              if [ "$CURRENT_VERSION" != "$PREVIOUS_VERSION" ]; then
+                CHANGED_CHARTS="$CHANGED_CHARTS$chart "
+              fi
+            fi
+          done
+          echo "Changed charts: $CHANGED_CHARTS"
+          echo "::set-output name=changed_charts::$(echo $CHANGED_CHARTS | xargs)"
+    outputs:
+      changed_charts: ${{ steps.check_version_changes.outputs.changed_charts }}
   release:
-    if: github.ref == 'refs/heads/main'
-    needs: [test, matrix]
+    if: github.ref == 'refs/heads/main' && needs.test.outputs.changed_charts != ''
+    needs: test
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        chart: ${{ fromJSON(needs.matrix.outputs.charts) }}
+        chart: ${{ fromJSON(needs.test.outputs.changed_charts) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -60,26 +78,7 @@ jobs:
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-      - name: Check if chart has been updated
-        id: chart_updated
-        run: |
-          CHART_PATH=${{ matrix.chart }}
-          git fetch --depth=1000
-          CHART_LAST_COMMIT=$(git log -1 --format=format:%H -- $CHART_PATH)
-          LATEST_COMMIT=$(git rev-parse HEAD)
-
-          echo "Last commit in $CHART_PATH: $CHART_LAST_COMMIT"
-          echo "Latest commit in the repo: $LATEST_COMMIT"
-
-          if [ "$CHART_LAST_COMMIT" == "$LATEST_COMMIT" ]; then
-            echo "Chart $CHART_PATH has not been updated since the last commit."
-            echo "::set-output name=updated::false"
-          else
-            echo "Chart $CHART_PATH has been updated."
-            echo "::set-output name=updated::true"
-          fi
-      - name: Run chart-releaser
-        if: steps.chart_updated.outputs.updated == 'true'
+      - name: Run chart-releaser library
         uses: helm/chart-releaser-action@v1.6.0
         with:
           charts_dir: ${{ matrix.chart }}
