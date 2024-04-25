@@ -15,7 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       charts: ${{ steps.generate-matrix.outputs.charts }}
-      changed_charts: ${{ steps.changed-charts.outputs.list }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,24 +23,17 @@ jobs:
         run: |
           export CHARTS=$(ls -d parcellab/* | awk ' BEGIN { ORS = ""; print "["; } { print "\/\@"$0"\/\@"; } END { print "]"; }' | sed "s^\"^\\\\\"^g;s^\/\@\/\@^\", \"^g;s^\/\@^\"^g")
           echo "::set-output name=charts::$CHARTS"
-      - name: Determine changed charts
-        id: changed-charts
-        run: |
-          CHANGED=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} -- parcellab/ | grep -E 'parcellab/.*/' | awk -F '/' '{print $1"/"$2}' | uniq)
-          CHANGED_JSON=$(echo $CHANGED | jq -R -s -c 'split("\n")[:-1]')
-          echo "::set-output name=list::$CHANGED_JSON"
   test:
     needs: matrix
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        chart: ${{ fromJSON(needs.matrix.outputs.changed_charts) }}
+        chart: ${{ fromJSON(needs.matrix.outputs.charts) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Update dependencies
-        run: helm dependency update .
-        working-directory: ${{ matrix.chart }}
+        run: helm dependency update ${{ matrix.chart }}
       - name: Lint chart
         run: helm lint ${{ matrix.chart }}
       - name: Template chart
@@ -54,11 +46,8 @@ jobs:
           files: output.yaml
   release:
     if: github.ref == 'refs/heads/main'
-    needs: [test, matrix]
+    needs: test
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include: ${{fromJson(needs.matrix.outputs.changed_charts)}}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -68,11 +57,11 @@ jobs:
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-      - name: Run chart-releaser for changed charts
-        if: contains(matrix.include, matrix.chart)
+      - name: Run chart-releaser library
         uses: helm/chart-releaser-action@v1.6.0
         with:
-          charts_dir: ${{ matrix.chart }}
+          charts_dir: parcellab
+          charts_repo_url: https://charts.parcellab.dev
           config: cr.yaml
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
