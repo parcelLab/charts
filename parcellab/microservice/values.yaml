@@ -57,6 +57,8 @@ cronjob:
   schedule: "* * * * *"
   successfulJobsHistoryLimit: 3
   suspend: false
+  job:
+    activeDeadlineSeconds: 120
   #   command:
   #   - /bin/sh
   #   - -c
