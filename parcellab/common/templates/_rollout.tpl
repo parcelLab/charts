@@ -13,7 +13,7 @@
 {{- define "common.argorollout" -}}
 {{- $service := default dict .service -}}
 {{- $componentValues := (merge (deepCopy .) (dict "component" $service.name)) -}}
-{{- $name := include "common.componentname" $componentValues -}}
+{{- $name := default (include "common.fullname" .) .name -}}
 {{- $disableReplicaCount := (ternary $service.disableReplicaCount .Values.disableReplicaCount (hasKey $service "disableReplicaCount")) -}}
 {{- $argoRollout := default (dict "enabled" false) .Values.argoRollout -}}
 {{- $type := default "service" .type -}}
@@ -21,7 +21,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: {{ $name }}
+  name: {{ $name | default (include "common.fullname" .) }}
   labels:
     {{- include "common.labels" $componentValues | nindent 4 }}
   {{- if $argoRollout.notifications }}
