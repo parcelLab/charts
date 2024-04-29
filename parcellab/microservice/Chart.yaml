@@ -1,14 +1,14 @@
 apiVersion: v2
 name: microservice
 description: Simple microservice
-version: 0.0.55
+version: 0.0.56
 dependencies:
   - name: common
     version: "*"
     repository: file://../common
   - name: postgresql
     repository: https://charts.bitnami.com/bitnami
-    version: 13.4.4
+    version: 15.2.5
     condition: postgresql.enabled
   - name: redis
     repository: https://charts.bitnami.com/bitnami
