@@ -15,7 +15,7 @@
 {{- $componentValues := (merge (deepCopy .) (dict "component" $service.name)) -}}
 {{- $name := default (include "common.fullname" .) .name -}}
 {{- $disableReplicaCount := (ternary $service.disableReplicaCount .Values.disableReplicaCount (hasKey $service "disableReplicaCount")) -}}
-{{- $argoRollout := default (dict "enabled" false) .Values.argoRollout -}}
+{{- $argoRollout := default .Values.argoRollout .argoRollout -}}
 {{- $type := default "service" .type -}}
 {{- if $argoRollout.enabled }}
 apiVersion: argoproj.io/v1alpha1
@@ -26,7 +26,7 @@ metadata:
     {{- include "common.labels" $componentValues | nindent 4 }}
   {{- if $argoRollout.notifications }}
   annotations:
-    {{- with .Values.argoRollout.notifications.triggers }}
+    {{- with $argoRollout.notifications.triggers }}
     {{- range . }}
     notifications.argoproj.io/subscribe.{{ .name }}.slack: {{ join ";" .channels }}
     {{- end }}
@@ -43,12 +43,15 @@ spec:
   strategy:
     {{- with $argoRollout.canary }}
     canary:
+      {{- if $argoRollout.canaryMetrics }}
+      analysis:
+        templates:
+          - templateName: {{ $name }}-canary-analysis
+        args:
+          - name: service-name
+            value: {{ $name }}
+      {{- end }}
       {{- toYaml . | nindent 6 }}
-      templates:
-        - templateName: {{ $name }}-canary-analysis
-      args:
-        - name: service-name
-          value: {{ $name }}
     {{- end }}
     {{- with $argoRollout.blueGreen }}
     blueGreen:
