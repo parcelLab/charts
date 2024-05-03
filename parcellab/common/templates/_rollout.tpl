@@ -44,11 +44,14 @@ spec:
     {{- with $argoRollout.canary }}
     canary:
       {{- toYaml . | nindent 6 }}
-      templates:
-        - templateName: {{ $name }}-canary-analysis
-      args:
-        - name: service-name
-          value: {{ $name }}
+      {{- if $argoRollout.canaryMetrics }}
+      analysis:
+        templates:
+          - templateName: {{ $name }}-canary-analysis
+        args:
+          - name: service-name
+            value: {{ $name }}
+      {{- end }}
     {{- end }}
     {{- with $argoRollout.blueGreen }}
     blueGreen:
