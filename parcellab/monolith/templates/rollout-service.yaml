@@ -3,7 +3,7 @@
 {{- range .Values.extraServices }}
 {{- if .argoRollout -}}
 {{- include "common.argorollout" (merge (deepCopy $root) (dict "argoRollout" .argoRollout "name" .name)) }}
-{{- end -}}
+{{- end }}
 ---
 {{- end -}}
 {{- end -}}
