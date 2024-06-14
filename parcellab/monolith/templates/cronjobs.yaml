@@ -1,8 +1,9 @@
 {{- if or .Values.cronjobs .cronjobs -}}
 {{- $root := . -}}
+{{- $defaultCronjob := .Values.cronjob}}
 {{- range .Values.cronjobs }}
 {{- if hasKey . "name" -}}
-{{- include "common.cronjob" (merge (deepCopy $root) (dict "cronjob" .)) }}
+{{- include "common.cronjob" (merge (deepCopy $root) (dict "cronjob" (mergeOverwrite (deepCopy (default dict $defaultCronjob)) .))) }}
 ---
 {{- end }}
 {{- end }}
