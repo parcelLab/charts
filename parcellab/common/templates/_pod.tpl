@@ -175,7 +175,7 @@ spec:
   {{- end }}
   {{- end }}
   {{- if or (eq $type "cronjob") (eq $type "job") }}
-  restartPolicy: {{ default "OnFailure" .pod.restartPolicy }}
+  restartPolicy: {{ default "Never" .pod.restartPolicy }}
   {{- end }}
   {{- with default .Values.nodeSelector .pod.nodeSelector }}
   nodeSelector:
