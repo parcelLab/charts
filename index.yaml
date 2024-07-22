@@ -315,6 +315,18 @@ entries:
     version: 0.0.1
   common:
   - apiVersion: v2
+    created: "2024-07-22T10:08:05.878598204Z"
+    description: A Helm chart library for parcelLab charts
+    digest: 2241eaaea933295e5e68c3a2a8999b02bbd2abd3e7f2eedc1db534369af8e709
+    maintainers:
+    - email: engineering@parcellab.com
+      name: parcelLab
+    name: common
+    type: library
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/common-1.0.54/common-1.0.54.tgz
+    version: 1.0.54
+  - apiVersion: v2
     created: "2024-05-03T12:23:53.311749115Z"
     description: A Helm chart library for parcelLab charts
     digest: 611cdf254d8bcba8703a3a414cefe37fd6e9ecc1482afbbbf20f5fbf742f1efe
@@ -1323,6 +1335,26 @@ entries:
     - https://github.com/parcelLab/charts/releases/download/common-0.0.1/common-0.0.1.tgz
     version: 0.0.1
   cronjob:
+  - apiVersion: v2
+    created: "2024-07-22T10:08:06.100810561Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.2.5
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.19.4
+    description: Single cron job
+    digest: 7648390fd9a5fab924c9f9e2d3939cde0188f10451d03e4ce72d64e09e970f0a
+    name: cronjob
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/cronjob-0.0.67/cronjob-0.0.67.tgz
+    version: 0.0.67
   - apiVersion: v2
     created: "2024-05-03T12:23:53.48037202Z"
     dependencies:
@@ -2370,6 +2402,26 @@ entries:
     version: 0.0.1
   microservice:
   - apiVersion: v2
+    created: "2024-07-22T10:08:06.296687059Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.2.5
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.19.4
+    description: Simple microservice
+    digest: 898f855b59394de49efc5791b26331f59705d4504b20d1cc72c5238b28224242
+    name: microservice
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/microservice-0.0.59/microservice-0.0.59.tgz
+    version: 0.0.59
+  - apiVersion: v2
     created: "2024-05-03T12:23:53.632181688Z"
     dependencies:
     - name: common
@@ -3302,6 +3354,26 @@ entries:
     - https://github.com/parcelLab/charts/releases/download/microservice-0.0.1/microservice-0.0.1.tgz
     version: 0.0.1
   monolith:
+  - apiVersion: v2
+    created: "2024-07-22T10:08:06.537864878Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.2.5
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.19.4
+    description: Application that may define multiple services and cronjobs
+    digest: 5f47b94348db2ac2d9596f0c5ea363fb5db0561970f5df03f8c96e1fb14138fa
+    name: monolith
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/monolith-0.0.73/monolith-0.0.73.tgz
+    version: 0.0.73
   - apiVersion: v2
     created: "2024-06-14T09:33:21.429841767Z"
     dependencies:
@@ -4500,6 +4572,18 @@ entries:
     version: 0.0.1
   worker-group:
   - apiVersion: v2
+    created: "2024-07-22T10:08:06.736452817Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Set of workers that do not expose a service
+    digest: 54f2f2260420e68c7a960bb17e9e03ff72a4cb4ea9d1a92b253e6fa741c50d1d
+    name: worker-group
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/worker-group-0.0.63/worker-group-0.0.63.tgz
+    version: 0.0.63
+  - apiVersion: v2
     created: "2024-04-29T15:42:15.10138609Z"
     dependencies:
     - name: common
@@ -5183,4 +5267,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/worker-group-0.0.1/worker-group-0.0.1.tgz
     version: 0.0.1
-generated: "2024-06-14T09:33:21.430361247Z"
+generated: "2024-07-22T10:08:06.737279339Z"
