@@ -27,6 +27,7 @@ spec:
   schedule: {{ default .Values.cronjob.schedule $cronjob.schedule | quote }}
   successfulJobsHistoryLimit: {{ default .Values.cronjob.successfulJobsHistoryLimit $cronjob.successfulJobsHistoryLimit }}
   suspend: {{ default .Values.cronjob.suspend $cronjob.suspend }}
+  timeZone: {{ default .Values.cronjob.timeZone $cronjob.timeZone | quote }}
   jobTemplate:
     spec:
       activeDeadlineSeconds: {{ default .Values.cronjob.job.activeDeadlineSeconds $cronjob.activeDeadlineSeconds }}
