@@ -57,6 +57,7 @@ cronjob:
   schedule: "* * * * *"
   successfulJobsHistoryLimit: 3
   suspend: false
+  timeZone: Europe/Berlin
   job:
     activeDeadlineSeconds: 120
   #   command:

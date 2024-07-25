@@ -17,6 +17,7 @@ cronjob:
   schedule: "* * * * *"
   successfulJobsHistoryLimit: 3
   suspend: false
+  timeZone: Europe/Berlin
   job:
     activeDeadlineSeconds: 900 # 15 minutes
     backoffLimit: 2
