@@ -219,6 +219,11 @@ resources:
 #     path: /
 #     port: http
 
+# startupProbe:
+#   httpGet:
+#     path: /
+#     port: http
+
 ##
 ## Workers
 ##
@@ -241,6 +246,10 @@ workers: []
 #       path: /
 #       port: http
 #   readinessProbe:
+#     httpGet:
+#       path: /
+#       port: http
+#   startupProbe:
 #     httpGet:
 #       path: /
 #       port: http

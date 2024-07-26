@@ -42,6 +42,10 @@ extraServices:
   #     httpGet:
   #       path: /
   #       port: http
+  #   startupProbe:
+  #     httpGet:
+  #       path: /
+  #       port: http
   #   resources:
   #     limits:
   #       cpu: 100m
@@ -170,6 +174,10 @@ workers: []
 #        path: /
 #        port: http
 #    readinessProbe:
+#      httpGet:
+#        path: /
+#        port: http
+#    startupProbe:
 #      httpGet:
 #        path: /
 #        port: http
@@ -404,6 +412,10 @@ resources:
 #   httpGet:
 #     path: /
 #     port: http
+#  startupProbe:
+#    httpGet:
+#      path: /
+#      port: http
 
 # hostAliases:
 #   - ip: "127.0.0.1"
