@@ -126,6 +126,10 @@ spec:
       readinessProbe:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- with .pod.startupProbe }}
+      startupProbe:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- end }}
       resources:
         {{- toYaml (default .Values.resources .pod.resources) | nindent 8 }}

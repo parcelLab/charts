@@ -277,6 +277,11 @@ resources:
 #     path: /
 #     port: http
 
+# startupProbe:
+#   httpGet:
+#     path: /
+#     port: http
+
 ##
 ## Postgresql
 ##
