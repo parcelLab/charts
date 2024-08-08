@@ -16,8 +16,8 @@
 {{- $podVolumes := default .Values.volumes .pod.volumes -}}
 {{- $commonExternalSecret := .Values.externalSecret -}}
 {{- $commonConfig := .Values.config -}}
-{{- $extraContainers := .Values.extraContainers -}}
-{{- $initContainers := .Values.initContainers -}}
+{{- $extraContainers := merge .Values.extraContainers .pod.extraContainers -}}
+{{- $initContainers := merge .Values.initContainers .pod.initContainers -}}
 {{- $datadog := .Values.datadog -}}
 {{- $type := default "service" .type -}}
 metadata:
@@ -78,7 +78,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       {{- end }}
-      image: {{ include "common.imageurl" . }}
+      image: {{ .pod.image | default (include "common.imageurl" .) }}
       imagePullPolicy: {{ .Values.image.pullPolicy }}
       {{- if eq $type "cronjob" }}
       {{- with (default .Values.cronjob.command .pod.command) }}
