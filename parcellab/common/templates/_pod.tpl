@@ -126,6 +126,10 @@ spec:
       readinessProbe:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- with .pod.startupProbe }}
+      startupProbe:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- end }}
       resources:
         {{- toYaml (default .Values.resources .pod.resources) | nindent 8 }}
@@ -175,7 +179,7 @@ spec:
   {{- end }}
   {{- end }}
   {{- if or (eq $type "cronjob") (eq $type "job") }}
-  restartPolicy: {{ default "OnFailure" .pod.restartPolicy }}
+  restartPolicy: {{ default "Never" .pod.restartPolicy }}
   {{- end }}
   {{- with default .Values.nodeSelector .pod.nodeSelector }}
   nodeSelector:
