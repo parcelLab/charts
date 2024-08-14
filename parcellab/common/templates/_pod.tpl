@@ -69,7 +69,7 @@ spec:
   {{- if $initContainers }}
   initContainers:
   {{- range $initContainers }}
-    - {{- include "common.container" (merge (deepCopy .) (dict "volumes" $podVolumes "containerEnv" $containerEnv "datadog" $datadog "commonExternalSecret" $commonExternalSecret "commonConfig" $commonConfig "commonRefName" $fullname)) | nindent 6 }}
+    {{- include "common.container" (merge (deepCopy .) (dict "volumes" $podVolumes "containerEnv" $containerEnv "datadog" $datadog "commonExternalSecret" $commonExternalSecret "commonConfig" $commonConfig "commonRefName" $fullname)) | nindent 4 }}
   {{- end }}
   {{- end }}
   containers:
@@ -78,7 +78,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       {{- end }}
-      image: {{ .pod.image | default (include "common.imageurl" .) }}
+      image: {{ include "common.imageurl" . }}
       imagePullPolicy: {{ .Values.image.pullPolicy }}
       {{- if eq $type "cronjob" }}
       {{- with (default .Values.cronjob.command .pod.command) }}
@@ -126,10 +126,6 @@ spec:
       readinessProbe:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .pod.startupProbe }}
-      startupProbe:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       {{- end }}
       resources:
         {{- toYaml (default .Values.resources .pod.resources) | nindent 8 }}
@@ -175,11 +171,11 @@ spec:
       {{- end }}
   {{- if $extraContainers }}
   {{- range $extraContainers }}
-    - {{- include "common.container" (merge (deepCopy .) (dict "volumes" $podVolumes "containerEnv" $containerEnv "datadog" $datadog "commonExternalSecret" $commonExternalSecret "commonConfig" $commonConfig "commonRefName" $fullname)) | nindent 6 }}
+    {{- include "common.container" (merge (deepCopy .) (dict "volumes" $podVolumes "containerEnv" $containerEnv "datadog" $datadog "commonExternalSecret" $commonExternalSecret "commonConfig" $commonConfig "commonRefName" $fullname)) | nindent 4 }}
   {{- end }}
   {{- end }}
   {{- if or (eq $type "cronjob") (eq $type "job") }}
-  restartPolicy: {{ default "Never" .pod.restartPolicy }}
+  restartPolicy: {{ default "OnFailure" .pod.restartPolicy }}
   {{- end }}
   {{- with default .Values.nodeSelector .pod.nodeSelector }}
   nodeSelector:

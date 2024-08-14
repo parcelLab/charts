@@ -22,77 +22,77 @@
   ) }}
 */}}
 {{- define "common.container" -}}
-name: {{ .name }}
-{{- with .podSecurityContext }}
-securityContext:
-  {{- toYaml .podSecurityContext | nindent 4 }}
-{{- end }}
-image: {{- toYaml .image | nindent 2 }}
-{{- with .lifecycle }}
-lifecycle:
-  {{- if .preStop }}
-  preStop:
-    {{- toYaml .preStop | nindent 6 }}
+- name: {{ .name }}
+  {{- with .podSecurityContext }}
+  securityContext:
+    {{- toYaml .podSecurityContext | nindent 4 }}
   {{- end }}
-  {{- if .postStart }}
-  postStart:
-    {{- toYaml .postStart | nindent 6 }}
+  image: {{ .image }}
+  {{- with .lifecycle }}
+  lifecycle:
+    {{- if .preStop }}
+    preStop:
+      {{- toYaml .preStop | nindent 6 }}
+    {{- end }}
+    {{- if .postStart }}
+    postStart:
+      {{- toYaml .postStart | nindent 6 }}
+    {{- end }}
   {{- end }}
-{{- end }}
-{{- with .livenessProbe }}
-livenessProbe:
-  {{- toYaml . | nindent 4 }}
-{{- end }}
-{{- with .readinessProbe }}
-readinessProbe:
-  {{- toYaml . | nindent 4 }}
-{{- end }}
-ports:
-{{- range .ports }}
-  - name: {{ .name }}
-    containerPort: {{ .containerPort }}
-    protocol: {{ .protocol }}
-{{- end }}
-resources:
-  {{- toYaml .resources | nindent 4 }}
-volumeMounts:
-  {{- if and .datadog .datadog.enabled }}
-  - name: apmsocketpath
-    mountPath: /var/run/datadog
+  {{- with .livenessProbe }}
+  livenessProbe:
+    {{- toYaml . | nindent 4 }}
   {{- end }}
-  {{- if .volumes }}
-  {{- range .volumes }}
-  - name: {{ .name }}
-    readOnly: {{ .readOnly }}
-    mountPath: {{ .mountPath }}
+  {{- with .readinessProbe }}
+  readinessProbe:
+    {{- toYaml . | nindent 4 }}
   {{- end }}
+  ports:
+  {{- range .ports }}
+    - name: {{ .name }}
+      containerPort: {{ .containerPort }}
+      protocol: {{ .protocol }}
   {{- end }}
-env:
-  {{- include "common.datadogEnvironmentVariables" (dict "datadog" .datadog) | nindent 2 }}
-  {{- with .containerEnv }}
-  {{- toYaml . | nindent 2 }}
+  resources:
+    {{- toYaml .resources | nindent 4 }}
+  volumeMounts:
+    {{- if and .datadog .datadog.enabled }}
+    - name: apmsocketpath
+      mountPath: /var/run/datadog
+    {{- end }}
+    {{- if .volumes }}
+    {{- range .volumes }}
+    - name: {{ .name }}
+      readOnly: {{ .readOnly }}
+      mountPath: {{ .mountPath }}
+    {{- end }}
+    {{- end }}
+  env:
+    {{- include "common.datadogEnvironmentVariables" (dict "datadog" .datadog) | nindent 4 }}
+    {{- with .containerEnv }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- if or .config .externalSecret .secretName }}
+  envFrom:
+    {{- /* Config common to all pods */ -}}
+    {{- if .commonConfig }}
+    - configMapRef:
+        name: {{ .commonRefName }}
+    {{- end }}
+    {{- /* Config scoped to a specific pod */ -}}
+    {{- if and .config .name }}
+    - configMapRef:
+        name: {{ printf "%s-%s" .commonRefName .name }}
+    {{- end }}
+    {{- /* External secret common to all pods */ -}}
+    {{- if .commonExternalSecret }}
+    - secretRef:
+        name: {{ .commonRefName }}
+    {{- end }}
+    {{- /* External secret scoped to a specific container */ -}}
+    {{- if and .externalSecret .name }}
+    - secretRef:
+        name: {{ printf "%s-%s" .commonRefName .name }}
+    {{- end }}
   {{- end }}
-{{- if or .config .externalSecret .secretName }}
-envFrom:
-  {{- /* Config common to all pods */ -}}
-  {{- if .commonConfig }}
-  - configMapRef:
-      name: {{ .commonRefName }}
-  {{- end }}
-  {{- /* Config scoped to a specific pod */ -}}
-  {{- if and .config .name }}
-  - configMapRef:
-      name: {{ printf "%s-%s" .commonRefName .name }}
-  {{- end }}
-  {{- /* External secret common to all pods */ -}}
-  {{- if .commonExternalSecret }}
-  - secretRef:
-      name: {{ .commonRefName }}
-  {{- end }}
-  {{- /* External secret scoped to a specific container */ -}}
-  {{- if and .externalSecret .name }}
-  - secretRef:
-      name: {{ printf "%s-%s" .commonRefName .name }}
-  {{- end }}
-{{- end }}
 {{- end -}}
