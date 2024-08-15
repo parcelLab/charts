@@ -105,6 +105,10 @@ spec:
       readinessProbe:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- with (default .Values.startupProbe .pod.startupProbe) }}
+      startupProbe:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       ports:
         - name: {{ default .Values.service.name .pod.portName }}
           containerPort: {{ default .Values.service.port .pod.portNumber }}
