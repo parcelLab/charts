@@ -1,7 +1,7 @@
 apiVersion: v2
 name: worker-group
 description: Set of workers that do not expose a service
-version: 0.0.66
+version: 0.0.67
 dependencies:
   - name: common
     version: "*"
