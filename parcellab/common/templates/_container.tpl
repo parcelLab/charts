@@ -5,6 +5,7 @@
     dict
       "name": "Name for the container"
       "image": "Image for the container"
+      "command": "Command for the container"
       "livenessProbe": "Liveness probe for the container"
       "readinessProbe": "Readiness probe for the container"
       "lifecycle": "Lifecycle hooks for the container"
@@ -23,6 +24,10 @@
 */}}
 {{- define "common.container" -}}
 - name: {{ .name }}
+  {{- with .command }}
+  command:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   {{- with .podSecurityContext }}
   securityContext:
     {{- toYaml .podSecurityContext | nindent 4 }}
