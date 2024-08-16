@@ -77,7 +77,7 @@
     {{- with .containerEnv }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
-  {{- if or .config .externalSecret .secretName }}
+  {{- if or .commonConfig .config .commonExternalSecret .externalSecret }}
   envFrom:
     {{- /* Config common to all pods */ -}}
     {{- if .commonConfig }}
