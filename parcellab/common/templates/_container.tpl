@@ -6,6 +6,7 @@
       "name": "Name for the container"
       "image": "Image for the container"
       "command": "Command for the container"
+      "args": "Command arguments for the container"
       "livenessProbe": "Liveness probe for the container"
       "readinessProbe": "Readiness probe for the container"
       "lifecycle": "Lifecycle hooks for the container"
@@ -26,6 +27,10 @@
 - name: {{ .name }}
   {{- with .command }}
   command:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .args }}
+  args:
     {{- toYaml . | nindent 4 }}
   {{- end }}
   {{- with .podSecurityContext }}
