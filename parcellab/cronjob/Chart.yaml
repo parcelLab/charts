@@ -1,7 +1,7 @@
 apiVersion: v2
 name: cronjob
 description: Single cron job
-version: 0.0.70
+version: 0.0.71
 dependencies:
   - name: common
     version: "*"
