@@ -1,7 +1,7 @@
 apiVersion: v2
 name: monolith
 description: Application that may define multiple services and cronjobs
-version: 0.0.80
+version: 0.0.81
 dependencies:
   - name: common
     version: "*"
@@ -14,3 +14,7 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     version: 18.19.4
     condition: redis.enabled
+  - name: mongodb
+    version: 15.6.19
+    repository: https://charts.bitnami.com/bitnami
+    condition: mongodb.enabled
