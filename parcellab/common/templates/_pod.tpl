@@ -81,15 +81,14 @@ spec:
       image: {{ include "common.imageurl" . }}
       imagePullPolicy: {{ .Values.image.pullPolicy }}
       {{- if eq $type "cronjob" }}
-      {{- with (default .Values.cronjob.command .pod.command) }}
+      {{- with (default (default .Values.cronjob.command .Values.command) .pod.command) }}
       command:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- else }}
-      {{- with (default .Values.command .pod.command) }}
-      command:
-        {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- with (default .Values.args .pod.args) }}
+      args:
+        {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- if eq $type "service" }}
       {{- /* Retrieve liveness and readiness probes from the global if not defined */ -}}
