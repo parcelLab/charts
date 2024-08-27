@@ -90,6 +90,7 @@ spec:
       command:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- with (default .Values.args .pod.args) }}
       args:
         {{- toYaml . | nindent 8 }}
       {{- end }}
