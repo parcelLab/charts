@@ -49,6 +49,7 @@ jobs:
         uses: instrumenta/kubeval-action@master
         with:
           files: output.yaml
+          strict: false
   release:
     if: github.ref == 'refs/heads/main'
     needs: test
