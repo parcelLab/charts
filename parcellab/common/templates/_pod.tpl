@@ -81,10 +81,14 @@ spec:
       image: {{ include "common.imageurl" . }}
       imagePullPolicy: {{ .Values.image.pullPolicy }}
       {{- if eq $type "cronjob" }}
-      {{- with (default (default .Values.cronjob.command .Values.command) .pod.command) }}
+      {{- with (default .Values.cronjob.command .pod.command) }}
       command:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- else }}
+      {{- with (default .Values.command .pod.command) }}
+      command:
+        {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with (default .Values.args .pod.args) }}
       args:
