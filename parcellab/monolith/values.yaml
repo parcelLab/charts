@@ -432,4 +432,4 @@ redis:
 
 mongodb:
   enabled: false
-  # See dfeault values: https://artifacthub.io/packages/helm/bitnami/mongodb?modal=values
+  # See default values: https://artifacthub.io/packages/helm/bitnami/mongodb?modal=values
