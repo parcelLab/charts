@@ -1,7 +1,7 @@
 apiVersion: v2
 name: microservice
 description: Simple microservice
-version: 0.0.67
+version: 0.0.68
 dependencies:
   - name: common
     version: "*"
