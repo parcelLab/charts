@@ -69,7 +69,7 @@ jobs:
         run: |
           find parcellab -name Chart.yaml | while read file; do
               echo "Processing $file"
-              version=$(grep 'version:' $dir/Chart.yaml | cut -d ' ' -f 2)
+              version=$(grep 'version:' $file | cut -d ' ' -f 2)
               version_bump=$(echo "$version" | awk -F. '{if ($NF == 99) {$(NF-1) += 1; $NF = 0} else {$NF += 1}} 1' | sed 's/ /./g')
               sed -i "s/version: $version/version: $version_bump/g" $file
           done
