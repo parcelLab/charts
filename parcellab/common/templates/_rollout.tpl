@@ -56,7 +56,7 @@ spec:
     {{- with $argoRollout.blueGreen }}
     blueGreen:
       activeService: {{ $name }}
-      previewService: {{ $name }}-preview
+      previewService: {{ $name }}-rollout
       {{- toYaml . | nindent 6 }}
 
       {{- if $argoRollout.blueGreenMetricsPrePromotion }}
@@ -102,7 +102,7 @@ spec:
 {{- end }}
 {{- end }}
 
-{{- $previewService := mergeOverwrite $service (dict "name" (printf "%s-preview" $name) ) -}}
+{{- $previewService := mergeOverwrite $service (dict "name" (printf "%s-rollout" $name) ) -}}
 {{- include "common.service" (merge (deepCopy .) (dict "service" $previewService )) }}
 ---
 {{- end }}
