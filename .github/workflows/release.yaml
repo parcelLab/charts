@@ -65,6 +65,19 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
+      - name: Bump version
+        run: |
+          for dir in parcellab/*; do
+              if [ -d "$dir" ]; then
+                  echo "Processing $dir"
+                  version=$(grep 'version:' $dir/Chart.yaml | cut -d ' ' -f 2)
+                  version_bump=$(echo "$version" | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g')
+                  sed -i "s/version: $version/version: $version_bump/g" $dir/Chart.yaml
+              fi
+          done
+          git commit -am "Bump version"
+          git push
+
       - name: Run chart-releaser library
         uses: helm/chart-releaser-action@v1.6.0
         with:
