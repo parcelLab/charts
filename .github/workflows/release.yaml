@@ -71,8 +71,8 @@ jobs:
               if [ -d "$dir" ]; then
                   echo "Processing $dir"
                   version=$(grep 'version:' $dir/Chart.yaml | cut -d ' ' -f 2)
-                  version_bump=$(echo "$version" | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g')
-                  echo "$version" | awk -F. '{if ($NF == 99) {$(NF-1) += 1; $NF = 0} else {$NF += 1}} 1' | sed 's/ /./g'
+                  version_bump=$(echo "$version" | awk -F. '{if ($NF == 99) {$(NF-1) += 1; $NF = 0} else {$NF += 1}} 1' | sed 's/ /./g')
+                  sed -i "s/version: $version/version: $version_bump/g" $dir/Chart.yaml
               fi
           done
           git commit -am "Bump version"
