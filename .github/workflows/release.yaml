@@ -60,12 +60,24 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Check changed files
+        id: check_files
+        run: |
+          changed_files=$(git diff --name-only HEAD^ HEAD)
+          if echo "${changed_files}" | grep -qE '^parcellab/'; then
+            echo "::set-output name=skip::false"
+          else
+            echo "::set-output name=skip::true"
+          fi
+
       - name: Configure Git
+        if: steps.check_files.outputs.skip == 'false'
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
       - name: Bump version
+        if: steps.check_files.outputs.skip == 'false'
         run: |
           find parcellab -name Chart.yaml | while read file; do
               echo "Processing $file"
@@ -77,6 +89,7 @@ jobs:
           git push
 
       - name: Run chart-releaser library
+        if: steps.check_files.outputs.skip == 'false'
         uses: helm/chart-releaser-action@v1.6.0
         with:
           charts_dir: parcellab
