@@ -9,7 +9,7 @@ metadata:
   {{- if $job.hook }}
   generateName: {{ $name }}-
   annotations:
-    argocd.argoproj.io/hook: {{ $job.hook }}
+    argocd.argoproj.io/hook: {{ default "Skip" $job.hook }}
     argocd.argoproj.io/hook-delete-policy: {{ default "HookSucceeded" $job.hookDeletePolicy }}
   {{- else }}
   name: {{ $name }}
