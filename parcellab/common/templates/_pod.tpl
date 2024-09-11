@@ -78,7 +78,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       {{- end }}
-      image: {{ include "common.imageurl" . }}
+      image: {{ default (include "common.imageurl" .) .pod.image }}
       imagePullPolicy: {{ .Values.image.pullPolicy }}
       {{- if eq $type "cronjob" }}
       {{- with (default .Values.cronjob.command .pod.command) }}
