@@ -87,6 +87,10 @@ jobs:
         if: steps.check_files.outputs.skip == 'false'
         run: |
           find parcellab -name Chart.yaml | while read file; do
+              chart_dir=$(dirname "$file")
+              if git diff --quiet HEAD^ HEAD -- "$chart_dir"; then
+                  continue
+              fi
               echo "Processing $file"
               version=$(grep 'version:' $file | cut -d ' ' -f 2)
               version_bump=$(echo "$version" | awk -F. '{if ($NF == 99) {$(NF-1) += 1; $NF = 0} else {$NF += 1}} 1' | sed 's/ /./g')
@@ -94,6 +98,9 @@ jobs:
           done
           git commit -am "Bump version"
           git push
+
+      - name: Update Helm repository
+        run: helm repo update
 
       - name: Run chart-releaser library
         if: steps.check_files.outputs.skip == 'false'
