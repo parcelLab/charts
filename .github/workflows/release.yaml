@@ -71,7 +71,7 @@ jobs:
       - name: Check changed files
         id: check_files
         run: |
-          changed_files=$(git diff --name-only HEAD | grep -vE '^parcellab/.*/Chart.yaml$')
+          changed_files=$(git diff --name-only HEAD^ HEAD | { grep -vE '^parcellab/.*/Chart.yaml$' || true; })
           if echo "${changed_files}" | grep -qE '^parcellab/'; then
             echo "skip=false" >> $GITHUB_ENV
           else
