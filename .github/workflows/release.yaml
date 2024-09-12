@@ -51,7 +51,7 @@ jobs:
           files: output.yaml
           strict: false
   release:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/fix/updating-releaes-pipeline'
     needs: test
     runs-on: ubuntu-latest
     steps:
