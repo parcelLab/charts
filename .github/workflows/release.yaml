@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     branches:
-      - fix/updating-releaes-pipeline
+      - main
     paths:
       - .github/workflows/release.yaml
       - parcellab/**
@@ -51,7 +51,7 @@ jobs:
           files: output.yaml
           strict: false
   release:
-    if: github.ref == 'refs/heads/fix/updating-releaes-pipeline'
+    if: github.ref == 'refs/heads/main'
     needs: test
     runs-on: ubuntu-latest
     steps:
