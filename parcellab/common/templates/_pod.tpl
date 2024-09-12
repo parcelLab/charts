@@ -31,13 +31,11 @@ metadata:
   {{- with .pod.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
-    {{- include "common.pod.annotations" . | nindent 4 }}
   labels:
     {{- include "common.labels" $componentValues | nindent 4 }}
     {{- if and $datadog $datadog.enabled }}
     tags.datadoghq.com/env: {{ include "common.env" . | quote }}
     tags.datadoghq.com/service: {{ $fullname | quote }}
-    tags.datadoghq.com/version: {{ include "common.version" . | quote }}
     {{- end }}
 spec:
   {{- with .Values.imagePullSecrets }}
@@ -78,7 +76,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       {{- end }}
-      image: {{ include "common.imageurl" . }}
+      image: {{ default (include "common.imageurl" .) .pod.image }}
       imagePullPolicy: {{ .Values.image.pullPolicy }}
       {{- if eq $type "cronjob" }}
       {{- with (default .Values.cronjob.command .pod.command) }}
