@@ -89,12 +89,26 @@ jobs:
       - name: Bump version
         if: steps.check_files.outputs.skip == 'false'
         run: |
-          find parcellab -name Chart.yaml | while read file; do
+          for file in ${{ env.changed_files }}; do
+            if [[ $file == parcellab/common/* ]]; then
+              find parcellab -name Chart.yaml | while read chart_file; do
+                chart_dir=$(dirname "$chart_file")
+                echo "Processing $chart_file"
+                version=$(grep 'version:' $chart_file | cut -d ' ' -f 2)
+                version_bump=$(echo "$version" | awk -F. '{if ($NF == 99) {$(NF-1) += 1; $NF = 0} else {$NF += 1}} 1' | sed 's/ /./g')
+                sed -i "s/version: $version/version: $version_bump/g" $chart_file
+              done
+              break
+            elif [[ $file == parcellab/*/* ]]; then
               chart_dir=$(dirname "$file")
-              echo "Processing $file"
-              version=$(grep 'version:' $file | cut -d ' ' -f 2)
-              version_bump=$(echo "$version" | awk -F. '{if ($NF == 99) {$(NF-1) += 1; $NF = 0} else {$NF += 1}} 1' | sed 's/ /./g')
-              sed -i "s/version: $version/version: $version_bump/g" $file
+              chart_file="$chart_dir/Chart.yaml"
+              if [[ -f $chart_file ]]; then
+                echo "Processing $chart_file"
+                version=$(grep 'version:' $chart_file | cut -d ' ' -f 2)
+                version_bump=$(echo "$version" | awk -F. '{if ($NF == 99) {$(NF-1) += 1; $NF = 0} else {$NF += 1}} 1' | sed 's/ /./g')
+                sed -i "s/version: $version/version: $version_bump/g" $chart_file
+              fi
+            fi
           done
           git commit -am "Bump version"
           git push
