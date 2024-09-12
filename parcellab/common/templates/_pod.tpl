@@ -36,7 +36,6 @@ metadata:
     {{- if and $datadog $datadog.enabled }}
     tags.datadoghq.com/env: {{ include "common.env" . | quote }}
     tags.datadoghq.com/service: {{ $fullname | quote }}
-    tags.datadoghq.com/version: {{ include "common.version" . | quote }}
     {{- end }}
 spec:
   {{- with .Values.imagePullSecrets }}
