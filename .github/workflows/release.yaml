@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     branches:
-      - main
+      - fix/updating-releaes-pipeline
     paths:
       - .github/workflows/release.yaml
       - parcellab/**
