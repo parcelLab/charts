@@ -35,3 +35,5 @@ Common labels
 {{ include "common.parcellabtagsdomain" . }}/chart-name: {{ .Chart.Name | quote }}
 {{ include "common.parcellabtagsdomain" . }}/part-of: {{ include "common.chart" . | quote }}
 {{- end -}}
+
+{{/* This is a dummy comment for testing purposes */}}
