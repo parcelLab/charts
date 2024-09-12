@@ -91,6 +91,10 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- end }}
+      {{- with (default .Values.args .pod.args) }}
+      args:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- if eq $type "service" }}
       {{- /* Retrieve liveness and readiness probes from the global if not defined */ -}}
       {{- with (default .Values.lifecycle .pod.lifecycle) }}

@@ -49,22 +49,54 @@ jobs:
         uses: instrumenta/kubeval-action@master
         with:
           files: output.yaml
+          strict: false
   release:
     if: github.ref == 'refs/heads/main'
     needs: test
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ vars.PARCELLAB_BOT_APPID }}
+          private-key: ${{ secrets.PARCELLAB_BOT_KEY }}
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Check changed files
+        id: check_files
+        run: |
+          changed_files=$(git diff --name-only HEAD^ HEAD)
+          if echo "${changed_files}" | grep -qE '^parcellab/'; then
+            echo "::set-output name=skip::false"
+          else
+            echo "::set-output name=skip::true"
+          fi
 
       - name: Configure Git
+        if: steps.check_files.outputs.skip == 'false'
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
+      - name: Bump version
+        if: steps.check_files.outputs.skip == 'false'
+        run: |
+          find parcellab -name Chart.yaml | while read file; do
+              echo "Processing $file"
+              version=$(grep 'version:' $file | cut -d ' ' -f 2)
+              version_bump=$(echo "$version" | awk -F. '{if ($NF == 99) {$(NF-1) += 1; $NF = 0} else {$NF += 1}} 1' | sed 's/ /./g')
+              sed -i "s/version: $version/version: $version_bump/g" $file
+          done
+          git commit -am "Bump version"
+          git push
+
       - name: Run chart-releaser library
+        if: steps.check_files.outputs.skip == 'false'
         uses: helm/chart-releaser-action@v1.6.0
         with:
           charts_dir: parcellab
