@@ -31,7 +31,6 @@ metadata:
   {{- with .pod.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
-    {{- include "common.pod.annotations" . | nindent 4 }}
   labels:
     {{- include "common.labels" $componentValues | nindent 4 }}
     {{- if and $datadog $datadog.enabled }}

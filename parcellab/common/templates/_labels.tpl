@@ -34,5 +34,4 @@ Common labels
 {{ include "common.parcellabtagsdomain" . }}/chart-version: {{ .Chart.Version | quote }}
 {{ include "common.parcellabtagsdomain" . }}/chart-name: {{ .Chart.Name | quote }}
 {{ include "common.parcellabtagsdomain" . }}/part-of: {{ include "common.chart" . | quote }}
-{{ include "common.parcellabtagsdomain" . }}/version: {{ include "common.version" . | quote }}
 {{- end -}}
