@@ -100,9 +100,11 @@ jobs:
           git push
 
       - name: Add Helm repository
+        if: steps.check_files.outputs.skip == 'false'
         run: helm repo add parcellab https://charts.parcellab.dev
 
       - name: Update Helm repository
+        if: steps.check_files.outputs.skip == 'false'
         run: helm repo update
 
       - name: Run chart-releaser library
