@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     branches:
-      - main
+      - fix/updating-releaes-pipeline
     paths:
       - .github/workflows/release.yaml
       - parcellab/**
@@ -51,7 +51,7 @@ jobs:
           files: output.yaml
           strict: false
   release:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/fix/updating-releaes-pipeline'
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -72,9 +72,9 @@ jobs:
         run: |
           changed_files=$(git diff --name-only HEAD^ HEAD)
           if echo "${changed_files}" | grep -qE '^parcellab/'; then
-            echo "::set-output name=skip::false"
+            echo "skip=false" >> $GITHUB_ENV
           else
-            echo "::set-output name=skip::true"
+            echo "skip=true" >> $GITHUB_ENV
           fi
 
       - name: Configure Git
@@ -87,6 +87,10 @@ jobs:
         if: steps.check_files.outputs.skip == 'false'
         run: |
           find parcellab -name Chart.yaml | while read file; do
+              chart_dir=$(dirname "$file")
+              if git diff --quiet HEAD^ HEAD -- "$chart_dir"; then
+                  continue
+              fi
               echo "Processing $file"
               version=$(grep 'version:' $file | cut -d ' ' -f 2)
               version_bump=$(echo "$version" | awk -F. '{if ($NF == 99) {$(NF-1) += 1; $NF = 0} else {$NF += 1}} 1' | sed 's/ /./g')
@@ -94,6 +98,14 @@ jobs:
           done
           git commit -am "Bump version"
           git push
+
+      - name: Add Helm repository
+        if: steps.check_files.outputs.skip == 'false'
+        run: helm repo add parcellab https://charts.parcellab.dev
+
+      - name: Update Helm repository
+        if: steps.check_files.outputs.skip == 'false'
+        run: helm repo update
 
       - name: Run chart-releaser library
         if: steps.check_files.outputs.skip == 'false'
