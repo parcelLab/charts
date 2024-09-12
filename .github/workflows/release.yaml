@@ -72,9 +72,9 @@ jobs:
         run: |
           changed_files=$(git diff --name-only HEAD^ HEAD)
           if echo "${changed_files}" | grep -qE '^parcellab/'; then
-            echo "::set-output name=skip::false"
+            echo "skip=false" >> $GITHUB_ENV
           else
-            echo "::set-output name=skip::true"
+            echo "skip=true" >> $GITHUB_ENV
           fi
 
       - name: Configure Git
@@ -98,6 +98,9 @@ jobs:
           done
           git commit -am "Bump version"
           git push
+
+      - name: Add Helm repository
+        run: helm repo add parcellab https://charts.parcellab.dev
 
       - name: Update Helm repository
         run: helm repo update
