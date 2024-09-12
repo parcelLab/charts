@@ -37,3 +37,4 @@ Common labels
 {{- end -}}
 
 {{/* This is a dummy comment for testing purposes */}}
+{{/* This is a dummy comment for testing purposes */}}
