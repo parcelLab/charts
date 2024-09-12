@@ -5,3 +5,5 @@
 ---
 {{- end }}
 {{- end }}
+
+{{/* This is a dummy comment for testing purposes */}}
