@@ -7,6 +7,7 @@ on:
     paths:
       - .github/workflows/release.yaml
       - parcellab/**
+      - "!parcellab/**/Chart.yaml"
       - "!**.md"
   workflow_dispatch:
 
@@ -70,7 +71,7 @@ jobs:
       - name: Check changed files
         id: check_files
         run: |
-          changed_files=$(git diff --name-only HEAD^ HEAD)
+          changed_files=$(git diff --name-only HEAD | grep -vE '^parcellab/.*/Chart.yaml$')
           if echo "${changed_files}" | grep -qE '^parcellab/'; then
             echo "skip=false" >> $GITHUB_ENV
           else
