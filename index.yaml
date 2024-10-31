@@ -3074,6 +3074,26 @@ entries:
     version: 0.0.1
   microservice:
   - apiVersion: v2
+    created: "2024-10-31T13:12:23.176689443Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.2.5
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.19.4
+    description: Simple microservice
+    digest: 7419ae38b2c673de464eb5394a0d89222e7ae7008c560bae4d818b202c13d2fb
+    name: microservice
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/microservice-0.0.84/microservice-0.0.84.tgz
+    version: 0.0.84
+  - apiVersion: v2
     created: "2024-09-12T14:37:41.436684192Z"
     dependencies:
     - name: common
@@ -4490,6 +4510,30 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/monolith-0.99.0/monolith-0.99.0.tgz
     version: 0.99.0
+  - apiVersion: v2
+    created: "2024-10-31T13:12:23.313796157Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.5.21
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.19.4
+    - condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.6.23
+    description: Application that may define multiple services and cronjobs
+    digest: 729733696afe8b7e6d50d973800d503838c4ff8154e9a65024652a1fd76f8bc4
+    name: monolith
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/monolith-0.1.1/monolith-0.1.1.tgz
+    version: 0.1.1
   - apiVersion: v2
     created: "2024-09-12T14:37:41.57548907Z"
     dependencies:
@@ -7215,4 +7259,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/worker-group-0.0.1/worker-group-0.0.1.tgz
     version: 0.0.1
-generated: "2024-10-02T09:14:10.418612987Z"
+generated: "2024-10-31T13:12:23.425719299Z"
