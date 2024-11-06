@@ -8,7 +8,7 @@ dependencies:
     repository: file://../common
   - name: postgresql
     repository: https://charts.bitnami.com/bitnami
-    version: 15.2.5
+    version: 16.1.2
     condition: postgresql.enabled
   - name: redis
     repository: https://charts.bitnami.com/bitnami
