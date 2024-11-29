@@ -424,11 +424,30 @@ resources:
 postgresql:
   enabled: false
   # See default values: https://artifacthub.io/packages/helm/bitnami/postgresql?modal=values
+  primary:
+    persistentVolumeClaimRetentionPolicy:
+      enabled: true
+      whenDeleted: Delete
+      whenScaled: Delete
 
 redis:
   enabled: false
   # See default values: https://artifacthub.io/packages/helm/bitnami/redis?modal=values
+  master:
+    persistentVolumeClaimRetentionPolicy:
+      enabled: true
+      whenDeleted: Delete
+      whenScaled: Delete
+  replica:
+    persistentVolumeClaimRetentionPolicy:
+      enabled: true
+      whenDeleted: Delete
+      whenScaled: Delete
 
 mongodb:
   enabled: false
   # See default values: https://artifacthub.io/packages/helm/bitnami/mongodb?modal=values
+  persistentVolumeClaimRetentionPolicy:
+    enabled: true
+    whenDeleted: Delete
+    whenScaled: Delete
