@@ -9,6 +9,6 @@ on:
       - synchronize
 jobs:
   pr:
-    uses: parcelLab/ci/.github/workflows/pr.yaml@v4
+    uses: parcelLab/ci/.github/workflows/pr.yaml@v5
     secrets:
       repoAccessToken: ${{ secrets.GITHUB_TOKEN }}
