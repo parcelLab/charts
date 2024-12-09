@@ -10,11 +10,11 @@
 {{- define "common.pod" -}}
 {{- $root := deepCopy . -}}
 {{- $fullname := include "common.fullname" . -}}
-{{- $componentValues := (merge (deepCopy .) (dict "component" .pod.name)) -}}
+{{- $componentValues := (merge ($root) (dict "component" .pod.name)) -}}
 {{- $name := include "common.componentname" $componentValues -}}
 {{- $containerName := default $name .pod.containerName -}}
 {{- $defaultImageValues := dict "repository" (include "common.imagerepository" $root) "tag" (include "common.version" $root) -}}
-{{- $imageValues := merge (dict "image" .pod.image) (dict "image" $defaultImageValues) -}}
+{{- $containerImage := merge (dict "image" .pod.image) (dict "image" $defaultImageValues) -}}
 {{- $containerEnv := default .Values.containerEnv .pod.containerEnv -}}
 {{- $podVolumes := default .Values.volumes .pod.volumes -}}
 {{- $commonExternalSecret := .Values.externalSecret -}}
@@ -79,7 +79,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       {{- end }}
-      image: {{ include "common.imageurl" $imageValues.image }}
+      image: {{ include "common.imageurl" $containerImage.image }}
       imagePullPolicy: {{ .Values.image.pullPolicy }}
       {{- if eq $type "cronjob" }}
       {{- with (default .Values.cronjob.command .pod.command) }}
