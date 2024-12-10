@@ -165,9 +165,10 @@ Create the image repository
 Create the full docker image url
   {{ include "common.imageurl" (
     dict
-      "Values" "The Values scope"
+      "repository" "The repository including image name"
+      "tag" "The image tag"
   ) }}
 */}}
 {{- define "common.imageurl" -}}
-{{- printf "%s:%s" (include "common.imagerepository" .) (include "common.version" .) -}}
+{{- printf "%s:%s" .repository .tag -}}
 {{- end -}}
