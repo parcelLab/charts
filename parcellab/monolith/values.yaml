@@ -397,19 +397,23 @@ podSecurityContext:
   # fsGroup: 2000
 
 resources:
-  limits:
-    memory: 512Mi
-  requests:
-    cpu: 100m
-    memory: 128Mi
+  {}
+#  limits:
+#    memory: 512Mi
+#  requests:
+#    cpu: 100m
+#    memory: 128Mi
+
 # livenessProbe:
 #   httpGet:
 #     path: /
 #     port: http
+
 # readinessProbe:
 #   httpGet:
 #     path: /
 #     port: http
+
 #  startupProbe:
 #    httpGet:
 #      path: /
