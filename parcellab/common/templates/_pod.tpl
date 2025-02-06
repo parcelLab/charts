@@ -152,6 +152,7 @@ spec:
         - name: {{ .name }}
           readOnly: {{ .readOnly }}
           mountPath: {{ .mountPath }}
+          subPath: {{ .subPath }}
         {{- end }}
         {{- end }}
       env:
