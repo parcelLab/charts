@@ -15,7 +15,6 @@
 {{- $disableReplicaCount := (ternary $service.disableReplicaCount .Values.disableReplicaCount (hasKey $service "disableReplicaCount")) -}}
 {{- $type := default "service" .type -}}
 {{- $argoRollout := default .Values.argoRollout .argoRollout -}}
-{{- if not $argoRollout.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -24,7 +23,7 @@ metadata:
     {{- include "common.labels" $componentValues | nindent 4 }}
 spec:
   {{- if not (eq $disableReplicaCount true) }}
-  replicas: {{ default .Values.replicaCount $service.replicaCount }}
+  replicas: {{- if not $argoRollout.enabled }}{{ default .Values.replicaCount $service.replicaCount }}{{ else }}0{{ end }}
   {{- end }}
   {{- if hasKey $service "strategy" }}
   strategy:
@@ -42,4 +41,3 @@ spec:
       (merge (deepCopy .) (dict "pod" $service "type" $type)) | nindent 4
     }}
 {{- end -}}
-{{- end }}
