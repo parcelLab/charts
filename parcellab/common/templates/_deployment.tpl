@@ -14,6 +14,7 @@
 {{- $name := include "common.componentname" $componentValues -}}
 {{- $disableReplicaCount := (ternary $service.disableReplicaCount .Values.disableReplicaCount (hasKey $service "disableReplicaCount")) -}}
 {{- $type := default "service" .type -}}
+{{- $argoRollout := default .Values.argoRollout .argoRollout -}}
 {{- if not $argoRollout.enabled }}
 apiVersion: apps/v1
 kind: Deployment
