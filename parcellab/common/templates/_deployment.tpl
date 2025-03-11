@@ -14,6 +14,7 @@
 {{- $name := include "common.componentname" $componentValues -}}
 {{- $disableReplicaCount := (ternary $service.disableReplicaCount .Values.disableReplicaCount (hasKey $service "disableReplicaCount")) -}}
 {{- $type := default "service" .type -}}
+{{- if not $argoRollout.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -40,3 +41,4 @@ spec:
       (merge (deepCopy .) (dict "pod" $service "type" $type)) | nindent 4
     }}
 {{- end -}}
+{{- end }}

@@ -24,7 +24,7 @@ metadata:
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
-    kind: Deployment
+    kind: {{ if $argoRollout.enabled }} Rollout {{ else }} Deployment {{ end }}
     name: {{ $fullname | default (include "common.fullname" .) }}
   minReplicas: {{ default .Values.autoscaling.minReplicas $autoscaling.minReplicas }}
   maxReplicas: {{ default .Values.autoscaling.maxReplicas $autoscaling.maxReplicas }}

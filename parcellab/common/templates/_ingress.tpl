@@ -49,7 +49,7 @@ spec:
             {{- else }}
             backend:
               service:
-                name: {{ $name }}
+                name: {{ if .Values.argoRollout.enabled }} {{ $name }}-rollout {{ else }} {{ $name }} {{ end }}
                 port:
                   number: {{ $defaultServicePort }}
             {{- end }}
