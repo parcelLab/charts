@@ -1,8 +1,8 @@
 {{- if .Values.extraServices -}}
 {{- $root := . -}}
 {{- range .Values.extraServices }}
-{{- if .argoRollout -}}
-{{- include "common.argorollout" (merge (deepCopy $root) (dict "argoRollout" .argoRollout "name" .name)) }}
+{{- if .argoRollout.enabled -}}
+{{- include "common.argorollout" (merge (deepCopy $root) (dict "argoRollout" .argoRollout "name" .name "service" . "type" "service")) }}
 {{- end }}
 ---
 {{- end -}}
