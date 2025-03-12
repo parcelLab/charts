@@ -1,10 +1,8 @@
 {{- if .Values.extraServices -}}
 {{- $root := . -}}
 {{- range .Values.extraServices }}
-{{- if not .argoRollout.enabled }}
 {{- include "common.service" (merge (deepCopy $root) (dict "service" .)) }}
 ---
-{{- end }}
 {{- end }}
 {{- end }}
 {{- if not .Values.disableDefaultAppDeployment }}
