@@ -22,7 +22,9 @@ metadata:
   labels:
     {{- include "common.labels" $componentValues | nindent 4 }}
 spec:
-  replicas: {{ if or $argoRollout.enabled $disableReplicaCount }}0{{ else }}{{ default .Values.replicaCount $service.replicaCount }}{{ end }}
+  {{- if not $disableReplicaCount }}
+  replicas: {{ if $argoRollout.enabled }} 0 {{ else }} {{ default .Values.replicaCount $service.replicaCount }} {{ end }}
+  {{- end }}
   {{- if hasKey $service "strategy" }}
   strategy:
     {{- toYaml $service.strategy | nindent 4 }}

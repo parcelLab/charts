@@ -32,9 +32,6 @@ metadata:
     {{- end }}
   {{- end }}
 spec:
-  {{- if not (eq $disableReplicaCount true) }}
-  replicas: {{ default .Values.replicaCount $service.replicaCount }}
-  {{- end }}
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   selector:
     matchLabels:
