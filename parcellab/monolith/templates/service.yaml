@@ -5,4 +5,6 @@
 ---
 {{- end }}
 {{- end }}
+{{- if not .Values.disableDefaultAppDeployment }}
 {{- include "common.service" . }}
+{{- end }}

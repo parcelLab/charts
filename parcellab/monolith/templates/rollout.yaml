@@ -1,1 +1,3 @@
+{{- if .Values.argoRollout.enabled }}
 {{- include "common.argorollout" . }}
+{{- end }}

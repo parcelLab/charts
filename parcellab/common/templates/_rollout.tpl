@@ -13,11 +13,10 @@
 {{- define "common.argorollout" -}}
 {{- $service := default dict .service -}}
 {{- $componentValues := (merge (deepCopy .) (dict "component" $service.name)) -}}
-{{- $name := default (include "common.fullname" .) .name -}}
+{{- $name := include "common.componentname" $componentValues -}}
 {{- $disableReplicaCount := (ternary $service.disableReplicaCount .Values.disableReplicaCount (hasKey $service "disableReplicaCount")) -}}
 {{- $argoRollout := default .Values.argoRollout .argoRollout -}}
-{{- $type := default "service" .type -}}
-{{- if $argoRollout.enabled }}
+{{- $type := default "service" .type }}
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
@@ -86,24 +85,21 @@ spec:
 
 {{- if and $argoRollout.canary $argoRollout.canaryMetrics }}
 {{- range $argoRollout.canaryMetrics }}
-{{- include "common.analysisTemplate" (dict "name" (printf "%s-canary-analysis" $name) "metrics" .) | nindent 0 }}
+{{- include "common.analysisTemplate" (dict "name" (printf "%s-canary" $name) "metrics" .) | nindent 0 }}
 {{- end }}
 {{- end }}
 
 {{- if and $argoRollout.blueGreen $argoRollout.blueGreenMetricsPrePromotion }}
 {{- range $argoRollout.blueGreenMetricsPrePromotion }}
-{{- include "common.analysisTemplate" (dict "name" (printf "%s-bluegreen-prepromotion-analysis" $name) "metrics" .) | nindent 0 }}
+{{- include "common.analysisTemplate" (dict "name" (printf "%s-bluegreen-prepromotion" $name) "metrics" .) | nindent 0 }}
 {{- end }}
 {{- end }}
 
 {{- if and $argoRollout.blueGreen $argoRollout.blueGreenMetricsPostPromotion }}
 {{- range $argoRollout.blueGreenMetricsPostPromotion }}
-{{- include "common.analysisTemplate" (dict "name" (printf "%s-bluegreen-postpromotion-analysis" $name) "metrics" .) | nindent 0 }}
+{{- include "common.analysisTemplate" (dict "name" (printf "%s-bluegreen-postpromotion" $name) "metrics" .) | nindent 0 }}
 {{- end }}
 {{- end }}
 
-{{- $previewService := mergeOverwrite $service (dict "name" (printf "%s-rollout" $name) ) -}}
-{{- include "common.service" (merge (deepCopy .) (dict "service" $previewService )) }}
 ---
-{{- end }}
 {{- end }}
