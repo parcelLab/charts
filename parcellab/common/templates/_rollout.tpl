@@ -45,7 +45,7 @@ spec:
       {{- if $argoRollout.canaryMetrics }}
       analysis:
         templates:
-          - templateName: {{ $name }}-canary-analysis
+          - templateName: {{ $name }}-canary
         args:
           - name: service-name
             value: {{ $name }}
@@ -61,7 +61,7 @@ spec:
       {{- if $argoRollout.blueGreenMetricsPrePromotion }}
       prePromotionAnalysis:
         templates:
-          - templateName: {{ $name }}-bluegreen-prepromotion-analysis
+          - templateName: {{ $name }}-bluegreen-prepromotion
         args:
           - name: service-name
             value: {{ $name }}
@@ -70,7 +70,7 @@ spec:
       {{- if $argoRollout.blueGreenMetricsPostPromotion }}
       postPromotionAnalysis:
         templates:
-          - templateName: {{ $name }}-bluegreen-postpromotion-analysis
+          - templateName: {{ $name }}-bluegreen-postpromotion
         args:
           - name: service-name
             value: {{ $name }}
