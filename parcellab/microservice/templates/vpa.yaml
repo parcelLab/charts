@@ -1,1 +1,3 @@
+{{- if not .Values.argoRollout.enabled }}
 {{- include "common.vpa" . }}
+{{- end }}
