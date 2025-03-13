@@ -1,11 +1,9 @@
 {{- $root := . -}}
 {{- if .Values.extraServices -}}
 {{- range .Values.extraServices }}
-{{- if not .argoRollout.enabled -}}
 {{- if .autoscaling -}}
 {{- include "common.hpa" (merge (deepCopy $root) (dict "autoscaling" .autoscaling "name" .name)) }}
 {{- end }}
 ---
-{{- end -}}
 {{- end -}}
 {{- end -}}
