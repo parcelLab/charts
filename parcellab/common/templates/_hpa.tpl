@@ -24,7 +24,7 @@ metadata:
     {{- include "common.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
-    apiVersion: apps/v1
+    apiVersion: {{ if $argoRollout.enabled }} argoproj.io/v1alpha1 {{ else }} apps/v1 {{ end }}
     kind: {{ if $argoRollout.enabled }} Rollout {{ else }} Deployment {{ end }}
     name: {{ $fullname | default (include "common.fullname" .) }}
   minReplicas: {{ default .Values.autoscaling.minReplicas $autoscaling.minReplicas }}

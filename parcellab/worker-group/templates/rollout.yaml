@@ -1,7 +1,9 @@
-{{- $root := . -}}
 {{- if .Values.workers -}}
+{{- $root := . -}}
 {{- range .Values.workers }}
-{{- include "common.argorollout" (merge (deepCopy $root) (dict "service" . "type" "worker")) }}
+{{- if .argoRollout.enabled -}}
+{{- include "common.argorollout" (merge (deepCopy $root) (dict "argoRollout" .argoRollout "name" .name "service" . "type" "worker")) }}
+{{- end }}
 ---
 {{- end -}}
 {{- end -}}
