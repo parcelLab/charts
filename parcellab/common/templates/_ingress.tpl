@@ -24,11 +24,10 @@ metadata:
 spec:
   {{- with $ingress.defaultBackend }}
   defaultBackend:
-    backend:
-      service:
-        name: {{ .backend.service.name }}
-        port:
-          name: {{ .backend.service.port.name }}
+    service:
+      name: {{ .backend.service.name }}
+      port:
+        name: {{ .backend.service.port.name }}
   {{- end }}
   ingressClassName: {{ $ingress.className }}
   {{- if $ingress.tls }}
