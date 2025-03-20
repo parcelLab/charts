@@ -25,9 +25,9 @@ spec:
   {{- with $ingress.defaultBackend }}
   defaultBackend:
     service:
-      name: {{ .backend.service.name }}
+      name: {{ .service.name }}
       port:
-        name: {{ .backend.service.port.name }}
+        name: {{ .service.port.name }}
   {{- end }}
   ingressClassName: {{ $ingress.className }}
   {{- if $ingress.tls }}
