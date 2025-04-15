@@ -25,7 +25,7 @@ metadata:
 spec:
   targetRef:
     apiVersion: "apps/v1"
-    kind: {{ default .Values.vpa.targetKind $vpa.targetKind }}
+    kind: {{ default "Deployment" (default .Values.vpa.targetKind $vpa.targetKind)  }}
     name: {{ $name }}
   {{- if $ignoreContainers }}
   # Do not apply recommendations automatically to these specified containers
