@@ -12,20 +12,21 @@
   ) }}
 */}}
 {{- define "common.vpa" -}}
+{{- $service := default dict .service -}}
+{{- $componentValues := (merge (deepCopy .) (dict "component" $service.name)) -}}
+{{- $name := include "common.componentname" $componentValues -}}
 {{- $vpa := default (dict "enabled" false) .vpa -}}
 {{- if or .Values.vpa.enabled $vpa.enabled -}}
-{{- $fullname := default (include "common.fullname" .) .name -}}
-{{- $ignoreContainers := default .Values.vpa.ignoreContainers .vpa.ignoreContainers -}}
-{{- $argoRollout := default .Values.argoRollout .argoRollout -}}
+{{- $ignoreContainers := default .Values.vpa.ignoreContainers $vpa.ignoreContainers -}}
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
-  name: {{ $fullname }}
+  name: {{ $name }}
 spec:
   targetRef:
-    apiVersion: {{ if $argoRollout.enabled }} argoproj.io/v1alpha1 {{ else }} apps/v1 {{ end }}
-    kind: {{ if $argoRollout.enabled }} Rollout {{ else }} Deployment {{ end }}
-    name: {{ $fullname }}
+    apiVersion: "apps/v1"
+    kind: {{ default .Values.vpa.targetKind $vpa.targetKind }}
+    name: {{ $name }}
   {{- if $ignoreContainers }}
   # Do not apply recommendations automatically to these specified containers
   resourcePolicy:
