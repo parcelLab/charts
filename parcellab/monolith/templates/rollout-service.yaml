@@ -5,6 +5,7 @@
 {{- if .argoRollout.enabled -}}
 {{- include "common.argorollout" (merge (deepCopy $root) (dict "argoRollout" .argoRollout "name" .name "service" . "type" "service")) }}
 {{- end }}
+{{- end }}
 ---
 {{- end -}}
 {{- end -}}
