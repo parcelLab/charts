@@ -1,1 +1,6 @@
-{{- include "common.vpa" . }}
+{{- $root := . -}}
+{{- range .Values.workers }}
+{{- if .vpa -}}
+{{- include "common.vpa" (merge (deepCopy $root) (dict "vpa" .vpa "name" .name "service" . "type" "service")) }}{{- end }}
+---
+{{ end -}}
