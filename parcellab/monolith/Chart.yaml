@@ -15,6 +15,6 @@ dependencies:
     version: 21.0.3
     condition: redis.enabled
   - name: mongodb
-    version: 16.5.7
+    version: 16.5.8
     repository: https://charts.bitnami.com/bitnami
     condition: mongodb.enabled
