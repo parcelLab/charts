@@ -16,6 +16,7 @@
   "prConcurrentLimit": 5,
   "prHourlyLimit": 3,
   "rangeStrategy": "bump",
+  "schedule": ["0 0 1 * *"],
   "semanticCommits": "enabled",
   "semanticCommitScope": "{{parentDir}}"
 }
