@@ -48,7 +48,7 @@ spec:
   serviceAccountName: {{ include "common.serviceAccountName" . }}
   {{- with .Values.securityContext }}
   securityContext:
-    {{- toYaml .Values.podSecurityContext | nindent 4 }}
+    {{- toYaml .Values.securityContext | nindent 4 }}
   {{- end }}
   {{- with .Values.hostAliases }}
   hostAliases:
