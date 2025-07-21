@@ -11,6 +11,7 @@
 {{- $defaultServicePort := .Values.service.port -}}
 {{- if $ingress.enabled -}}
 {{- $name := include "common.fullname" . }}
+{{- $argoRollout := .Values.argoRollout | default dict -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -56,7 +57,7 @@ spec:
             {{- else }}
             backend:
               service:
-                name: {{ if .Values.argoRollout.enabled }} {{ $name }}-rollout {{ else }} {{ $name }} {{ end }}
+                name: {{ if $argoRollout.enabled }} {{ $name }}-rollout {{ else }} {{ $name }} {{ end }}
                 port:
                   number: {{ $defaultServicePort }}
             {{- end }}
