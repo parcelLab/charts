@@ -52,7 +52,7 @@ spec:
   {{- end }}
   {{- with .Values.hostAliases }}
   hostAliases:
-    {{- toYaml .Values.hostAliases | nindent 4 }}
+    {{- toYaml . | nindent 4 }}
   {{- end }}
   terminationGracePeriodSeconds: {{ default 30 .Values.terminationGracePeriodSeconds }}
   volumes:
