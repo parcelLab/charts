@@ -35,7 +35,7 @@
   {{- end }}
   {{- with .podSecurityContext }}
   securityContext:
-    {{- toYaml .podSecurityContext | nindent 4 }}
+    {{- toYaml . | nindent 4 }}
   {{- end }}
   image: {{ .image }}
   {{- with .lifecycle }}
