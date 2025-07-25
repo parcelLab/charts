@@ -16,7 +16,7 @@
       "commonConfig" "Configmap passed from the parent service to be present in the container as well"
       "externalSecret": "ExternalSecret for the container"
       "commonExternalSecret" "Secret passed from the parent service to be present in the container as well"
-      "podSecurityContext": "As the name tells"
+      "securityContext": "As the name tells"
       "volumes" "list of volumes for the container, dict with name, readonly and mountPath"
       "containerEnv" "Environment variables"
       "datadog" "dict for datadog settings"
@@ -33,7 +33,7 @@
   args:
     {{- toYaml . | nindent 4 }}
   {{- end }}
-  {{- with .podSecurityContext }}
+  {{- with .securityContext }}
   securityContext:
     {{- toYaml . | nindent 4 }}
   {{- end }}

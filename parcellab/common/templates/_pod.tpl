@@ -46,7 +46,7 @@ spec:
     {{- toYaml . | nindent 4 }}
   {{- end }}
   serviceAccountName: {{ include "common.serviceAccountName" . }}
-  {{- with .Values.securityContext }}
+  {{- with .Values.podSecurityContext }}
   securityContext:
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -75,7 +75,7 @@ spec:
   {{- end }}
   containers:
     - name: {{ $containerName }}
-      {{- with .Values.podSecurityContext }}
+      {{- with .Values.securityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
