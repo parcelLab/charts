@@ -48,7 +48,7 @@ spec:
   serviceAccountName: {{ include "common.serviceAccountName" . }}
   {{- with .Values.securityContext }}
   securityContext:
-    {{- toYaml .Values.securityContext | nindent 4 }}
+    {{- toYaml . | nindent 4 }}
   {{- end }}
   {{- with .Values.hostAliases }}
   hostAliases:
@@ -77,7 +77,7 @@ spec:
     - name: {{ $containerName }}
       {{- with .Values.podSecurityContext }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- toYaml . | nindent 8 }}
       {{- end }}
       image: {{ include "common.imageurl" $containerImage.image }}
       imagePullPolicy: {{ .Values.image.pullPolicy }}
