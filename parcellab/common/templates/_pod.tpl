@@ -23,6 +23,7 @@
 {{- $initContainers := .pod.initContainers -}}
 {{- $datadog := .Values.datadog -}}
 {{- $type := default "service" .type -}}
+{{- $securityContext := .Values.securityContext -}}
 metadata:
   annotations:
     {{- if and $datadog $datadog.enabled }}
@@ -46,7 +47,7 @@ spec:
     {{- toYaml . | nindent 4 }}
   {{- end }}
   serviceAccountName: {{ include "common.serviceAccountName" . }}
-  {{- with .Values.securityContext }}
+  {{- with .Values.podSecurityContext }}
   securityContext:
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -70,12 +71,12 @@ spec:
   {{- if $initContainers }}
   initContainers:
   {{- range $initContainers }}
-    {{- include "common.container" (merge (deepCopy .) (dict "volumes" $podVolumes "containerEnv" $containerEnv "datadog" $datadog "commonExternalSecret" $commonExternalSecret "commonConfig" $commonConfig "commonRefName" $fullname)) | nindent 4 }}
+    {{- include "common.container" (merge (deepCopy .) (dict "volumes" $podVolumes "containerEnv" $containerEnv "datadog" $datadog "commonExternalSecret" $commonExternalSecret "commonConfig" $commonConfig "commonRefName" $fullname "securityContext" $securityContext)) | nindent 4 }}
   {{- end }}
   {{- end }}
   containers:
     - name: {{ $containerName }}
-      {{- with .Values.podSecurityContext }}
+      {{- with .Values.securityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -185,7 +186,7 @@ spec:
       {{- end }}
   {{- if $extraContainers }}
   {{- range $extraContainers }}
-    {{- include "common.container" (merge (deepCopy .) (dict "volumes" $podVolumes "containerEnv" $containerEnv "datadog" $datadog "commonExternalSecret" $commonExternalSecret "commonConfig" $commonConfig "commonRefName" $fullname)) | nindent 4 }}
+    {{- include "common.container" (merge (deepCopy .) (dict "volumes" $podVolumes "containerEnv" $containerEnv "datadog" $datadog "commonExternalSecret" $commonExternalSecret "commonConfig" $commonConfig "commonRefName" $fullname "securityContext" $securityContext)) | nindent 4 }}
   {{- end }}
   {{- end }}
   {{- if or (eq $type "cronjob") (eq $type "job") }}
