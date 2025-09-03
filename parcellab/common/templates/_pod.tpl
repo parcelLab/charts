@@ -19,8 +19,8 @@
 {{- $podVolumes := default .Values.volumes .pod.volumes -}}
 {{- $commonExternalSecret := .Values.externalSecret -}}
 {{- $commonConfig := .Values.config -}}
-{{- $extraContainers := .pod.extraContainers -}}
-{{- $initContainers := .pod.initContainers -}}
+{{- $extraContainers := .Values.extraContainers -}}
+{{- $initContainers := .Values.initContainers -}}
 {{- $datadog := .Values.datadog -}}
 {{- $type := default "service" .type -}}
 {{- $securityContext := .Values.securityContext -}}
