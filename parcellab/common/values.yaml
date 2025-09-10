@@ -14,8 +14,7 @@ datadog:
   enabled: false
 env: prod
 externalSecret: {}
-imagePullSecrets:
-  - name: github-docker
+# imagePullSecrets: []
 image:
   pullPolicy: IfNotPresent
   tag: stable
