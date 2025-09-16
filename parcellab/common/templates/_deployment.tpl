@@ -21,6 +21,8 @@ metadata:
   name: {{ $name }}
   labels:
     {{- include "common.labels" $componentValues | nindent 4 }}
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   {{- if not $disableReplicaCount }}
   replicas: {{ if $argoRollout.enabled }} 0 {{ else }} {{ default .Values.replicaCount $service.replicaCount }} {{ end }}
