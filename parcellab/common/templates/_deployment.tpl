@@ -16,7 +16,7 @@
 {{- $type := default "service" .type -}}
 {{- $argoRollout := default .Values.argoRollout $service.argoRollout -}}
 {{- $globalAnnotations := default dict .Values.deploymentAnnotations -}}
-{{- $serviceAnnotations := default dict $service.annotations -}}
+{{- $serviceAnnotations := default dict $service.deploymentAnnotations -}}
 {{- $mergedAnnotations := merge $serviceAnnotations $globalAnnotations -}}
 apiVersion: apps/v1
 kind: Deployment
