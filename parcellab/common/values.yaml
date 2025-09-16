@@ -8,6 +8,9 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 config: {}
 containerEnv: {}
+# Global deployment annotations that will be applied to all deployments
+# These can be overridden by service-specific annotations
+deploymentAnnotations: {}
 argoRollout:
   enabled: false
 datadog:

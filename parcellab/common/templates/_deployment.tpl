@@ -15,14 +15,19 @@
 {{- $disableReplicaCount := (ternary $service.disableReplicaCount .Values.disableReplicaCount (hasKey $service "disableReplicaCount")) -}}
 {{- $type := default "service" .type -}}
 {{- $argoRollout := default .Values.argoRollout $service.argoRollout -}}
+{{- $globalAnnotations := default dict .Values.deploymentAnnotations -}}
+{{- $serviceAnnotations := default dict $service.annotations -}}
+{{- $mergedAnnotations := merge $serviceAnnotations $globalAnnotations -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ $name }}
   labels:
     {{- include "common.labels" $componentValues | nindent 4 }}
+  {{- if $mergedAnnotations }}
   annotations:
-    reloader.stakater.com/auto: "true"
+    {{- toYaml $mergedAnnotations | nindent 4 }}
+  {{- end }}
 spec:
   {{- if not $disableReplicaCount }}
   replicas: {{ if $argoRollout.enabled }} 0 {{ else }} {{ default .Values.replicaCount $service.replicaCount }} {{ end }}
