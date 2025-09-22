@@ -15,7 +15,7 @@
 {{- $containerName := default $name .pod.containerName -}}
 {{- $defaultImageValues := dict "repository" (include "common.imagerepository" $root) "tag" (include "common.version" $root) -}}
 {{- $containerImage := merge (dict "image" .pod.image) (dict "image" $defaultImageValues) -}}
-{{- $containerEnv := default .Values.containerEnv .pod.containerEnv -}}
+{{- $containerEnv := include "common.mergeContainerEnv" (dict "global" .Values.containerEnv "local" .pod.containerEnv) -}}
 {{- $podVolumes := default .Values.volumes .pod.volumes -}}
 {{- $commonExternalSecret := .Values.externalSecret -}}
 {{- $commonConfig := .Values.config -}}
@@ -158,8 +158,8 @@ spec:
         {{- end }}
       env:
         {{- include "common.datadogEnvironmentVariables" (dict "datadog" $datadog) | nindent 8 }}
-        {{- with $containerEnv }}
-        {{- toYaml . | nindent 8 }}
+        {{- if $containerEnv }}
+        {{- $containerEnv | nindent 8 }}
         {{- end }}
       {{- if or .Values.config .pod.configName .Values.externalSecret .pod.secretName }}
       envFrom:
