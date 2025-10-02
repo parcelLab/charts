@@ -125,6 +125,12 @@ resources:
 
 postgresql:
   enabled: false
+  global:
+    security:
+      allowInsecureImages: true
+  image:
+    repository: bitnamilegacy/postgresql
+    tag: 17.4.0
   # See default values: https://artifacthub.io/packages/helm/bitnami/postgresql?modal=values
 
 ##
@@ -133,4 +139,10 @@ postgresql:
 
 redis:
   enabled: false
+  global:
+    security:
+      allowInsecureImages: true
+  image:
+    repository: bitnamilegacy/redis
+    tag: 8.2.1
   # See default values: https://artifacthub.io/packages/helm/bitnami/redis?modal=values
