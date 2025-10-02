@@ -423,6 +423,12 @@ resources:
 
 postgresql:
   enabled: false
+  security:
+    allowInsecureImages: false
+
+  image:
+    repository: bitnamilegacy/postgresql
+    tag: 17.4.0
   # See default values: https://artifacthub.io/packages/helm/bitnami/postgresql?modal=values
   primary:
     persistentVolumeClaimRetentionPolicy:
@@ -432,6 +438,12 @@ postgresql:
 
 redis:
   enabled: false
+  global:
+    security:
+      allowInsecureImages: false
+  image:
+    repository: bitnamilegacy/redis
+    tag: 8.2.1
   # See default values: https://artifacthub.io/packages/helm/bitnami/redis?modal=values
   master:
     persistentVolumeClaimRetentionPolicy:
@@ -446,6 +458,12 @@ redis:
 
 mongodb:
   enabled: false
+  global:
+    security:
+      allowInsecureImages: false
+  image:
+    repository: bitnamilegacy/mongodb
+    tag: 8.0.13-debian-12-r0
   # See default values: https://artifacthub.io/packages/helm/bitnami/mongodb?modal=values
   persistentVolumeClaimRetentionPolicy:
     enabled: true
