@@ -423,8 +423,7 @@ resources:
 postgresql:
   enabled: false
   security:
-    allowInsecureImages: false
-
+    allowInsecureImages: true
   image:
     repository: bitnamilegacy/postgresql
     tag: 17.4.0
@@ -439,7 +438,7 @@ redis:
   enabled: false
   global:
     security:
-      allowInsecureImages: false
+      allowInsecureImages: true
   image:
     repository: bitnamilegacy/redis
     tag: 8.2.1
@@ -459,7 +458,7 @@ mongodb:
   enabled: false
   global:
     security:
-      allowInsecureImages: false
+      allowInsecureImages: true
   image:
     repository: bitnamilegacy/mongodb
     tag: 8.0.13-debian-12-r0

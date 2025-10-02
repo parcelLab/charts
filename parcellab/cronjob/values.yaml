@@ -126,7 +126,7 @@ resources:
 postgresql:
   enabled: false
   security:
-    allowInsecureImages: false
+    allowInsecureImages: true
   image:
     repository: bitnamilegacy/postgresql
     tag: 17.4.0
@@ -139,7 +139,7 @@ postgresql:
 redis:
   enabled: false
   security:
-    allowInsecureImages: false
+    allowInsecureImages: true
   image:
     repository: bitnamilegacy/redis
     tag: 8.2.1
