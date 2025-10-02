@@ -61,8 +61,7 @@ affinity: {}
 datadog:
   enabled: true
 
-imagePullSecrets:
-  - name: github-docker
+# imagePullSecrets:
 
 nodeSelector: {}
 
