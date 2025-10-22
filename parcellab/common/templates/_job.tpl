@@ -6,13 +6,11 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  {{- if $job.hook }}
-  generateName: {{ $name }}-
-  annotations:
-    argocd.argoproj.io/hook: {{ default "Skip" $job.hook }}
-    argocd.argoproj.io/hook-delete-policy: {{ default "HookSucceeded" $job.hookDeletePolicy }}
-  {{- else }}
   name: {{ $name }}
+  {{- if $job.hook }}
+  annotations:
+    argocd.argoproj.io/hook: {{ (default "Skip" $job.hook) | quote }}
+    argocd.argoproj.io/hook-delete-policy: {{ (default "BeforeHookCreation" $job.hookDeletePolicy) | quote }}
   {{- end }}
   labels:
     {{- include "common.labels" $componentValues | nindent 4 }}
