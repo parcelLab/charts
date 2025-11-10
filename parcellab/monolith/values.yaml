@@ -124,7 +124,7 @@ job:
 jobs: []
 #  - name: migrate
 #    hook: PreSync
-#    hookDeletePolicy: HookSucceeded
+#    hookDeletePolicy: HookFailed
 #    command:
 #      - /bin/sh
 #      - -c
