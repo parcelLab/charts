@@ -31,10 +31,16 @@ needs.
     Its generated secret's data values will be loaded as environment variables to the target pod.
 - `hpa`
   - Horizontal automatic scaling rules of pods. Can be defined with the `autoscaling` setting.
+- `httproute`
+  - Configure routing through Envoy Gateway. Defined with `httproute`.
 - `ingress`
   - Rules to open external access to the workload. Can be defined with `ingress`.
 - `poddisruptionbudget`
   - Limit the number of concurrent disruptions for the application. Defined with `podDisruptionBudget`.
+- `referencegrant`
+  - Allow cross-namespace references for Envoy Gateway (e.g., HTTPRoute → Gateway). Defined with `referenceGrant`.
+- `securitypolicy`
+  - Configure authentication and authorization with Envoy Gateway. Defined with `securityPolicy`.
 - `serviceaccount`
   - Configure a service account for the pods. Defined with `serviceAccount`.
 - `vpa`
