@@ -184,8 +184,6 @@ autoscaling:
 
 podDisruptionBudget:
   enabled: false
-  spec:
-    maxUnavailable: "50%"
 
 vpa:
   enabled: false
