@@ -22,5 +22,5 @@ spec:
   {{- toYaml $pdbSpec | nindent 2 }}
   selector:
     matchLabels:
-      {{- include "common.selectors" . | nindent 6 }}
+      {{- include "common.selectors" $componentValues | nindent 6 }}
 {{- end -}}
