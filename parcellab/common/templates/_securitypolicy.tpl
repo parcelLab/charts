@@ -12,6 +12,7 @@
 {{- $securityPolicy := .Values.securityPolicy | default dict -}}
 {{- if $securityPolicy.enabled }}
 {{- $name := include "common.fullname" . }}
+{{- $targetRef := $securityPolicy.targetRef | default dict -}}
 ---
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
@@ -26,10 +27,10 @@ metadata:
   {{- end }}
 spec:
   targetRef:
-    group: {{ $securityPolicy.targetRef.group | default "gateway.networking.k8s.io" }}
-    kind: {{ $securityPolicy.targetRef.kind | default "HTTPRoute" }}
-    name: {{ $securityPolicy.targetRef.name | default $name }}
-    {{- with $securityPolicy.targetRef.namespace }}
+    group: {{ $targetRef.group | default "gateway.networking.k8s.io" }}
+    kind: {{ $targetRef.kind | default "HTTPRoute" }}
+    name: {{ $targetRef.name | default $name }}
+    {{- with $targetRef.namespace }}
     namespace: {{ . }}
     {{- end }}
   {{- if $securityPolicy.oidc }}

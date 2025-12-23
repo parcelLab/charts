@@ -20,12 +20,14 @@ metadata:
     {{- include "common.labels" . | nindent 4 }}
 spec:
   parentRefs:
-    - name: {{ $httproute.parentGateway }}
+    - name: {{ required "httproute.parentGateway is required" $httproute.parentGateway }}
       namespace: {{ $httproute.parentGatewayNamespace | default "envoy-gateway" }}
+  {{- with $httproute.hosts }}
   hostnames:
-    {{- range $httproute.hosts }}
+    {{- range . }}
     - {{ . | quote }}
     {{- end }}
+  {{- end }}
   rules:
     - matches:
         - path:

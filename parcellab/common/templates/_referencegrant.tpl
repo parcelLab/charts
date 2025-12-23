@@ -28,9 +28,9 @@ spec:
   from:
     {{- if $referenceGrant.from }}
     {{- range $referenceGrant.from }}
-    - group: {{ .group | quote }}
-      kind: {{ .kind | quote }}
-      namespace: {{ .namespace | quote }}
+    - group: {{ .group | default "gateway.networking.k8s.io" | quote }}
+      kind: {{ required "referenceGrant.from.kind is required" .kind | quote }}
+      namespace: {{ .namespace | default $.Release.Namespace | quote }}
       {{- with .name }}
       name: {{ . | quote }}
       {{- end }}
@@ -43,8 +43,8 @@ spec:
   to:
     {{- if $referenceGrant.to }}
     {{- range $referenceGrant.to }}
-    - group: {{ .group | quote }}
-      kind: {{ .kind | quote }}
+    - group: {{ .group | default "" | quote }}
+      kind: {{ required "referenceGrant.to.kind is required" .kind | quote }}
       {{- with .name }}
       name: {{ . | quote }}
       {{- end }}
