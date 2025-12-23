@@ -1,1 +1,5 @@
+{{- if .Values.referenceGrant }}
+{{- if .Values.referenceGrant.enabled }}
 {{- include "common.referencegrant" . }}
+{{- end }}
+{{- end }}
