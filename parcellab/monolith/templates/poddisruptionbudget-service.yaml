@@ -1,8 +1,10 @@
 {{- if .Values.extraServices -}}
 {{- $root := . -}}
 {{- range .Values.extraServices }}
-{{- if .podDisruptionBudget -}}
-{{- include "common.poddisruptionbudget" (merge (deepCopy $root) (dict "podDisruptionBudget" .podDisruptionBudget "name" .name)) }}
+{{- if .podDisruptionBudget }}
+{{- if .podDisruptionBudget.enabled -}}
+{{- include "common.poddisruptionbudget" (merge (deepCopy $root) (dict "podDisruptionBudget" .podDisruptionBudget "name" .name "service" . "type" "service")) }}
+{{- end }}
 {{- end }}
 ---
 {{- end -}}
