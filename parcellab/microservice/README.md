@@ -31,6 +31,8 @@ needs.
     Its generated secret's data values will be loaded as environment variables to the target pod.
 - `hpa`
   - Horizontal automatic scaling rules of pods. Can be defined with the `autoscaling` setting.
+- `envoy`
+  - Envoy Gateway resources (HTTPRoute, ReferenceGrant). Defined under `envoy.*`.
 - `ingress`
   - Rules to open external access to the workload. Can be defined with `ingress`.
 - `poddisruptionbudget`
