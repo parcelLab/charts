@@ -79,82 +79,28 @@ ingress:
 ## Envoy Gateway Resources
 ##
 
-# HTTPRoute - Configure routing through Envoy Gateway
-httproute:
-  enabled: false
-  # parentGateway: gateway-api
-  # parentGatewayNamespace: envoy-gateway
-  # hosts:
-  #   - myapp.gateway.test.parcellab.dev
-  # path: /
+envoy:
+  httpRoute:
+    enabled: false
+    # parentGateway: gateway-api
+    # parentGatewayNamespace: envoy-gateway
+    # hosts:
+    #   - myapp.gateway.test.parcellab.dev
+    # path: /
 
-# ReferenceGrant - Allow cross-namespace references
-referenceGrant:
-  enabled: false
-  # name: custom-grant  # Optional: custom name
-  # namespace: envoy-gateway  # Optional: where to create the grant (default: current namespace)
-  # from:  # Optional: specify what can reference (default: HTTPRoute from current namespace)
-  #   - group: gateway.networking.k8s.io
-  #     kind: HTTPRoute
-  #     namespace: myapp
-  # to:  # Optional: specify what can be referenced (default: Service)
-  #   - group: ""
-  #     kind: Service
-  #   - group: ""
-  #     kind: Secret
-
-# SecurityPolicy - OIDC Authentication with Group-Based Authorization
-# Example: Employee-Only App
-securityPolicy:
-  enabled: false
-  # name: employee-only  # Optional: custom name
-  # targetRef:
-  #   kind: HTTPRoute
-  #   name: myapp  # Optional: defaults to release name
-  # oidc:
-  #   provider:
-  #     issuer: "https://auth.test.parcellab.dev/realms/parcellab-internal"
-  #   clientID: "envoy-gateway-client"
-  #   clientSecret:
-  #     name: "keycloak-oidc-secret"
-  #     namespace: "envoy-gateway"
-  #   redirectURL: "https://myapp.gateway.test.parcellab.dev/oauth2/callback"
-  #   logoutPath: "/logout"
-  #   scopes:
-  #     - openid
-  #     - profile
-  #     - email
-  #   cookieDomain: "myapp.gateway.test.parcellab.dev"
-  #   forwardAccessToken: true
-  #   passThroughAuthHeader: true
-  # jwt:
-  #   optional: false
-  #   providers:
-  #     - name: keycloak
-  #       issuer: "https://auth.test.parcellab.dev/realms/parcellab-internal"
-  #       remoteJWKS:
-  #         uri: "https://auth.test.parcellab.dev/realms/parcellab-internal/protocol/openid-connect/certs"
-  #         cacheDuration: 300s
-  #       claimToHeaders:
-  #         - header: "x-user-email"
-  #           claim: "email"
-  #         - header: "x-user-groups"
-  #           claim: "groups"
-  #         - header: "x-user-id"
-  #           claim: "sub"
-  # authorization:
-  #   defaultAction: Deny
-  #   rules:
-  #     - name: allow-employees
-  #       action: Allow
-  #       principal:
-  #         jwt:
-  #           provider: keycloak
-  #           claims:
-  #             - name: groups
-  #               valueType: StringArray
-  #               values:
-  #                 - "/parcellab-employee"
+  referenceGrant:
+    enabled: false
+    # name: custom-grant  # Optional: custom name
+    # namespace: envoy-gateway  # Optional: where to create the grant (default: current namespace)
+    # from:  # Optional: specify what can reference (default: HTTPRoute from current namespace)
+    #   - group: gateway.networking.k8s.io
+    #     kind: HTTPRoute
+    #     namespace: myapp
+    # to:  # Optional: specify what can be referenced (default: Service)
+    #   - group: ""
+    #     kind: Service
+    #   - group: ""
+    #     kind: Secret
 
 ##
 ## Cronjob

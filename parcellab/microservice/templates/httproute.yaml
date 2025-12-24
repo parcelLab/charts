@@ -1,5 +1,1 @@
-{{- if .Values.httproute }}
-{{- if .Values.httproute.enabled }}
-{{ include "common.httproute" . }}
-{{- end }}
-{{- end }}
+{{- include "common.httproute" . }}

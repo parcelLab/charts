@@ -8,7 +8,8 @@
 */}}
 
 {{- define "common.httproute" -}}
-{{- $httproute := .Values.httproute | default dict -}}
+{{- $envoy := .Values.envoy | default dict -}}
+{{- $httproute := $envoy.httpRoute | default dict -}}
 {{- if $httproute.enabled }}
 {{- $name := include "common.fullname" . }}
 apiVersion: gateway.networking.k8s.io/v1

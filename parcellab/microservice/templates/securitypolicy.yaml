@@ -1,5 +1,0 @@
-{{- if .Values.securityPolicy }}
-{{- if .Values.securityPolicy.enabled }}
-{{- include "common.securitypolicy" . }}
-{{- end }}
-{{- end }}

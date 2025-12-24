@@ -9,7 +9,8 @@
 */}}
 
 {{- define "common.referencegrant" -}}
-{{- $referenceGrant := .Values.referenceGrant | default dict -}}
+{{- $envoy := .Values.envoy | default dict -}}
+{{- $referenceGrant := $envoy.referenceGrant | default dict -}}
 {{- if $referenceGrant.enabled }}
 {{- $name := include "common.fullname" . }}
 ---

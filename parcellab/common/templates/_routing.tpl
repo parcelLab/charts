@@ -1,5 +1,6 @@
 {{- define "common.routing" -}}
-{{- $httproute := .Values.httproute | default dict -}}
+{{- $envoy := .Values.envoy | default dict -}}
+{{- $httproute := $envoy.httpRoute | default dict -}}
 {{- $ingress := .Values.ingress | default dict -}}
 
 {{- if $httproute.enabled }}
