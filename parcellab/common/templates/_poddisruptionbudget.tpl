@@ -13,7 +13,7 @@
 {{- $componentValues := (merge (deepCopy .) (dict "component" $service.name)) -}}
 {{- $name := include "common.componentname" $componentValues -}}
 {{- $podDisruptionBudget := default (dict "enabled" false) .podDisruptionBudget -}}
-apiVersion: policy/v1beta1
+apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
   name: {{ $name | default (include "common.fullname" .) }}
