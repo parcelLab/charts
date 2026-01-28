@@ -24,38 +24,11 @@ image:
 ingress:
   enabled: false
 
-##
-## Envoy Gateway Resources
-##
-
-# Configure Envoy Gateway resources under a single parent:
-#
-# envoy:
-#   httpRoute: {...}
-#   referenceGrant: {...}
-
 envoy:
-  httpRoute:
-    enabled: false
-    # parentGateway: gateway-api
-    # parentGatewayNamespace: envoy-gateway
-    # hosts:
-    #   - myapp.gateway.test.parcellab.dev
-    # path: /
-
-  referenceGrant:
-    enabled: false
-    # name: custom-grant  # Optional: custom name
-    # namespace: envoy-gateway  # Optional: where to create the grant (default: current namespace)
-    # from:  # Optional: specify what can reference (default: HTTPRoute from current namespace)
-    #   - group: gateway.networking.k8s.io
-    #     kind: HTTPRoute
-    #     namespace: myapp
-    # to:  # Optional: specify what can be referenced (default: Service)
-    #   - group: ""
-    #     kind: Service
-    #   - group: ""
-    #     kind: Secret
+  enabled: false
+  gateway: {}
+  referenceGrant: {}
+  httpRoutes: []
 
 name: common
 terminationGracePeriodSeconds: 30

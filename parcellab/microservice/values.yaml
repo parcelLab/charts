@@ -35,8 +35,7 @@ ingress:
   className: "nginx"
   annotations:
     # kubernetes.io/tls-acme: "true"
-  hosts:
-    []
+  hosts: []
     # - host: app
     #   paths:
     #     - path: /
@@ -47,31 +46,25 @@ ingress:
   #      - chart-example.local
 
 ##
-## Envoy Gateway Resources
+## Envoy Gateway
 ##
 
 envoy:
-  httpRoute:
-    enabled: false
-    # parentGateway: gateway-api
-    # parentGatewayNamespace: envoy-gateway
-    # hosts:
-    #   - myapp.gateway.test.parcellab.dev
-    # path: /
-
+  enabled: false
+  gateway:
+    namespace: envoy-gateway
+    name: gateway-api
   referenceGrant:
-    enabled: false
-    # name: custom-grant  # Optional: custom name
-    # namespace: envoy-gateway  # Optional: where to create the grant (default: current namespace)
-    # from:  # Optional: specify what can reference (default: HTTPRoute from current namespace)
-    #   - group: gateway.networking.k8s.io
-    #     kind: HTTPRoute
-    #     namespace: myapp
-    # to:  # Optional: specify what can be referenced (default: Service)
-    #   - group: ""
-    #     kind: Service
-    #   - group: ""
-    #     kind: Secret
+    from:
+      - group: gateway.networking.k8s.io
+        kind: HTTPRoute
+      - group: gateway.networking.k8s.io
+        kind: SecurityPolicy
+    to:
+      - group: gateway.networking.k8s.io
+        kind: Gateway
+        name: gateway-api
+  httpRoutes: []
 
 ##
 ## Cronjob
@@ -104,8 +97,7 @@ config: {}
 # environment variables using the external-secrets project and an already
 # configured secret store reference
 # See https://external-secrets.io/latest/spec/#external-secrets.io/v1beta1.ExternalSecretSpec
-externalSecret:
-  {}
+externalSecret: {}
   # dataFrom:
   #   - extract:
   #       key: app-key-in-secrets-manager
@@ -230,8 +222,7 @@ terminationGracePeriodSeconds: 30
 
 nodeSelector: {}
 
-securityContext:
-  {}
+securityContext: {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -280,8 +271,7 @@ containerEnv: []
 # - name: MY_ENV_VAR
 #   value: "myvalue"
 
-podSecurityContext:
-  {}
+podSecurityContext: {}
   # fsGroup: 2000
 
 resources:
