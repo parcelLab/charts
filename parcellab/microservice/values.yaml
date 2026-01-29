@@ -35,7 +35,8 @@ ingress:
   className: "nginx"
   annotations:
     # kubernetes.io/tls-acme: "true"
-  hosts: []
+  hosts:
+    []
     # - host: app
     #   paths:
     #     - path: /
@@ -65,6 +66,50 @@ envoy:
         kind: Gateway
         name: gateway-api
   httpRoutes: []
+  #   - name: my-default-route
+  #     hosts:
+  #       - my-app.example.com
+  #     rules:
+  #       - name: default-route
+  #         matches:
+  #           - path:
+  #               type: PathPrefix
+  #               value: "/"
+  #         backendRefs:
+  #           - name: my-app
+  #             port: 5000
+  #             group: ""
+  #             kind: Service
+  #     labels:
+  #       foo: bar # optional
+  security:
+    enabled: false
+#   enabled: true
+#   issuer: "https://my-issuer-domain.example.com"
+#   redirectURL: "https://my-app.example.com/oauth2/callback"
+#   cookieDomain: "my-app.example.com"
+#   scopes:
+#     - profile
+#     - email
+#   claimToHeaders:
+#     - header: "x-user-email"
+#       claim: "email"
+#   policies:
+#     - name: staff-only
+#       targetRef:
+#         kind: HTTPRoute
+#         name: my-default-route
+#         group: "gateway.networking.k8s.io"
+#       authorizationRules:
+#         - name: member-of-staff-group
+#           action: Allow
+#           principal:
+#             jwt:
+#               provider: my-provider
+#               claims:
+#                 - name: groups
+#                   valueType: StringArray
+#                   values: ["staff"]
 
 ##
 ## Cronjob
@@ -97,7 +142,8 @@ config: {}
 # environment variables using the external-secrets project and an already
 # configured secret store reference
 # See https://external-secrets.io/latest/spec/#external-secrets.io/v1beta1.ExternalSecretSpec
-externalSecret: {}
+externalSecret:
+  {}
   # dataFrom:
   #   - extract:
   #       key: app-key-in-secrets-manager
@@ -222,7 +268,8 @@ terminationGracePeriodSeconds: 30
 
 nodeSelector: {}
 
-securityContext: {}
+securityContext:
+  {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -271,7 +318,8 @@ containerEnv: []
 # - name: MY_ENV_VAR
 #   value: "myvalue"
 
-podSecurityContext: {}
+podSecurityContext:
+  {}
   # fsGroup: 2000
 
 resources:

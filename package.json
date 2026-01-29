@@ -16,6 +16,7 @@
     "lint": "npm run lint:helm && npm run lint:prettier",
     "lint:helm": "npm run deps && find parcellab -type d -maxdepth 1 -mindepth 1 | xargs -I {} helm lint {}",
     "lint:prettier": "prettier --check --ignore-unknown .",
+    "lint:prettier:fix": "prettier --check --ignore-unknown --write .",
     "lint:staged": "lint-staged",
     "format": "prettier --write --ignore-unknown .",
     "prepare": "husky install",
