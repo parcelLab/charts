@@ -14,7 +14,9 @@
 {{- $gateway := $envoy.gateway | default dict -}}
 {{- $name := include "common.fullname" . }}
 {{- $serviceNamespace := .Release.Namespace }}
-{{- if $envoy.enabled -}}
+{{- $from := $referenceGrant.from | default list -}}
+{{- $to := $referenceGrant.to | default list -}}
+{{- if and $envoy.enabled (gt (len $from) 0) (gt (len $to) 0) -}}
 ---
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: ReferenceGrant
@@ -29,7 +31,7 @@ metadata:
   {{- end }}
 spec:
   from:
-    {{- range $referenceGrant.from }}
+    {{- range $from }}
     - group: {{ .group | default "gateway.networking.k8s.io" | quote }}
       kind: {{ required "referenceGrant.from.kind is required" .kind | quote }}
       namespace: {{ $serviceNamespace | quote }}
@@ -38,7 +40,7 @@ spec:
       {{- end }}
     {{- end }}
   to:
-    {{- range $referenceGrant.to }}
+    {{- range $to }}
     - group: {{ .group | default "" | quote }}
       kind: {{ required "referenceGrant.to.kind is required" .kind | quote }}
       {{- with .name }}
