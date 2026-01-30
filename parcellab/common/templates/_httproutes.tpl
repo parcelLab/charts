@@ -17,6 +17,10 @@
 {{- $securityLabelKey := printf "%s/security-required" (include "common.parcellabtagsdomain" .) -}}
 
 {{- range $index, $route := $httproutes }}
+{{- $hosts := required (printf "envoy.httpRoutes[%d].hosts is required" $index) $route.hosts -}}
+{{- if eq (len $hosts) 0 -}}
+{{- fail (printf "envoy.httpRoutes[%d].hosts cannot be empty" $index) -}}
+{{- end -}}
 {{- $rawRouteName := default (printf "%s-%d" $baseName $index) $route.name -}}
 {{- $sanitizedRouteName := trunc 63 (trimSuffix "-" (regexReplaceAll "[^a-z0-9-]" (lower $rawRouteName) "-")) -}}
 {{- $routeName := default (printf "%s-%d" $baseName $index) $sanitizedRouteName }}
@@ -34,7 +38,7 @@ metadata:
     {{- end }}
   annotations:
     external-dns.alpha.kubernetes.io/hostname: |
-    {{- range $route.hosts }}
+    {{- range $hosts }}
       {{ . }}
     {{- end }}
 spec:
@@ -44,7 +48,7 @@ spec:
       group: gateway.networking.k8s.io
       kind: Gateway
   hostnames:
-  {{- range $route.hosts }}
+  {{- range $hosts }}
     - {{ . | quote }}
   {{- end }}
   {{- with $route.rules }}
