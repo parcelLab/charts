@@ -22,7 +22,7 @@ apiVersion: gateway.networking.k8s.io/v1beta1
 kind: ReferenceGrant
 metadata:
   name: {{ (printf "%s-reference-grant" $name) }}
-  namespace: {{ $serviceNamespace | quote }}
+  namespace: {{ $gateway.namespace | quote }}
   labels:
     {{- include "common.labels" . | nindent 4 }}
   {{- with $referenceGrant.annotations }}
