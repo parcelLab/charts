@@ -18,7 +18,7 @@
 
 {{- range $index, $route := $httproutes }}
 {{- $hosts := required (printf "envoy.httpRoutes[%d].hosts is required" $index) $route.hosts -}}
-{{- if not $hosts -}}
+{{- if eq (len $hosts) 0 -}}
 {{- fail (printf "envoy.httpRoutes[%d].hosts cannot be empty" $index) -}}
 {{- end -}}
 {{- $rawRouteName := default (printf "%s-%d" $baseName $index) $route.name -}}
