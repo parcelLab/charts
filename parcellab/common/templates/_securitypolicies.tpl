@@ -6,9 +6,6 @@
 */}}
 {{- define "common.securitypolicies" -}}
 {{- $values := .Values -}}
-{{- if .Values.microservice }}
-{{- $values = .Values.microservice -}}
-{{- end -}}
 {{- $envoy := default (dict "enabled" false) $values.envoy -}}
 {{- if $envoy.enabled }}
 {{- $security := default dict $envoy.security -}}
