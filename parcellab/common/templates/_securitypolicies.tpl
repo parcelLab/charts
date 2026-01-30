@@ -13,7 +13,7 @@
 {{- if $policies }}
 {{- $scope := dict "Values" $values "Release" .Release -}}
 {{- $serviceName := default (include "common.fullname" $scope) $values.name -}}
-{{- $policyNamespace := default "infra" $security.namespace -}}
+{{- $policyNamespace := .Release.Namespace -}}
 {{- $securityLabelKey := printf "%s/security-required" (include "common.parcellabtagsdomain" .) -}}
 {{- $globalIssuer := $security.issuer -}}
 {{- $globalRedirectURL := $security.redirectURL -}}
