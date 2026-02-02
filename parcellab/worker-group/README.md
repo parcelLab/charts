@@ -24,7 +24,7 @@ a service, as such workloads are expected to run indefinitely without network tr
 
 These resources can be configured or totally skipped depending on your business
 needs.
- 
+
 - `configmap`
   - The attributes defined in `config` will automatically be loaded as environment
     variables to the target pod.

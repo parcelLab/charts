@@ -23,6 +23,13 @@ image:
   tag: stable
 ingress:
   enabled: false
+
+envoy:
+  enabled: false
+  gateway: {}
+  referenceGrant: {}
+  httpRoutes: []
+
 name: common
 terminationGracePeriodSeconds: 30
 nodeSelector: {}
