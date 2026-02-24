@@ -5,6 +5,7 @@
 */}}
 
 {{- define "common.httproutes" -}}
+{{- $root := . -}}
 {{- $envoy := .Values.envoy | default dict -}}
 {{- if $envoy.enabled -}}
 {{- $gateway := default (dict "name" "gateway-api" "namespace" "envoy-gateway") $envoy.gateway -}}
@@ -15,6 +16,17 @@
 {{- $security := default dict $envoy.security -}}
 {{- $securityEnabled := default false $security.enabled -}}
 {{- $securityLabelKey := printf "%s/security-required" (include "common.parcellabtagsdomain" .) -}}
+{{- $rolloutServices := dict -}}
+{{- $globalRollout := .Values.argoRollout | default dict -}}
+{{- if $globalRollout.enabled -}}
+{{- $_ := set $rolloutServices $baseName true -}}
+{{- end -}}
+{{- range .Values.extraServices | default list -}}
+{{- if and .argoRollout .argoRollout.enabled -}}
+{{- $svcName := include "common.componentname" (merge (deepCopy $root) (dict "component" .name)) -}}
+{{- $_ := set $rolloutServices $svcName true -}}
+{{- end -}}
+{{- end -}}
 
 {{- range $index, $route := $httproutes }}
 {{- $hosts := required (printf "envoy.httpRoutes[%d].hosts is required" $index) $route.hosts -}}
@@ -50,8 +62,26 @@ spec:
   {{- end }}
   {{- with $route.rules }}
   rules:
-    {{ toYaml . | nindent 4 }}
-  {{ end }}
+    {{- range $rule := . }}
+    {{- $ruleCopy := deepCopy $rule -}}
+    {{- if $ruleCopy.backendRefs }}
+    {{- range $backend := $ruleCopy.backendRefs }}
+    {{- $backendKind := default "Service" $backend.kind -}}
+    {{- $backendGroup := default "" $backend.group -}}
+    {{- if and (eq $backendKind "Service") (eq $backendGroup "") }}
+    {{- $backendName := $backend.name -}}
+    {{- if and $backendName (hasKey $rolloutServices $backendName) (not (hasSuffix "-rollout" $backendName)) -}}
+    {{- $_ := set $backend "name" (printf "%s-rollout" $backendName) -}}
+    {{- end -}}
+    {{- end -}}
+    {{- end -}}
+    {{- end -}}
+    {{- $ruleYaml := toYaml $ruleCopy -}}
+    {{- $ruleYaml = replace $ruleYaml "\n" "\n  " -}}
+    {{- $ruleYaml = printf "- %s" $ruleYaml -}}
+    {{- $ruleYaml | nindent 4 }}
+    {{- end }}
+  {{- end }}
 {{ end }}
 {{- end }}
 {{- end }}
