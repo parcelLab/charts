@@ -77,7 +77,7 @@ spec:
     {{- end -}}
     {{- end -}}
     {{- $ruleYaml := toYaml $ruleCopy -}}
-    {{- $ruleYaml = replace $ruleYaml "\n" "\n  " -}}
+    {{- $ruleYaml = replace "\n" "\n  " $ruleYaml -}}
     {{- $ruleYaml = printf "- %s" $ruleYaml -}}
     {{- $ruleYaml | nindent 4 }}
     {{- end }}
