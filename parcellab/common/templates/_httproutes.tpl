@@ -79,9 +79,11 @@ spec:
     {{- $ruleYaml := toYaml $ruleCopy -}}
     {{- $ruleYaml = replace "\n" "\n  " $ruleYaml -}}
     {{- $ruleYaml = printf "- %s" $ruleYaml -}}
-    {{- $ruleYaml | nindent 4 }}
+{{- $ruleYaml | nindent 4 }}
     {{- end }}
   {{- end }}
+{{- include "common.backendtrafficpolicy" (dict "Values" .Values "Release" .Release "route" $route "index" $index "routeName" $routeName "globalLabels" $globalLabels) }}
+{{- include "common.clienttrafficpolicy" (dict "Values" .Values "Release" .Release "route" $route "index" $index "routeName" $routeName "globalLabels" $globalLabels) }}
 {{ end }}
 {{- end }}
 {{- end }}
