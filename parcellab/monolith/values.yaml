@@ -109,6 +109,28 @@ envoy:
   #             port: 5000
   #             group: ""
   #             kind: Service
+  #     backendTrafficPolicy:
+  #       # enabled: true
+  #       # name: my-app-policy
+  #       # labels: {}
+  #       # annotations: {}
+  #       # targetRefs: [] # default: the HTTPRoute above
+  #       # loadBalancer:
+  #       #   type: LeastRequest
+  #       # timeout:
+  #       #   tcp:
+  #       #     connectTimeout: 5s
+  #       #   http:
+  #       #     connectionIdleTimeout: 60s
+  #       #     requestTimeout: 30s
+  #     clientTrafficPolicy:
+  #       # enabled: true
+  #       # name: my-app-client-policy
+  #       # labels: {}
+  #       # annotations: {}
+  #       # targetRefs: [] # default: the HTTPRoute above
+  #       # tls:
+  #       #   sni: "my-app.example.com"
   #     labels:
   #       foo: bar # optional
   security:

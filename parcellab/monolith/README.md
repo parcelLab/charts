@@ -32,7 +32,7 @@ needs.
 - `hpa`
   - Horizontal automatic scaling rules of pods. Can be defined with the `autoscaling` setting.
 - `envoy`
-  - Envoy Gateway resources (HTTPRoute, ReferenceGrant, SecurityPolicy). Defined under `envoy.*`.
+  - Envoy Gateway resources (HTTPRoute, ReferenceGrant, SecurityPolicy, BackendTrafficPolicy, ClientTrafficPolicy). Defined under `envoy.*`.
 - `ingress`
   - Rules to open external access to the workload. Can be defined with `ingress`.
 - `poddisruptionbudget`
