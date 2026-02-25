@@ -16,17 +16,7 @@
 {{- $security := default dict $envoy.security -}}
 {{- $securityEnabled := default false $security.enabled -}}
 {{- $securityLabelKey := printf "%s/security-required" (include "common.parcellabtagsdomain" .) -}}
-{{- $rolloutServices := dict -}}
-{{- $globalRollout := .Values.argoRollout | default dict -}}
-{{- if $globalRollout.enabled -}}
-{{- $_ := set $rolloutServices $baseName true -}}
-{{- end -}}
-{{- range .Values.extraServices | default list -}}
-{{- if and .argoRollout .argoRollout.enabled -}}
-{{- $svcName := include "common.componentname" (merge (deepCopy $root) (dict "component" .name)) -}}
-{{- $_ := set $rolloutServices $svcName true -}}
-{{- end -}}
-{{- end -}}
+{{- $rolloutServices := include "common.rolloutServicesMap" (dict "root" $root "baseName" $baseName) | fromJson -}}
 
 {{- range $index, $route := $httproutes }}
 {{- $hosts := required (printf "envoy.httpRoutes[%d].hosts is required" $index) $route.hosts -}}
@@ -76,10 +66,7 @@ spec:
     {{- end -}}
     {{- end -}}
     {{- end -}}
-    {{- $ruleYaml := toYaml $ruleCopy -}}
-    {{- $ruleYaml = replace "\n" "\n  " $ruleYaml -}}
-    {{- $ruleYaml = printf "- %s" $ruleYaml -}}
-{{- $ruleYaml | nindent 4 }}
+{{- toYaml (list $ruleCopy) | nindent 4 }}
     {{- end }}
   {{- end }}
 {{- include "common.backendtrafficpolicy" (dict "Values" .Values "Release" .Release "route" $route "index" $index "routeName" $routeName "globalLabels" $globalLabels) }}

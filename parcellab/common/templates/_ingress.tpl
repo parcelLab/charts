@@ -12,17 +12,7 @@
 {{- $defaultServicePort := .Values.service.port -}}
 {{- if $ingress.enabled -}}
 {{- $name := include "common.fullname" . }}
-{{- $rolloutServices := dict -}}
-{{- $globalRollout := .Values.argoRollout | default dict -}}
-{{- if $globalRollout.enabled -}}
-{{- $_ := set $rolloutServices $name true -}}
-{{- end -}}
-{{- range .Values.extraServices | default list -}}
-{{- if and .argoRollout .argoRollout.enabled -}}
-{{- $svcName := include "common.componentname" (merge (deepCopy $root) (dict "component" .name)) -}}
-{{- $_ := set $rolloutServices $svcName true -}}
-{{- end -}}
-{{- end -}}
+{{- $rolloutServices := include "common.rolloutServicesMap" (dict "root" $root "baseName" $name) | fromJson -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
