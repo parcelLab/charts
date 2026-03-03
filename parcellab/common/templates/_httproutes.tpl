@@ -69,8 +69,8 @@ spec:
 {{- toYaml (list $ruleCopy) | nindent 4 }}
     {{- end }}
   {{- end }}
-{{- include "common.backendtrafficpolicy" (dict "Values" .Values "Release" .Release "route" $route "index" $index "routeName" $routeName "globalLabels" $globalLabels) }}
-{{- include "common.clienttrafficpolicy" (dict "Values" .Values "Release" .Release "route" $route "index" $index "routeName" $routeName "globalLabels" $globalLabels) }}
+{{- include "common.backendtrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "route" $route "index" $index "routeName" $routeName "globalLabels" $globalLabels) }}
+{{- include "common.clienttrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "route" $route "index" $index "routeName" $routeName "globalLabels" $globalLabels) }}
 {{ end }}
 {{- end }}
 {{- end }}
