@@ -1,5 +1,28 @@
 {{/* vim: set filetype=mustache: */}}
 {{/*
+Builds the map of service names that should target their -rollout counterpart.
+Returns JSON so callers can deserialise with fromJson.
+Usage:
+  {{- $rolloutServices := include "common.rolloutServicesMap" (dict "root" . "baseName" $baseName) | fromJson -}}
+*/}}
+{{- define "common.rolloutServicesMap" -}}
+{{- $root := .root -}}
+{{- $baseName := .baseName -}}
+{{- $rolloutServices := dict -}}
+{{- $globalRollout := $root.Values.argoRollout | default dict -}}
+{{- if $globalRollout.enabled -}}
+{{- $_ := set $rolloutServices $baseName true -}}
+{{- end -}}
+{{- range $root.Values.extraServices | default list -}}
+{{- if and .argoRollout .argoRollout.enabled -}}
+{{- $svcName := include "common.componentname" (merge (deepCopy $root) (dict "component" .name)) -}}
+{{- $_ := set $rolloutServices $svcName true -}}
+{{- end -}}
+{{- end -}}
+{{- $rolloutServices | toJson -}}
+{{- end -}}
+
+{{/*
   Keys and quoted values generated from a given dict:
   {{ include "common.argorollout" (
     dict

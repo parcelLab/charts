@@ -7,11 +7,12 @@
   ) }}
 */}}
 {{- define "common.ingress" -}}
+{{- $root := . -}}
 {{- $ingress := .Values.ingress -}}
 {{- $defaultServicePort := .Values.service.port -}}
 {{- if $ingress.enabled -}}
 {{- $name := include "common.fullname" . }}
-{{- $argoRollout := .Values.argoRollout | default dict -}}
+{{- $rolloutServices := include "common.rolloutServicesMap" (dict "root" $root "baseName" $name) | fromJson -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -52,12 +53,16 @@ spec:
             pathType: {{ .pathType }}
             {{- end }}
             {{- if .backend }}
+            {{- $backendCopy := deepCopy .backend -}}
+            {{- if and $backendCopy.service $backendCopy.service.name (hasKey $rolloutServices $backendCopy.service.name) (not (hasSuffix "-rollout" $backendCopy.service.name)) -}}
+            {{- $_ := set $backendCopy.service "name" (printf "%s-rollout" $backendCopy.service.name) -}}
+            {{- end }}
             backend:
-              {{- toYaml .backend | nindent 14 }}
+              {{- toYaml $backendCopy | nindent 14 }}
             {{- else }}
             backend:
               service:
-                name: {{ if $argoRollout.enabled }} {{ $name }}-rollout {{ else }} {{ $name }} {{ end }}
+                name: {{ if (hasKey $rolloutServices $name) }}{{ $name }}-rollout{{ else }}{{ $name }}{{ end }}
                 port:
                   number: {{ $defaultServicePort }}
             {{- end }}
