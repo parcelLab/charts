@@ -39,6 +39,7 @@
 {{- $claimToHeaders := coalesce $policy.claimToHeaders $globalClaimHeaders -}}
 {{- $jwtProviderName := coalesce $policy.jwtProviderName $globalJwtProviderName "keycloak" -}}
 {{- $jwksURI := coalesce $policy.jwksURI $globalJwksURI (printf "%s/protocol/openid-connect/certs" $issuer) -}}
+{{- $backendRefs := coalesce $policy.backendRefs $security.backendRefs -}}
 {{- $targetRef := $policy.targetRef -}}
 {{- $targetRefs := $policy.targetRefs -}}
 {{- $rawSelectors := list -}}
@@ -84,6 +85,10 @@ spec:
   oidc:
     provider:
       issuer: {{ $issuer | quote }}
+      {{- with $backendRefs }}
+      backendRefs:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     clientID: {{ $clientID | quote }}
     clientSecret:
       name: {{ $clientSecretName | quote }}
@@ -104,6 +109,10 @@ spec:
         remoteJWKS:
           cacheDuration: 300s
           uri: {{ $jwksURI | quote }}
+          {{- with $backendRefs }}
+          backendRefs:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
         {{- with $claimToHeaders }}
         claimToHeaders:
           {{ toYaml . | nindent 8 }}
