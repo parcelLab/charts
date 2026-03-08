@@ -10,6 +10,8 @@
 {{- if $envoy.enabled -}}
 {{- $gateway := default (dict "name" "gateway-api" "namespace" "envoy-gateway") $envoy.gateway -}}
 {{- $httproutes := default (list) $envoy.httpRoutes -}}
+{{- $globalBackendTrafficPolicy := $envoy.backendTrafficPolicy | default dict -}}
+{{- $globalClientTrafficPolicy := $envoy.clientTrafficPolicy | default dict -}}
 {{- $baseName := include "common.fullname" . -}}
 {{- $globalLabels := include "common.labels" . -}}
 {{- $serviceNamespace := .Release.Namespace -}}
@@ -22,6 +24,26 @@
 {{- $hosts := required (printf "envoy.httpRoutes[%d].hosts is required" $index) $route.hosts -}}
 {{- if eq (len $hosts) 0 -}}
 {{- fail (printf "envoy.httpRoutes[%d].hosts cannot be empty" $index) -}}
+{{- end -}}
+{{- $policyRoute := $route -}}
+{{- if or $globalBackendTrafficPolicy $globalClientTrafficPolicy -}}
+{{- $policyRoute = deepCopy $route -}}
+{{- end -}}
+{{- if $globalBackendTrafficPolicy -}}
+{{- $routeBackendTrafficPolicy := $policyRoute.backendTrafficPolicy -}}
+{{- if $routeBackendTrafficPolicy -}}
+{{- $_ := set $policyRoute "backendTrafficPolicy" (mergeOverwrite (deepCopy $globalBackendTrafficPolicy) $routeBackendTrafficPolicy) -}}
+{{- else -}}
+{{- $_ := set $policyRoute "backendTrafficPolicy" (deepCopy $globalBackendTrafficPolicy) -}}
+{{- end -}}
+{{- end -}}
+{{- if $globalClientTrafficPolicy -}}
+{{- $routeClientTrafficPolicy := $policyRoute.clientTrafficPolicy -}}
+{{- if $routeClientTrafficPolicy -}}
+{{- $_ := set $policyRoute "clientTrafficPolicy" (mergeOverwrite (deepCopy $globalClientTrafficPolicy) $routeClientTrafficPolicy) -}}
+{{- else -}}
+{{- $_ := set $policyRoute "clientTrafficPolicy" (deepCopy $globalClientTrafficPolicy) -}}
+{{- end -}}
 {{- end -}}
 {{- $rawRouteName := default (printf "%s-%d" $baseName $index) $route.name -}}
 {{- $sanitizedRouteName := trunc 63 (trimSuffix "-" (regexReplaceAll "[^a-z0-9-]" (lower $rawRouteName) "-")) -}}
@@ -69,8 +91,8 @@ spec:
 {{- toYaml (list $ruleCopy) | nindent 4 }}
     {{- end }}
   {{- end }}
-{{ include "common.backendtrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "route" $route "index" $index "routeName" $routeName "globalLabels" $globalLabels) }}
-{{ include "common.clienttrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "route" $route "index" $index "routeName" $routeName "globalLabels" $globalLabels) }}
+{{ include "common.backendtrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "route" $policyRoute "index" $index "routeName" $routeName "globalLabels" $globalLabels) }}
+{{ include "common.clienttrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "route" $policyRoute "index" $index "routeName" $routeName "globalLabels" $globalLabels) }}
 {{ end }}
 {{- end }}
 {{- end }}
