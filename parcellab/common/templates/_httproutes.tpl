@@ -40,7 +40,7 @@
 {{- if and (not $globalBackendTrafficPolicyHasTargetRef) (not $globalBackendTrafficPolicyHasTargetRefs) (not $globalBackendTrafficPolicyHasTargetSelectors) (gt (len $globalBackendTrafficPolicyTargetRefs) 0) -}}
 {{- $_ := set $globalBackendPolicy "targetRefs" $globalBackendTrafficPolicyTargetRefs -}}
 {{- end -}}
-{{ include "common.backendtrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "policy" $globalBackendPolicy) }}
+{{ include "common.backendtrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "Chart" $root.Chart "policy" $globalBackendPolicy) }}
 {{- end }}
 
 {{- $globalClientTrafficPolicyEnabled := and $globalClientTrafficPolicy (default true $globalClientTrafficPolicy.enabled) -}}
@@ -63,7 +63,7 @@
 {{- if and (not $globalClientTrafficPolicyHasTargetRef) (not $globalClientTrafficPolicyHasTargetRefs) (not $globalClientTrafficPolicyHasTargetSelectors) (gt (len $globalClientTrafficPolicyTargetRefs) 0) -}}
 {{- $_ := set $globalClientPolicy "targetRefs" $globalClientTrafficPolicyTargetRefs -}}
 {{- end -}}
-{{ include "common.clienttrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "policy" $globalClientPolicy) }}
+{{ include "common.clienttrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "Chart" $root.Chart "policy" $globalClientPolicy) }}
 {{- end }}
 
 {{- range $index, $route := $httproutes }}
@@ -72,17 +72,6 @@
 {{- fail (printf "envoy.httpRoutes[%d].hosts cannot be empty" $index) -}}
 {{- end -}}
 {{- $policyRoute := $route -}}
-{{- if $globalClientTrafficPolicy -}}
-{{- $policyRoute = deepCopy $route -}}
-{{- end -}}
-{{- if $globalClientTrafficPolicy -}}
-{{- $routeClientTrafficPolicy := $policyRoute.clientTrafficPolicy -}}
-{{- if $routeClientTrafficPolicy -}}
-{{- $_ := set $policyRoute "clientTrafficPolicy" (mergeOverwrite (deepCopy $globalClientTrafficPolicy) $routeClientTrafficPolicy) -}}
-{{- else -}}
-{{- $_ := set $policyRoute "clientTrafficPolicy" (deepCopy $globalClientTrafficPolicy) -}}
-{{- end -}}
-{{- end -}}
 {{- $rawRouteName := default (printf "%s-%d" $baseName $index) $route.name -}}
 {{- $sanitizedRouteName := trunc 63 (trimSuffix "-" (regexReplaceAll "[^a-z0-9-]" (lower $rawRouteName) "-")) -}}
 {{- $routeName := default (printf "%s-%d" $baseName $index) $sanitizedRouteName }}
@@ -129,8 +118,12 @@ spec:
 {{- toYaml (list $ruleCopy) | nindent 4 }}
     {{- end }}
   {{- end }}
-{{ include "common.backendtrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "route" $policyRoute "index" $index "routeName" $routeName "globalLabels" $globalLabels) }}
-{{ include "common.clienttrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "route" $policyRoute "index" $index "routeName" $routeName "globalLabels" $globalLabels) }}
+{{- if hasKey $route "backendTrafficPolicy" }}
+{{ include "common.backendtrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "Chart" $root.Chart "route" $policyRoute "index" $index "routeName" $routeName "globalLabels" $globalLabels) }}
+{{- end }}
+{{- if hasKey $route "clientTrafficPolicy" }}
+{{ include "common.clienttrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "Chart" $root.Chart "route" $policyRoute "index" $index "routeName" $routeName "globalLabels" $globalLabels) }}
+{{- end }}
 {{ end }}
 {{- end }}
 {{- end }}

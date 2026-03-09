@@ -120,6 +120,7 @@ spec:
   {{- if gt (len $btpSpec) 0 }}
   {{- toYaml $btpSpec | nindent 2 }}
   {{- end }}
+{{""}}
 {{- end -}}
 {{- end -}}
 {{- end -}}
