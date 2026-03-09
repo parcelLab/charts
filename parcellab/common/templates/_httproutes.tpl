@@ -21,9 +21,11 @@
 {{- $rolloutServices := include "common.rolloutServicesMap" (dict "root" $root "baseName" $baseName) | fromJson -}}
 
 {{- $globalBackendTrafficPolicyEnabled := and $globalBackendTrafficPolicy (default true $globalBackendTrafficPolicy.enabled) -}}
+{{- $globalBackendTrafficPolicyHasTargetRef := or (and $globalBackendTrafficPolicy.targetRef (gt (len $globalBackendTrafficPolicy.targetRef) 0)) (and $globalBackendTrafficPolicy.spec (hasKey $globalBackendTrafficPolicy.spec "targetRef")) -}}
 {{- $globalBackendTrafficPolicyHasTargetRefs := or (gt (len ($globalBackendTrafficPolicy.targetRefs | default list)) 0) (and $globalBackendTrafficPolicy.spec (hasKey $globalBackendTrafficPolicy.spec "targetRefs")) -}}
+{{- $globalBackendTrafficPolicyHasTargetSelectors := or (gt (len ($globalBackendTrafficPolicy.targetSelectors | default list)) 0) (and $globalBackendTrafficPolicy.spec (hasKey $globalBackendTrafficPolicy.spec "targetSelectors")) -}}
 {{- $globalBackendTrafficPolicyTargetRefs := list -}}
-{{- if and $globalBackendTrafficPolicyEnabled (not $globalBackendTrafficPolicyHasTargetRefs) -}}
+{{- if and $globalBackendTrafficPolicyEnabled (not $globalBackendTrafficPolicyHasTargetRef) (not $globalBackendTrafficPolicyHasTargetRefs) (not $globalBackendTrafficPolicyHasTargetSelectors) -}}
 {{- range $index, $route := $httproutes }}
 {{- if not (hasKey $route "backendTrafficPolicy") -}}
 {{- $rawRouteName := default (printf "%s-%d" $baseName $index) $route.name -}}
@@ -33,18 +35,20 @@
 {{- end -}}
 {{- end -}}
 {{- end -}}
-{{- if and $globalBackendTrafficPolicyEnabled (or $globalBackendTrafficPolicyHasTargetRefs (gt (len $globalBackendTrafficPolicyTargetRefs) 0)) -}}
+{{- if and $globalBackendTrafficPolicyEnabled (or $globalBackendTrafficPolicyHasTargetRef $globalBackendTrafficPolicyHasTargetRefs $globalBackendTrafficPolicyHasTargetSelectors (gt (len $globalBackendTrafficPolicyTargetRefs) 0)) -}}
 {{- $globalBackendPolicy := deepCopy $globalBackendTrafficPolicy -}}
-{{- if and (not $globalBackendTrafficPolicyHasTargetRefs) (gt (len $globalBackendTrafficPolicyTargetRefs) 0) -}}
+{{- if and (not $globalBackendTrafficPolicyHasTargetRef) (not $globalBackendTrafficPolicyHasTargetRefs) (not $globalBackendTrafficPolicyHasTargetSelectors) (gt (len $globalBackendTrafficPolicyTargetRefs) 0) -}}
 {{- $_ := set $globalBackendPolicy "targetRefs" $globalBackendTrafficPolicyTargetRefs -}}
 {{- end -}}
 {{ include "common.backendtrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "policy" $globalBackendPolicy) }}
 {{- end }}
 
 {{- $globalClientTrafficPolicyEnabled := and $globalClientTrafficPolicy (default true $globalClientTrafficPolicy.enabled) -}}
+{{- $globalClientTrafficPolicyHasTargetRef := or (and $globalClientTrafficPolicy.targetRef (gt (len $globalClientTrafficPolicy.targetRef) 0)) (and $globalClientTrafficPolicy.spec (hasKey $globalClientTrafficPolicy.spec "targetRef")) -}}
 {{- $globalClientTrafficPolicyHasTargetRefs := or (gt (len ($globalClientTrafficPolicy.targetRefs | default list)) 0) (and $globalClientTrafficPolicy.spec (hasKey $globalClientTrafficPolicy.spec "targetRefs")) -}}
+{{- $globalClientTrafficPolicyHasTargetSelectors := or (gt (len ($globalClientTrafficPolicy.targetSelectors | default list)) 0) (and $globalClientTrafficPolicy.spec (hasKey $globalClientTrafficPolicy.spec "targetSelectors")) -}}
 {{- $globalClientTrafficPolicyTargetRefs := list -}}
-{{- if and $globalClientTrafficPolicyEnabled (not $globalClientTrafficPolicyHasTargetRefs) -}}
+{{- if and $globalClientTrafficPolicyEnabled (not $globalClientTrafficPolicyHasTargetRef) (not $globalClientTrafficPolicyHasTargetRefs) (not $globalClientTrafficPolicyHasTargetSelectors) -}}
 {{- range $index, $route := $httproutes }}
 {{- if not (hasKey $route "clientTrafficPolicy") -}}
 {{- $rawRouteName := default (printf "%s-%d" $baseName $index) $route.name -}}
@@ -54,9 +58,9 @@
 {{- end -}}
 {{- end -}}
 {{- end -}}
-{{- if and $globalClientTrafficPolicyEnabled (or $globalClientTrafficPolicyHasTargetRefs (gt (len $globalClientTrafficPolicyTargetRefs) 0)) -}}
+{{- if and $globalClientTrafficPolicyEnabled (or $globalClientTrafficPolicyHasTargetRef $globalClientTrafficPolicyHasTargetRefs $globalClientTrafficPolicyHasTargetSelectors (gt (len $globalClientTrafficPolicyTargetRefs) 0)) -}}
 {{- $globalClientPolicy := deepCopy $globalClientTrafficPolicy -}}
-{{- if and (not $globalClientTrafficPolicyHasTargetRefs) (gt (len $globalClientTrafficPolicyTargetRefs) 0) -}}
+{{- if and (not $globalClientTrafficPolicyHasTargetRef) (not $globalClientTrafficPolicyHasTargetRefs) (not $globalClientTrafficPolicyHasTargetSelectors) (gt (len $globalClientTrafficPolicyTargetRefs) 0) -}}
 {{- $_ := set $globalClientPolicy "targetRefs" $globalClientTrafficPolicyTargetRefs -}}
 {{- end -}}
 {{ include "common.clienttrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "policy" $globalClientPolicy) }}

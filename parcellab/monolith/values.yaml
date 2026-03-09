@@ -98,6 +98,11 @@ envoy:
   #   # Global policy for all HTTPRoutes. If a route defines its own
   #   # backendTrafficPolicy, that route is excluded from the global policy.
   #   # enabled: true
+  #   # targetSelectors:
+  #   #   - group: gateway.networking.k8s.io
+  #   #     kind: HTTPRoute
+  #   #     matchLabels:
+  #   #       app: my-app
   #   # targetRefs:
   #   #   - group: gateway.networking.k8s.io
   #   #     kind: HTTPRoute
@@ -106,6 +111,11 @@ envoy:
   #   # Global policy for all HTTPRoutes. If a route defines its own
   #   # clientTrafficPolicy, that route is excluded from the global policy.
   #   # enabled: true
+  #   # targetSelectors:
+  #   #   - group: gateway.networking.k8s.io
+  #   #     kind: HTTPRoute
+  #   #     matchLabels:
+  #   #       app: my-app
   #   # timeout:
   #   #   http:
   #   #     idleTimeout: 60s

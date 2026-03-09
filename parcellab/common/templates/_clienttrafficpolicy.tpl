@@ -29,7 +29,19 @@
 {{- $ctpName := default (printf "%s-client-traffic-policy" (ternary $routeName (include "common.fullname" .) $hasRoutePolicy)) $clientTrafficPolicy.name -}}
 {{- $ctpLabels := $clientTrafficPolicy.labels | default dict -}}
 {{- $ctpAnnotations := $clientTrafficPolicy.annotations | default dict -}}
+{{- $ctpTargetRef := $clientTrafficPolicy.targetRef | default dict -}}
+{{- $ctpHasTargetRef := and $ctpTargetRef (ne (len $ctpTargetRef) 0) -}}
 {{- $ctpTargetRefs := $clientTrafficPolicy.targetRefs | default list -}}
+{{- $ctpTargetSelectors := list -}}
+{{- if $clientTrafficPolicy.targetSelectors }}
+  {{- if kindIs "slice" $clientTrafficPolicy.targetSelectors }}
+    {{- $ctpTargetSelectors = $clientTrafficPolicy.targetSelectors -}}
+  {{- else }}
+    {{- $ctpTargetSelectors = list $clientTrafficPolicy.targetSelectors -}}
+  {{- end }}
+{{- else if $clientTrafficPolicy.targetSelector }}
+  {{- $ctpTargetSelectors = list $clientTrafficPolicy.targetSelector -}}
+{{- end }}
 {{- $ctpSpec := $clientTrafficPolicy.spec | default dict -}}
 {{- if eq (len $ctpSpec) 0 -}}
 {{- $ctpSpec = deepCopy $clientTrafficPolicy -}}
@@ -37,25 +49,42 @@
 {{- $_ := unset $ctpSpec "name" -}}
 {{- $_ := unset $ctpSpec "labels" -}}
 {{- $_ := unset $ctpSpec "annotations" -}}
+{{- $_ := unset $ctpSpec "targetRef" -}}
 {{- $_ := unset $ctpSpec "targetRefs" -}}
+{{- $_ := unset $ctpSpec "targetSelectors" -}}
+{{- $_ := unset $ctpSpec "targetSelector" -}}
 {{- $_ := unset $ctpSpec "spec" -}}
 {{- end -}}
+{{- $ctpSpecHasTargetRef := hasKey $ctpSpec "targetRef" -}}
 {{- $ctpSpecHasTargetRefs := hasKey $ctpSpec "targetRefs" -}}
+{{- $ctpSpecHasTargetSelectors := hasKey $ctpSpec "targetSelectors" -}}
+{{- if $ctpHasTargetRef -}}
+{{- if $ctpSpecHasTargetRef -}}
+{{- $_ := unset $ctpSpec "targetRef" -}}
+{{- $ctpSpecHasTargetRef = false -}}
+{{- end -}}
+{{- end -}}
 {{- if gt (len $ctpTargetRefs) 0 -}}
 {{- if $ctpSpecHasTargetRefs -}}
 {{- $_ := unset $ctpSpec "targetRefs" -}}
 {{- $ctpSpecHasTargetRefs = false -}}
 {{- end -}}
 {{- end -}}
-{{- if and (eq (len $ctpSpec) 0) (eq (len $ctpTargetRefs) 0) (not $ctpSpecHasTargetRefs) -}}
+{{- if gt (len $ctpTargetSelectors) 0 -}}
+{{- if $ctpSpecHasTargetSelectors -}}
+{{- $_ := unset $ctpSpec "targetSelectors" -}}
+{{- $ctpSpecHasTargetSelectors = false -}}
+{{- end -}}
+{{- end -}}
+{{- if and (eq (len $ctpSpec) 0) (not $ctpHasTargetRef) (eq (len $ctpTargetRefs) 0) (eq (len $ctpTargetSelectors) 0) (not $ctpSpecHasTargetRef) (not $ctpSpecHasTargetRefs) (not $ctpSpecHasTargetSelectors) -}}
 {{- if $hasRoutePolicy -}}
 {{- fail (printf "envoy.httpRoutes[%d].clientTrafficPolicy requires spec or fields" $index) -}}
 {{- else -}}
 {{- fail "envoy.clientTrafficPolicy requires spec or fields" -}}
 {{- end -}}
 {{- end -}}
-{{- if and (not $hasRoutePolicy) (eq (len $ctpTargetRefs) 0) (not $ctpSpecHasTargetRefs) -}}
-{{- fail "envoy.clientTrafficPolicy.targetRefs is required for global policy" -}}
+{{- if and (not $hasRoutePolicy) (not $ctpHasTargetRef) (eq (len $ctpTargetRefs) 0) (eq (len $ctpTargetSelectors) 0) (not $ctpSpecHasTargetRef) (not $ctpSpecHasTargetRefs) (not $ctpSpecHasTargetSelectors) -}}
+{{- fail "envoy.clientTrafficPolicy.targetRef, targetRefs, or targetSelectors is required for global policy" -}}
 {{- end -}}
 ---
 apiVersion: gateway.envoyproxy.io/v1alpha1
@@ -73,10 +102,16 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if gt (len $ctpTargetRefs) 0 }}
+  {{- if $ctpHasTargetRef }}
+  targetRef:
+    {{- toYaml $ctpTargetRef | nindent 4 }}
+  {{- else if gt (len $ctpTargetRefs) 0 }}
   targetRefs:
     {{- toYaml $ctpTargetRefs | nindent 4 }}
-  {{- else if and $hasRoutePolicy (not $ctpSpecHasTargetRefs) }}
+  {{- else if gt (len $ctpTargetSelectors) 0 }}
+  targetSelectors:
+    {{- toYaml $ctpTargetSelectors | nindent 4 }}
+  {{- else if and $hasRoutePolicy (not $ctpSpecHasTargetRef) (not $ctpSpecHasTargetRefs) (not $ctpSpecHasTargetSelectors) }}
   targetRefs:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
