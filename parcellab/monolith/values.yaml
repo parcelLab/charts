@@ -95,12 +95,16 @@ envoy:
         kind: Gateway
         name: gateway-api
   # backendTrafficPolicy:
-  #   # Applies to all HTTPRoutes unless overridden per-route.
+  #   # Global policy for all HTTPRoutes. If a route defines its own
+  #   # backendTrafficPolicy, that route is excluded from the global policy.
   #   # enabled: true
-  #   # loadBalancer:
-  #   #   type: LeastRequest
+  #   # targetRefs:
+  #   #   - group: gateway.networking.k8s.io
+  #   #     kind: HTTPRoute
+  #   #     name: my-default-route
   # clientTrafficPolicy:
-  #   # Applies to all HTTPRoutes unless overridden per-route.
+  #   # Global policy for all HTTPRoutes. If a route defines its own
+  #   # clientTrafficPolicy, that route is excluded from the global policy.
   #   # enabled: true
   #   # timeout:
   #   #   http:

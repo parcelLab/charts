@@ -5,10 +5,10 @@
     dict
       "Values" "the values scope"
       "Release" .Release
-      "route" "the current HTTPRoute object"
-      "index" "the httpRoutes index"
-      "routeName" "the rendered HTTPRoute name"
-      "globalLabels" "common labels"
+      "route" "the current HTTPRoute object (optional)"
+      "index" "the httpRoutes index (optional)"
+      "routeName" "the rendered HTTPRoute name (optional)"
+      "globalLabels" "common labels (optional)"
   ) }}
 */}}
 
@@ -16,13 +16,17 @@
 {{- $route := .route | default dict -}}
 {{- $index := .index | default 0 -}}
 {{- $routeName := .routeName | default "" -}}
-{{- $globalLabels := .globalLabels | default dict -}}
+{{- $globalLabels := .globalLabels | default (include "common.labels" .) -}}
 {{- $serviceNamespace := .Release.Namespace -}}
-{{- $clientTrafficPolicy := $route.clientTrafficPolicy -}}
+{{- $envoy := .Values.envoy | default dict -}}
+{{- $policyOverride := .policy | default dict -}}
+{{- $hasPolicyOverride := and (hasKey . "policy") (ne (len $policyOverride) 0) -}}
+{{- $hasRoutePolicy := and (hasKey . "route") (ne (len $route) 0) (hasKey $route "clientTrafficPolicy") -}}
+{{- $clientTrafficPolicy := ternary $policyOverride (ternary $route.clientTrafficPolicy $envoy.clientTrafficPolicy $hasRoutePolicy) $hasPolicyOverride -}}
 {{- if $clientTrafficPolicy }}
 {{- $ctpEnabled := default true $clientTrafficPolicy.enabled -}}
 {{- if $ctpEnabled -}}
-{{- $ctpName := default (printf "%s-client-traffic-policy" $routeName) $clientTrafficPolicy.name -}}
+{{- $ctpName := default (printf "%s-client-traffic-policy" (ternary $routeName (include "common.fullname" .) $hasRoutePolicy)) $clientTrafficPolicy.name -}}
 {{- $ctpLabels := $clientTrafficPolicy.labels | default dict -}}
 {{- $ctpAnnotations := $clientTrafficPolicy.annotations | default dict -}}
 {{- $ctpTargetRefs := $clientTrafficPolicy.targetRefs | default list -}}
@@ -44,7 +48,14 @@
 {{- end -}}
 {{- end -}}
 {{- if and (eq (len $ctpSpec) 0) (eq (len $ctpTargetRefs) 0) (not $ctpSpecHasTargetRefs) -}}
+{{- if $hasRoutePolicy -}}
 {{- fail (printf "envoy.httpRoutes[%d].clientTrafficPolicy requires spec or fields" $index) -}}
+{{- else -}}
+{{- fail "envoy.clientTrafficPolicy requires spec or fields" -}}
+{{- end -}}
+{{- end -}}
+{{- if and (not $hasRoutePolicy) (eq (len $ctpTargetRefs) 0) (not $ctpSpecHasTargetRefs) -}}
+{{- fail "envoy.clientTrafficPolicy.targetRefs is required for global policy" -}}
 {{- end -}}
 ---
 apiVersion: gateway.envoyproxy.io/v1alpha1
@@ -65,7 +76,7 @@ spec:
   {{- if gt (len $ctpTargetRefs) 0 }}
   targetRefs:
     {{- toYaml $ctpTargetRefs | nindent 4 }}
-  {{- else if not $ctpSpecHasTargetRefs }}
+  {{- else if and $hasRoutePolicy (not $ctpSpecHasTargetRefs) }}
   targetRefs:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute

@@ -20,22 +20,56 @@
 {{- $securityLabelKey := printf "%s/security-required" (include "common.parcellabtagsdomain" .) -}}
 {{- $rolloutServices := include "common.rolloutServicesMap" (dict "root" $root "baseName" $baseName) | fromJson -}}
 
+{{- $globalBackendTrafficPolicyEnabled := and $globalBackendTrafficPolicy (default true $globalBackendTrafficPolicy.enabled) -}}
+{{- $globalBackendTrafficPolicyHasTargetRefs := or (gt (len ($globalBackendTrafficPolicy.targetRefs | default list)) 0) (and $globalBackendTrafficPolicy.spec (hasKey $globalBackendTrafficPolicy.spec "targetRefs")) -}}
+{{- $globalBackendTrafficPolicyTargetRefs := list -}}
+{{- if and $globalBackendTrafficPolicyEnabled (not $globalBackendTrafficPolicyHasTargetRefs) -}}
+{{- range $index, $route := $httproutes }}
+{{- if not (hasKey $route "backendTrafficPolicy") -}}
+{{- $rawRouteName := default (printf "%s-%d" $baseName $index) $route.name -}}
+{{- $sanitizedRouteName := trunc 63 (trimSuffix "-" (regexReplaceAll "[^a-z0-9-]" (lower $rawRouteName) "-")) -}}
+{{- $routeName := default (printf "%s-%d" $baseName $index) $sanitizedRouteName -}}
+{{- $globalBackendTrafficPolicyTargetRefs = append $globalBackendTrafficPolicyTargetRefs (dict "group" "gateway.networking.k8s.io" "kind" "HTTPRoute" "name" $routeName) -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+{{- if and $globalBackendTrafficPolicyEnabled (or $globalBackendTrafficPolicyHasTargetRefs (gt (len $globalBackendTrafficPolicyTargetRefs) 0)) -}}
+{{- $globalBackendPolicy := deepCopy $globalBackendTrafficPolicy -}}
+{{- if and (not $globalBackendTrafficPolicyHasTargetRefs) (gt (len $globalBackendTrafficPolicyTargetRefs) 0) -}}
+{{- $_ := set $globalBackendPolicy "targetRefs" $globalBackendTrafficPolicyTargetRefs -}}
+{{- end -}}
+{{ include "common.backendtrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "policy" $globalBackendPolicy) }}
+{{- end }}
+
+{{- $globalClientTrafficPolicyEnabled := and $globalClientTrafficPolicy (default true $globalClientTrafficPolicy.enabled) -}}
+{{- $globalClientTrafficPolicyHasTargetRefs := or (gt (len ($globalClientTrafficPolicy.targetRefs | default list)) 0) (and $globalClientTrafficPolicy.spec (hasKey $globalClientTrafficPolicy.spec "targetRefs")) -}}
+{{- $globalClientTrafficPolicyTargetRefs := list -}}
+{{- if and $globalClientTrafficPolicyEnabled (not $globalClientTrafficPolicyHasTargetRefs) -}}
+{{- range $index, $route := $httproutes }}
+{{- if not (hasKey $route "clientTrafficPolicy") -}}
+{{- $rawRouteName := default (printf "%s-%d" $baseName $index) $route.name -}}
+{{- $sanitizedRouteName := trunc 63 (trimSuffix "-" (regexReplaceAll "[^a-z0-9-]" (lower $rawRouteName) "-")) -}}
+{{- $routeName := default (printf "%s-%d" $baseName $index) $sanitizedRouteName -}}
+{{- $globalClientTrafficPolicyTargetRefs = append $globalClientTrafficPolicyTargetRefs (dict "group" "gateway.networking.k8s.io" "kind" "HTTPRoute" "name" $routeName) -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+{{- if and $globalClientTrafficPolicyEnabled (or $globalClientTrafficPolicyHasTargetRefs (gt (len $globalClientTrafficPolicyTargetRefs) 0)) -}}
+{{- $globalClientPolicy := deepCopy $globalClientTrafficPolicy -}}
+{{- if and (not $globalClientTrafficPolicyHasTargetRefs) (gt (len $globalClientTrafficPolicyTargetRefs) 0) -}}
+{{- $_ := set $globalClientPolicy "targetRefs" $globalClientTrafficPolicyTargetRefs -}}
+{{- end -}}
+{{ include "common.clienttrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "policy" $globalClientPolicy) }}
+{{- end }}
+
 {{- range $index, $route := $httproutes }}
 {{- $hosts := required (printf "envoy.httpRoutes[%d].hosts is required" $index) $route.hosts -}}
 {{- if eq (len $hosts) 0 -}}
 {{- fail (printf "envoy.httpRoutes[%d].hosts cannot be empty" $index) -}}
 {{- end -}}
 {{- $policyRoute := $route -}}
-{{- if or $globalBackendTrafficPolicy $globalClientTrafficPolicy -}}
+{{- if $globalClientTrafficPolicy -}}
 {{- $policyRoute = deepCopy $route -}}
-{{- end -}}
-{{- if $globalBackendTrafficPolicy -}}
-{{- $routeBackendTrafficPolicy := $policyRoute.backendTrafficPolicy -}}
-{{- if $routeBackendTrafficPolicy -}}
-{{- $_ := set $policyRoute "backendTrafficPolicy" (mergeOverwrite (deepCopy $globalBackendTrafficPolicy) $routeBackendTrafficPolicy) -}}
-{{- else -}}
-{{- $_ := set $policyRoute "backendTrafficPolicy" (deepCopy $globalBackendTrafficPolicy) -}}
-{{- end -}}
 {{- end -}}
 {{- if $globalClientTrafficPolicy -}}
 {{- $routeClientTrafficPolicy := $policyRoute.clientTrafficPolicy -}}
