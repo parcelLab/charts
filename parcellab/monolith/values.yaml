@@ -94,6 +94,17 @@ envoy:
       - group: gateway.networking.k8s.io
         kind: Gateway
         name: gateway-api
+  # backendTrafficPolicy:
+  #   # Applies to all HTTPRoutes unless overridden per-route.
+  #   # enabled: true
+  #   # loadBalancer:
+  #   #   type: LeastRequest
+  # clientTrafficPolicy:
+  #   # Applies to all HTTPRoutes unless overridden per-route.
+  #   # enabled: true
+  #   # timeout:
+  #   #   http:
+  #   #     idleTimeout: 60s
   httpRoutes: []
   #   - name: my-default-route
   #     hosts:
