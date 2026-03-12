@@ -150,12 +150,24 @@ envoy:
     # claimToHeaders:
     #   - header: "x-user-email"
     #     claim: "email"
+    # backendRefs:              # optional: backend service for oidc.provider and jwt.remoteJWKS; applies globally to all policies unless overridden per-policy
+    #   - group: ""
+    #     kind: Service
+    #     name: keycloak
+    #     namespace: keycloak
+    #     port: 80
     # policies:
     #   - name: staff-only
     #     targetRef:
     #       kind: HTTPRoute
     #       name: my-default-route
     #       group: "gateway.networking.k8s.io"
+    #     backendRefs:          # optional: overrides the global backendRefs above for this policy
+    #       - group: ""
+    #         kind: Service
+    #         name: keycloak
+    #         namespace: keycloak
+    #         port: 80
     #     authorizationRules:
     #       - name: member-of-staff-group
     #         action: Allow

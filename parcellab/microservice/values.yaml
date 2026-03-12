@@ -121,6 +121,12 @@ envoy:
     # claimToHeaders:
     #   - header: "x-user-email"
     #     claim: "email"
+    # backendRefs: # optional: used by both oidc.provider and jwt.remoteJWKS to route to the IdP service directly
+    #   - group: ""
+    #     kind: Service
+    #     name: keycloak
+    #     namespace: keycloak
+    #     port: 80
     # policies:
     #   - name: staff-only
     #     targetRef:
@@ -137,6 +143,12 @@ envoy:
     #               - name: groups
     #                 valueType: StringArray
     #                 values: ["staff"]
+    #     backendRefs: # optional: overrides the global backendRefs above for this policy only
+    #       - group: ""
+    #         kind: Service
+    #         name: keycloak
+    #         namespace: keycloak
+    #         port: 80
 
 ##
 ## Cronjob
