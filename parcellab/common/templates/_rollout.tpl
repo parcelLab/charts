@@ -10,11 +10,11 @@ Usage:
 {{- $baseName := .baseName -}}
 {{- $rolloutServices := dict -}}
 {{- $globalRollout := $root.Values.argoRollout | default dict -}}
-{{- if $globalRollout.enabled -}}
+{{- if and $globalRollout.enabled $globalRollout.blueGreen -}}
 {{- $_ := set $rolloutServices $baseName true -}}
 {{- end -}}
 {{- range $root.Values.extraServices | default list -}}
-{{- if and .argoRollout .argoRollout.enabled -}}
+{{- if and .argoRollout .argoRollout.enabled .argoRollout.blueGreen -}}
 {{- $svcName := include "common.componentname" (merge (deepCopy $root) (dict "component" .name)) -}}
 {{- $_ := set $rolloutServices $svcName true -}}
 {{- end -}}
