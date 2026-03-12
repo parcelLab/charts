@@ -11,7 +11,7 @@
 {{- $gateway := default (dict "name" "gateway-api" "namespace" "envoy-gateway") $envoy.gateway -}}
 {{- $httproutes := default (list) $envoy.httpRoutes -}}
 {{- $globalBackendTrafficPolicy := $envoy.backendTrafficPolicy | default dict -}}
-{{- $globalClientTrafficPolicy := $envoy.clientTrafficPolicy | default dict -}}
+{{- /* ClientTrafficPolicy removed: it can only target Gateway, so it belongs in the gateway chart */ -}}
 {{- $baseName := include "common.fullname" . -}}
 {{- $globalLabels := include "common.labels" . -}}
 {{- $serviceNamespace := .Release.Namespace -}}
@@ -41,29 +41,6 @@
 {{- $_ := set $globalBackendPolicy "targetRefs" $globalBackendTrafficPolicyTargetRefs -}}
 {{- end -}}
 {{ include "common.backendtrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "Chart" $root.Chart "policy" $globalBackendPolicy) }}
-{{- end }}
-
-{{- $globalClientTrafficPolicyEnabled := and $globalClientTrafficPolicy (default true $globalClientTrafficPolicy.enabled) -}}
-{{- $globalClientTrafficPolicyHasTargetRef := or (and $globalClientTrafficPolicy.targetRef (gt (len $globalClientTrafficPolicy.targetRef) 0)) (and $globalClientTrafficPolicy.spec (hasKey $globalClientTrafficPolicy.spec "targetRef")) -}}
-{{- $globalClientTrafficPolicyHasTargetRefs := or (gt (len ($globalClientTrafficPolicy.targetRefs | default list)) 0) (and $globalClientTrafficPolicy.spec (hasKey $globalClientTrafficPolicy.spec "targetRefs")) -}}
-{{- $globalClientTrafficPolicyHasTargetSelectors := or (gt (len ($globalClientTrafficPolicy.targetSelectors | default list)) 0) (and $globalClientTrafficPolicy.spec (hasKey $globalClientTrafficPolicy.spec "targetSelectors")) -}}
-{{- $globalClientTrafficPolicyTargetRefs := list -}}
-{{- if and $globalClientTrafficPolicyEnabled (not $globalClientTrafficPolicyHasTargetRef) (not $globalClientTrafficPolicyHasTargetRefs) (not $globalClientTrafficPolicyHasTargetSelectors) -}}
-{{- range $index, $route := $httproutes }}
-{{- if not (hasKey $route "clientTrafficPolicy") -}}
-{{- $rawRouteName := default (printf "%s-%d" $baseName $index) $route.name -}}
-{{- $sanitizedRouteName := trunc 63 (trimSuffix "-" (regexReplaceAll "[^a-z0-9-]" (lower $rawRouteName) "-")) -}}
-{{- $routeName := default (printf "%s-%d" $baseName $index) $sanitizedRouteName -}}
-{{- $globalClientTrafficPolicyTargetRefs = append $globalClientTrafficPolicyTargetRefs (dict "group" "gateway.networking.k8s.io" "kind" "HTTPRoute" "name" $routeName) -}}
-{{- end -}}
-{{- end -}}
-{{- end -}}
-{{- if and $globalClientTrafficPolicyEnabled (or $globalClientTrafficPolicyHasTargetRef $globalClientTrafficPolicyHasTargetRefs $globalClientTrafficPolicyHasTargetSelectors (gt (len $globalClientTrafficPolicyTargetRefs) 0)) -}}
-{{- $globalClientPolicy := deepCopy $globalClientTrafficPolicy -}}
-{{- if and (not $globalClientTrafficPolicyHasTargetRef) (not $globalClientTrafficPolicyHasTargetRefs) (not $globalClientTrafficPolicyHasTargetSelectors) (gt (len $globalClientTrafficPolicyTargetRefs) 0) -}}
-{{- $_ := set $globalClientPolicy "targetRefs" $globalClientTrafficPolicyTargetRefs -}}
-{{- end -}}
-{{ include "common.clienttrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "Chart" $root.Chart "policy" $globalClientPolicy) }}
 {{- end }}
 
 {{- range $index, $route := $httproutes }}
@@ -120,9 +97,6 @@ spec:
   {{- end }}
 {{- if hasKey $route "backendTrafficPolicy" }}
 {{ include "common.backendtrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "Chart" $root.Chart "route" $policyRoute "index" $index "routeName" $routeName "globalLabels" $globalLabels) }}
-{{- end }}
-{{- if hasKey $route "clientTrafficPolicy" }}
-{{ include "common.clienttrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "Chart" $root.Chart "route" $policyRoute "index" $index "routeName" $routeName "globalLabels" $globalLabels) }}
 {{- end }}
 {{ end }}
 {{- end }}
