@@ -65,6 +65,19 @@ envoy:
       - group: gateway.networking.k8s.io
         kind: Gateway
         name: gateway-api
+  # backendTrafficPolicy:
+  #   # Global policy for all HTTPRoutes. If a route defines its own
+  #   # backendTrafficPolicy, that route is excluded from the global policy.
+  #   # enabled: true
+  #   # targetSelectors:
+  #   #   - group: gateway.networking.k8s.io
+  #   #     kind: HTTPRoute
+  #   #     matchLabels:
+  #   #       app: my-app
+  #   # targetRefs:
+  #   #   - group: gateway.networking.k8s.io
+  #   #     kind: HTTPRoute
+  #   #     name: my-default-route
   httpRoutes: []
   #   - name: my-default-route
   #     hosts:
@@ -94,14 +107,6 @@ envoy:
   #       #   http:
   #       #     connectionIdleTimeout: 60s
   #       #     requestTimeout: 30s
-  #     clientTrafficPolicy:
-  #       # enabled: true
-  #       # name: my-app-client-policy
-  #       # labels: {}
-  #       # annotations: {}
-  #       # targetRefs: [] # default: the HTTPRoute above
-  #       # tls:
-  #       #   sni: "my-app.example.com"
   #     labels:
   #       foo: bar # optional
   security:
