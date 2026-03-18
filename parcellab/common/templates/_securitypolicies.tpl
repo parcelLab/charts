@@ -25,6 +25,7 @@
 {{- $globalClaimHeaders := $security.claimToHeaders -}}
 {{- $globalJwtProviderName := $security.jwtProviderName -}}
 {{- $globalJwksURI := $security.jwksURI -}}
+{{- $globalAnnotations := default (dict) $security.annotations -}}
 
 {{ range $policyIndex, $policy := $policies }}
 {{- $policyName := required (printf "envoy.security.policies[%d].name is required" $policyIndex) $policy.name -}}
@@ -40,6 +41,7 @@
 {{- $jwtProviderName := coalesce $policy.jwtProviderName $globalJwtProviderName "keycloak" -}}
 {{- $jwksURI := coalesce $policy.jwksURI $globalJwksURI (printf "%s/protocol/openid-connect/certs" $issuer) -}}
 {{- $backendRefs := coalesce $policy.backendRefs $security.backendRefs -}}
+{{- $annotations := merge (default (dict) $policy.annotations) $globalAnnotations -}}
 {{- $targetRef := $policy.targetRef -}}
 {{- $targetRefs := $policy.targetRefs -}}
 {{- $rawSelectors := list -}}
@@ -69,8 +71,10 @@ kind: SecurityPolicy
 metadata:
   name: {{ $policyName }}
   namespace: {{ $policyNamespace | quote }}
+  {{- with $annotations }}
   annotations:
-    oidc.autoregistrar.parcellab.dev/sync-enabled: 'true'
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   {{- if $targetRef }}
   targetRef:
