@@ -281,23 +281,3 @@ service:
   #   port: 9100
   #   targetPort: metrics
   #   protocol: TCP
-
-##
-## Ingress
-##
-
-ingress:
-  enabled: false
-  className: "nginx"
-  annotations:
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    []
-    # - host: app
-    #   paths:
-    #     - path: /
-    #       pathType: Prefix
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
