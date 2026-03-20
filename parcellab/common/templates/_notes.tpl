@@ -41,7 +41,7 @@ Horizontal Pod Autoscaling is disabled. Manually set to {{ .Values.replicaCount 
 
 {{- if or .Values.ingress .Values.service }}
 1. Get the application URL by running these commands:
-{{- if .Values.ingress.enabled }}
+{{- if and .Values.ingress .Values.ingress.enabled }}
 {{- range $host := .Values.ingress.hosts }}
   {{- range .paths }}
   http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $host.host }}{{ .path }}
