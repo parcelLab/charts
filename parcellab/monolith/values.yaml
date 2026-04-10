@@ -462,6 +462,8 @@ serviceAccount:
 
 podAnnotations: {}
 
+deploymentAnnotations: {}
+
 replicaCount: 1
 # disables setting replica count in case of autoscaling enabled
 disableReplicaCount: false
