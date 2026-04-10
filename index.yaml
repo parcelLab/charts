@@ -5835,6 +5835,30 @@ entries:
     - https://github.com/parcelLab/charts/releases/download/monolith-0.99.0/monolith-0.99.0.tgz
     version: 0.99.0
   - apiVersion: v2
+    created: "2026-04-10T07:45:35.932778765Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.7.27
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 22.0.7
+    - condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.5.11
+    description: Application that may define multiple services and cronjobs
+    digest: 6446ef08aaef8517350e779a27e408edcd12d9b12fdaa759864a46514ec5379b
+    name: monolith
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/monolith-0.5.6/monolith-0.5.6.tgz
+    version: 0.5.6
+  - apiVersion: v2
     created: "2026-03-20T10:25:39.834144586Z"
     dependencies:
     - name: common
@@ -9591,4 +9615,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/worker-group-0.0.1/worker-group-0.0.1.tgz
     version: 0.0.1
-generated: "2026-03-20T10:25:39.971182853Z"
+generated: "2026-04-10T07:45:35.934150925Z"
