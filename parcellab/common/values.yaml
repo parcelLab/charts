@@ -66,3 +66,16 @@ vpa:
   mode: "Auto"
 initContainers: []
 extraContainers: []
+# dnsPolicy defines how DNS resolution is handled for pods.
+# Common values: "ClusterFirst" (default), "None" (requires dnsConfig), "Default", "ClusterFirstWithHostNet".
+# Set to "None" when you want full control over DNS settings via dnsConfig.
+# dnsPolicy: ClusterFirst
+
+# dnsConfig allows fine-grained control over DNS settings for pods.
+# The most common use case is adjusting ndots to reduce unnecessary DNS lookups.
+# dnsConfig:
+#   options:
+#     - name: ndots
+#       value: "2"
+#   nameservers: []
+#   searches: []

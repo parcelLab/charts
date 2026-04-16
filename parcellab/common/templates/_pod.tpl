@@ -24,6 +24,8 @@
 {{- $datadog := .Values.datadog -}}
 {{- $type := default "service" .type -}}
 {{- $securityContext := .Values.securityContext -}}
+{{- $dnsConfig := default .Values.dnsConfig .pod.dnsConfig -}}
+{{- $dnsPolicy := default .Values.dnsPolicy .pod.dnsPolicy -}}
 metadata:
   annotations:
     {{- if and $datadog $datadog.enabled }}
@@ -54,6 +56,13 @@ spec:
   {{- with .Values.hostAliases }}
   hostAliases:
     {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- if $dnsPolicy }}
+  dnsPolicy: {{ $dnsPolicy }}
+  {{- end }}
+  {{- if $dnsConfig }}
+  dnsConfig:
+    {{- toYaml $dnsConfig | nindent 4 }}
   {{- end }}
   terminationGracePeriodSeconds: {{ default 30 .Values.terminationGracePeriodSeconds }}
   volumes:

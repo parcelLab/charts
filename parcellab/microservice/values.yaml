@@ -337,6 +337,20 @@ strategy:
 
 tolerations: []
 
+# dnsPolicy defines how DNS resolution is handled for pods.
+# When using dnsConfig with custom options (e.g. ndots), you typically want
+# to set dnsPolicy to "None" or keep the default "ClusterFirst".
+# dnsPolicy: ClusterFirst
+
+# dnsConfig allows fine-grained control over DNS settings for pods.
+# The most common use case is adjusting ndots to reduce unnecessary DNS lookups.
+# dnsConfig:
+#   options:
+#     - name: ndots
+#       value: "2"
+#   nameservers: []
+#   searches: []
+
 volumes: []
 
 ##

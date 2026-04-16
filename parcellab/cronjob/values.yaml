@@ -58,6 +58,17 @@ externalSecret:
 
 affinity: {}
 
+# dnsPolicy: "None"
+
+# dnsConfig:
+#   nameservers:
+#     - 1.1.1.1
+#   searches:
+#     - my-namespace.svc.cluster.local
+#   options:
+#     - name: ndots
+#       value: "2"
+
 datadog:
   enabled: true
 
