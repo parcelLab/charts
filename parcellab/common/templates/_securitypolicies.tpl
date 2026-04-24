@@ -26,6 +26,8 @@
 {{- $globalJwtProviderName := $security.jwtProviderName -}}
 {{- $globalJwksURI := $security.jwksURI -}}
 {{- $globalAnnotations := default (dict) $security.annotations -}}
+{{- $globalPassThroughAuthHeader := $security.passThroughAuthHeader -}}
+{{- $globalRefreshToken := $security.refreshToken -}}
 
 {{ range $policyIndex, $policy := $policies }}
 {{- $policyName := required (printf "envoy.security.policies[%d].name is required" $policyIndex) $policy.name -}}
@@ -42,6 +44,18 @@
 {{- $jwksURI := coalesce $policy.jwksURI $globalJwksURI (printf "%s/protocol/openid-connect/certs" $issuer) -}}
 {{- $backendRefs := coalesce $policy.backendRefs $security.backendRefs -}}
 {{- $annotations := merge (default (dict) $policy.annotations) $globalAnnotations -}}
+{{- $passThroughAuthHeader := false -}}
+{{- if hasKey $policy "passThroughAuthHeader" -}}
+  {{- $passThroughAuthHeader = $policy.passThroughAuthHeader -}}
+{{- else if hasKey $security "passThroughAuthHeader" -}}
+  {{- $passThroughAuthHeader = $globalPassThroughAuthHeader -}}
+{{- end -}}
+{{- $refreshToken := true -}}
+{{- if hasKey $policy "refreshToken" -}}
+  {{- $refreshToken = $policy.refreshToken -}}
+{{- else if hasKey $security "refreshToken" -}}
+  {{- $refreshToken = $globalRefreshToken -}}
+{{- end -}}
 {{- $targetRef := $policy.targetRef -}}
 {{- $targetRefs := $policy.targetRefs -}}
 {{- $rawSelectors := list -}}
@@ -104,7 +118,8 @@ spec:
     {{- end }}
     cookieDomain: {{ $cookieDomain | quote }}
     forwardAccessToken: true
-    passThroughAuthHeader: true
+    passThroughAuthHeader: {{ $passThroughAuthHeader }}
+    refreshToken: {{ $refreshToken }}
   jwt:
     optional: false
     providers:
