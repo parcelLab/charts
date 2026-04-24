@@ -44,7 +44,7 @@
 {{- $jwksURI := coalesce $policy.jwksURI $globalJwksURI (printf "%s/protocol/openid-connect/certs" $issuer) -}}
 {{- $backendRefs := coalesce $policy.backendRefs $security.backendRefs -}}
 {{- $annotations := merge (default (dict) $policy.annotations) $globalAnnotations -}}
-{{- $passThroughAuthHeader := false -}}
+{{- $passThroughAuthHeader := true -}}
 {{- if hasKey $policy "passThroughAuthHeader" -}}
   {{- $passThroughAuthHeader = $policy.passThroughAuthHeader -}}
 {{- else if hasKey $security "passThroughAuthHeader" -}}
