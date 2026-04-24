@@ -116,6 +116,8 @@ envoy:
     # redirectURL: "https://my-app.example.com/oauth2/callback"
     # cookieDomain: "my-app.example.com"
     # annotations: {}          # optional: annotations applied to all SecurityPolicy resources
+    # passThroughAuthHeader: true   # optional: default true. Set false to reject unauthenticated requests at the gateway instead of forwarding the incoming Authorization header to the backend.
+    # refreshToken: true            # optional: default true. Keep the OIDC session alive via refresh tokens.
     # scopes:
     #   - profile
     #   - email

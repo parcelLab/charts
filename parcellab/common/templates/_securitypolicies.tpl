@@ -45,15 +45,15 @@
 {{- $backendRefs := coalesce $policy.backendRefs $security.backendRefs -}}
 {{- $annotations := merge (default (dict) $policy.annotations) $globalAnnotations -}}
 {{- $passThroughAuthHeader := true -}}
-{{- if hasKey $policy "passThroughAuthHeader" -}}
+{{- if and (hasKey $policy "passThroughAuthHeader") (ne $policy.passThroughAuthHeader nil) -}}
   {{- $passThroughAuthHeader = $policy.passThroughAuthHeader -}}
-{{- else if hasKey $security "passThroughAuthHeader" -}}
+{{- else if and (hasKey $security "passThroughAuthHeader") (ne $globalPassThroughAuthHeader nil) -}}
   {{- $passThroughAuthHeader = $globalPassThroughAuthHeader -}}
 {{- end -}}
 {{- $refreshToken := true -}}
-{{- if hasKey $policy "refreshToken" -}}
+{{- if and (hasKey $policy "refreshToken") (ne $policy.refreshToken nil) -}}
   {{- $refreshToken = $policy.refreshToken -}}
-{{- else if hasKey $security "refreshToken" -}}
+{{- else if and (hasKey $security "refreshToken") (ne $globalRefreshToken nil) -}}
   {{- $refreshToken = $globalRefreshToken -}}
 {{- end -}}
 {{- $targetRef := $policy.targetRef -}}
