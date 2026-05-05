@@ -1,44 +1,73 @@
 build:
-  - "Makefile"
-  - "**/tsconfig.*"
-  - "tsconfig.*"
+  - changed-files:
+      - any-glob-to-any-file:
+          - Makefile
+          - "**/tsconfig.*"
+          - tsconfig.*
+
 ci:
-  - ".github/workflows/*"
-  - ".github/workflows/**/*"
+  - changed-files:
+      - any-glob-to-any-file:
+          - .github/workflows/*
+          - .github/workflows/**/*
+
 deps:
-  - "go.mod"
-  - "go.sum"
-  - "package.json"
-  - "package-lock.json"
+  - changed-files:
+      - any-glob-to-any-file:
+          - go.mod
+          - go.sum
+          - package.json
+          - package-lock.json
+
 deployment:
-  - ".dockerignore"
-  - "Containerfile"
-  - "Dockerfile"
-  - "plconfig.yaml"
+  - changed-files:
+      - any-glob-to-any-file:
+          - .dockerignore
+          - Containerfile
+          - Dockerfile
+          - plconfig.yaml
+
 docs:
-  - "CODEOWNERS"
-  - "*.md"
-  - "**/*.md"
+  - changed-files:
+      - any-glob-to-any-file:
+          - CODEOWNERS
+          - "*.md"
+          - "**/*.md"
+
 json:
-  - "*.json"
-  - "**/*.json"
+  - changed-files:
+      - any-glob-to-any-file:
+          - "*.json"
+          - "**/*.json"
+
 shell:
-  - "*.sh"
-  - "**/*.sh"
+  - changed-files:
+      - any-glob-to-any-file:
+          - "*.sh"
+          - "**/*.sh"
+
 style:
-  - ".eslintignore"
-  - ".eslintrc.js"
-  - ".prettierignore"
-  - ".prettierrc.json"
+  - changed-files:
+      - any-glob-to-any-file:
+          - .eslintignore
+          - .eslintrc.js
+          - .prettierignore
+          - .prettierrc.json
+
 test:
-  - "**/*.spec.js"
-  - "**/*.spec.ts"
-  - "**/*.test.js"
-  - "**/*.test.ts"
-  - "**/__test__/*"
-  - "**/__test__/**/*"
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.spec.js"
+          - "**/*.spec.ts"
+          - "**/*.test.js"
+          - "**/*.test.ts"
+          - "**/__test__/*"
+          - "**/__test__/**/*"
+
 yaml:
-  - "*.yaml"
-  - "*.yml"
-  - "**/*.yaml"
-  - "**/*.yml"
+  - changed-files:
+      - any-glob-to-any-file:
+          - "*.yaml"
+          - "*.yml"
+          - "**/*.yaml"
+          - "**/*.yml"
