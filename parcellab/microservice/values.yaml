@@ -60,13 +60,15 @@ envoy:
       - group: gateway.networking.k8s.io
         kind: HTTPRoute
       - group: gateway.networking.k8s.io
+        kind: GRPCRoute
+      - group: gateway.networking.k8s.io
         kind: SecurityPolicy
     to:
       - group: gateway.networking.k8s.io
         kind: Gateway
         name: gateway-api
   # backendTrafficPolicy:
-  #   # Global policy for all HTTPRoutes. If a route defines its own
+  #   # Global policy for all HTTPRoutes and GRPCRoutes. If a route defines its own
   #   # backendTrafficPolicy, that route is excluded from the global policy.
   #   # enabled: true
   #   # targetSelectors:
@@ -99,6 +101,37 @@ envoy:
   #       # labels: {}
   #       # annotations: {}
   #       # targetRefs: [] # default: the HTTPRoute above
+  #       # loadBalancer:
+  #       #   type: LeastRequest
+  #       # timeout:
+  #       #   tcp:
+  #       #     connectTimeout: 5s
+  #       #   http:
+  #       #     connectionIdleTimeout: 60s
+  #       #     requestTimeout: 30s
+  #     labels:
+  #       foo: bar # optional
+  grpcRoutes: []
+  #   - name: my-default-grpc-route
+  #     hosts:
+  #       - my-app.example.com
+  #     rules:
+  #       - name: default-grpc-route
+  #         matches:
+  #           - method:
+  #               service: my.package.Service
+  #               method: GetItem
+  #         backendRefs:
+  #           - name: my-app
+  #             port: 5000
+  #             group: ""
+  #             kind: Service
+  #     backendTrafficPolicy:
+  #       # enabled: true
+  #       # name: my-app-grpc-policy
+  #       # labels: {}
+  #       # annotations: {}
+  #       # targetRefs: [] # default: the GRPCRoute above
   #       # loadBalancer:
   #       #   type: LeastRequest
   #       # timeout:
