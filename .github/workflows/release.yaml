@@ -17,7 +17,7 @@ jobs:
       charts: ${{ steps.generate-matrix.outputs.charts }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Load repos configuration file
         id: generate-matrix
@@ -32,7 +32,7 @@ jobs:
         chart: ${{ fromJSON(needs.matrix.outputs.charts) }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Update dependencies
         run: helm dependency update ${{ matrix.chart }}
@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
