@@ -29,6 +29,7 @@ envoy:
   gateway: {}
   referenceGrant: {}
   httpRoutes: []
+  grpcRoutes: []
 
 name: common
 terminationGracePeriodSeconds: 30

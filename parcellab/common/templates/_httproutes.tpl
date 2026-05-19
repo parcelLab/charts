@@ -10,6 +10,7 @@
 {{- if $envoy.enabled -}}
 {{- $gateway := default (dict "name" "gateway-api" "namespace" "envoy-gateway") $envoy.gateway -}}
 {{- $httproutes := default (list) $envoy.httpRoutes -}}
+{{- $grpcroutes := default (list) $envoy.grpcRoutes -}}
 {{- $globalBackendTrafficPolicy := $envoy.backendTrafficPolicy | default dict -}}
 {{- /* ClientTrafficPolicy removed: it can only target Gateway, so it belongs in the gateway chart */ -}}
 {{- $baseName := include "common.fullname" . -}}
@@ -32,6 +33,14 @@
 {{- $sanitizedRouteName := trunc 63 (trimSuffix "-" (regexReplaceAll "[^a-z0-9-]" (lower $rawRouteName) "-")) -}}
 {{- $routeName := default (printf "%s-%d" $baseName $index) $sanitizedRouteName -}}
 {{- $globalBackendTrafficPolicyTargetRefs = append $globalBackendTrafficPolicyTargetRefs (dict "group" "gateway.networking.k8s.io" "kind" "HTTPRoute" "name" $routeName) -}}
+{{- end -}}
+{{- end -}}
+{{- range $index, $route := $grpcroutes }}
+{{- if not (hasKey $route "backendTrafficPolicy") -}}
+{{- $rawRouteName := default (printf "%s-grpc-%d" $baseName $index) $route.name -}}
+{{- $sanitizedRouteName := trunc 63 (trimSuffix "-" (regexReplaceAll "[^a-z0-9-]" (lower $rawRouteName) "-")) -}}
+{{- $routeName := default (printf "%s-grpc-%d" $baseName $index) $sanitizedRouteName -}}
+{{- $globalBackendTrafficPolicyTargetRefs = append $globalBackendTrafficPolicyTargetRefs (dict "group" "gateway.networking.k8s.io" "kind" "GRPCRoute" "name" $routeName) -}}
 {{- end -}}
 {{- end -}}
 {{- end -}}

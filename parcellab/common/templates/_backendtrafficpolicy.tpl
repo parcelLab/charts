@@ -5,9 +5,11 @@
     dict
       "Values" "the values scope"
       "Release" .Release
-      "route" "the current HTTPRoute object (optional)"
-      "index" "the httpRoutes index (optional)"
-      "routeName" "the rendered HTTPRoute name (optional)"
+      "route" "the current Gateway API route object (optional)"
+      "index" "the route values index (optional)"
+      "routeName" "the rendered route name (optional)"
+      "routeKind" "the Gateway API route kind (optional, default HTTPRoute)"
+      "routeValuesPath" "the values path for route errors (optional, default envoy.httpRoutes)"
       "globalLabels" "common labels (optional)"
   ) }}
 */}}
@@ -16,6 +18,8 @@
 {{- $route := .route | default dict -}}
 {{- $index := .index | default 0 -}}
 {{- $routeName := .routeName | default "" -}}
+{{- $routeKind := .routeKind | default "HTTPRoute" -}}
+{{- $routeValuesPath := .routeValuesPath | default "envoy.httpRoutes" -}}
 {{- $globalLabels := .globalLabels | default (include "common.labels" .) -}}
 {{- $serviceNamespace := .Release.Namespace -}}
 {{- $envoy := .Values.envoy | default dict -}}
@@ -78,7 +82,7 @@
 {{- end -}}
 {{- if and (eq (len $btpSpec) 0) (not $btpHasTargetRef) (eq (len $btpTargetRefs) 0) (eq (len $btpTargetSelectors) 0) (not $btpSpecHasTargetRef) (not $btpSpecHasTargetRefs) (not $btpSpecHasTargetSelectors) -}}
 {{- if $hasRoutePolicy -}}
-{{- fail (printf "envoy.httpRoutes[%d].backendTrafficPolicy requires spec or fields" $index) -}}
+{{- fail (printf "%s[%d].backendTrafficPolicy requires spec or fields" $routeValuesPath $index) -}}
 {{- else -}}
 {{- fail "envoy.backendTrafficPolicy requires spec or fields" -}}
 {{- end -}}
@@ -114,7 +118,7 @@ spec:
   {{- else if and $hasRoutePolicy (not $btpSpecHasTargetRef) (not $btpSpecHasTargetRefs) (not $btpSpecHasTargetSelectors) }}
   targetRefs:
     - group: gateway.networking.k8s.io
-      kind: HTTPRoute
+      kind: {{ $routeKind }}
       name: {{ $routeName }}
   {{- end }}
   {{- if gt (len $btpSpec) 0 }}
