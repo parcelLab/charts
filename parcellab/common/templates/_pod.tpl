@@ -43,6 +43,9 @@ metadata:
     tags.datadoghq.com/env: {{ include "common.env" . | quote }}
     tags.datadoghq.com/service: {{ $fullname | quote }}
     {{- end }}
+    {{- with .Values.podLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   {{- with .Values.imagePullSecrets }}
   imagePullSecrets:
