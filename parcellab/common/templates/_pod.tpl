@@ -38,14 +38,14 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
   labels:
-    {{- include "common.labels" $componentValues | nindent 4 }}
+    {{- /* Merge into one dict so user podLabels can't duplicate keys or override
+           the managed selector labels (which would break the Deployment selector). */}}
+    {{- $managed := include "common.labels" $componentValues | fromYaml }}
     {{- if and $datadog $datadog.enabled }}
-    tags.datadoghq.com/env: {{ include "common.env" . | quote }}
-    tags.datadoghq.com/service: {{ $fullname | quote }}
+    {{- $_ := set $managed "tags.datadoghq.com/env" (include "common.env" . | trim) }}
+    {{- $_ := set $managed "tags.datadoghq.com/service" $fullname }}
     {{- end }}
-    {{- with .Values.podLabels }}
-    {{- toYaml . | nindent 4 }}
-    {{- end }}
+    {{- toYaml (merge $managed (.Values.podLabels | default dict)) | nindent 4 }}
 spec:
   {{- with .Values.imagePullSecrets }}
   imagePullSecrets:
