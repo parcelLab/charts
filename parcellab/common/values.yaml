@@ -36,6 +36,9 @@ terminationGracePeriodSeconds: 30
 nodeSelector: {}
 orgRepository: ghcr.io/parcellab
 podAnnotations: {}
+# Extra labels added to the pod template only (merged so they can never override
+# the managed selector labels). E.g. { parcellab.dev/compute: fargate }.
+podLabels: {}
 podDisruptionBudget:
   enabled: false
 podSecurityContext: {}

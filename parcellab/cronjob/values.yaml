@@ -78,6 +78,11 @@ nodeSelector: {}
 
 podAnnotations: {}
 
+# Extra labels added to the pod template only (not the selector, which stays
+# immutable). Useful for scheduling controls that key off pod labels, e.g.
+# opting into an EKS Fargate profile: { parcellab.dev/compute: fargate }.
+podLabels: {}
+
 securityContext:
   {}
   # capabilities:
