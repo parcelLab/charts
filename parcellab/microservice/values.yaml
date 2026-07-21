@@ -447,8 +447,8 @@ postgresql:
     security:
       allowInsecureImages: true
   image:
-    repository: bitnamilegacy/postgresql
-    tag: 17.4.0
+    repository: postgres
+    tag: 17-alpine
   # See default values: https://artifacthub.io/packages/helm/bitnami/postgresql?modal=values
 
 ##
@@ -461,8 +461,8 @@ redis:
     security:
       allowInsecureImages: true
   image:
-    repository: bitnamilegacy/redis
-    tag: 8.2.1
+    repository: redis
+    tag: 8-alpine
   # See default values: https://artifacthub.io/packages/helm/bitnami/redis?modal=values
 
 #  these containers share secrets, configmaps, volumes and environment variables from the settings above
