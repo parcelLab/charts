@@ -441,16 +441,6 @@ resources:
 ## Redis
 ##
 
-redis:
-  enabled: false
-  global:
-    security:
-      allowInsecureImages: true
-  image:
-    repository: redis
-    tag: 8-alpine
-  # See default values: https://artifacthub.io/packages/helm/bitnami/redis?modal=values
-
 #  these containers share secrets, configmaps, volumes and environment variables from the settings above
 initContainers: []
 #  - name: myInitContainer1
