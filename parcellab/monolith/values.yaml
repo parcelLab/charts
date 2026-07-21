@@ -580,21 +580,6 @@ resources:
 #       - "foo.local"
 #       - "bar.local"
 
-postgresql:
-  enabled: false
-  global:
-    security:
-      allowInsecureImages: true
-  image:
-    repository: postgres
-    tag: 17-alpine
-  # See default values: https://artifacthub.io/packages/helm/bitnami/postgresql?modal=values
-  primary:
-    persistentVolumeClaimRetentionPolicy:
-      enabled: true
-      whenDeleted: Delete
-      whenScaled: Delete
-
 redis:
   enabled: false
   global:
@@ -614,17 +599,3 @@ redis:
       enabled: true
       whenDeleted: Delete
       whenScaled: Delete
-
-mongodb:
-  enabled: false
-  global:
-    security:
-      allowInsecureImages: true
-  image:
-    repository: mongo
-    tag: 8
-  # See default values: https://artifacthub.io/packages/helm/bitnami/mongodb?modal=values
-  persistentVolumeClaimRetentionPolicy:
-    enabled: true
-    whenDeleted: Delete
-    whenScaled: Delete
