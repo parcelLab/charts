@@ -587,7 +587,7 @@ redis:
       allowInsecureImages: true
   image:
     repository: redis
-    tag: 8-alpine
+    tag: 8
   # See default values: https://artifacthub.io/packages/helm/bitnami/redis?modal=values
   master:
     persistentVolumeClaimRetentionPolicy:
