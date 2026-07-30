@@ -174,7 +174,7 @@ envoy:
   #     labels:
   #       foo: bar # optional
   #     annotations:
-  #       some-annotation-key: some-annotation-value # optional: extra annotations applied to this GRPCRoute resource
+  #       foo: bar # optional: extra annotations applied to this GRPCRoute resource
   security:
     enabled: false
     # enabled: true
