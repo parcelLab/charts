@@ -315,6 +315,18 @@ entries:
     version: 0.0.1
   common:
   - apiVersion: v2
+    created: "2026-07-30T10:35:50.854451421Z"
+    description: A Helm chart library for parcelLab charts
+    digest: a850b99d9d0f2bc2ec07b907ff4f6a28d201774ba98bdcd42e87cfa0476123d8
+    maintainers:
+    - email: engineering@parcellab.com
+      name: parcelLab
+    name: common
+    type: library
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/common-1.3.11/common-1.3.11.tgz
+    version: 1.3.11
+  - apiVersion: v2
     created: "2026-06-16T12:12:07.632007278Z"
     description: A Helm chart library for parcelLab charts
     digest: 8f23c4c5d8d5831762edccc1b87ff5cc8780770b0f986175951cb096e51ae0d8
@@ -3918,6 +3930,18 @@ entries:
     version: 0.0.1
   microservice:
   - apiVersion: v2
+    created: "2026-07-30T10:35:51.031793667Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    description: Simple microservice
+    digest: 6ab64e035313315eb07a7052ca4a39bb2f4204f0474410a6dcf15de9ddeea647
+    name: microservice
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/microservice-0.6.1/microservice-0.6.1.tgz
+    version: 0.6.1
+  - apiVersion: v2
     created: "2026-07-22T12:36:46.085076762Z"
     dependencies:
     - name: common
@@ -6026,6 +6050,22 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/monolith-0.99.0/monolith-0.99.0.tgz
     version: 0.99.0
+  - apiVersion: v2
+    created: "2026-07-30T10:35:51.21336322Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: '*'
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 22.0.7
+    description: Application that may define multiple services and cronjobs
+    digest: baa604bbb2fd6cb9bfa762260b1650eda9faa049beac1c8f1d8f1a865dc94004
+    name: monolith
+    urls:
+    - https://github.com/parcelLab/charts/releases/download/monolith-0.6.1/monolith-0.6.1.tgz
+    version: 0.6.1
   - apiVersion: v2
     created: "2026-07-22T12:36:46.321353627Z"
     dependencies:
@@ -9943,4 +9983,4 @@ entries:
     urls:
     - https://github.com/parcelLab/charts/releases/download/worker-group-0.0.1/worker-group-0.0.1.tgz
     version: 0.0.1
-generated: "2026-07-22T12:36:46.322548498Z"
+generated: "2026-07-30T10:35:51.21477224Z"
