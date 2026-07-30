@@ -75,6 +75,9 @@ metadata:
     {{- end }}
   annotations:
     external-dns.alpha.kubernetes.io/hostname: "{{ join "," $route.hosts }}"
+    {{- with $route.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   parentRefs:
     - name: {{ $gateway.name }}

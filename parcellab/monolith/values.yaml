@@ -140,6 +140,8 @@ envoy:
   #       #     requestTimeout: 30s
   #     labels:
   #       foo: bar # optional
+  #     annotations:
+  #       foo: bar # optional
   grpcRoutes: []
   #   - name: my-default-grpc-route
   #     hosts:
@@ -171,6 +173,8 @@ envoy:
   #       #     requestTimeout: 30s
   #     labels:
   #       foo: bar # optional
+  #     annotations:
+  #       foo: bar # optional: extra annotations applied to this GRPCRoute resource
   security:
     enabled: false
     # enabled: true
