@@ -44,6 +44,7 @@ metadata:
     {{- if and $datadog $datadog.enabled }}
     {{- $_ := set $managed "tags.datadoghq.com/env" (include "common.env" . | trim) }}
     {{- $_ := set $managed "tags.datadoghq.com/service" $fullname }}
+    {{- $_ := set $managed "tags.datadoghq.com/version" $containerImage.image.tag }}
     {{- end }}
     {{- toYaml (merge $managed (.Values.podLabels | default dict)) | nindent 4 }}
 spec:
