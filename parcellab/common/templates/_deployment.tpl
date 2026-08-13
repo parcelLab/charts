@@ -40,6 +40,9 @@ spec:
     {{- toYaml .Values.strategy | nindent 4 }}
   {{- end }}
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  {{- with (default .Values.progressDeadlineSeconds $service.progressDeadlineSeconds) }}
+  progressDeadlineSeconds: {{ . }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "common.selectors" $componentValues | nindent 6 }}
