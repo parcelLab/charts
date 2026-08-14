@@ -372,10 +372,6 @@ podLabels: {}
 
 # Seconds the Deployment controller waits for a rollout to make progress
 # before marking it ProgressDeadlineExceeded (surfaces as ArgoCD "Degraded").
-# Defaults to the Kubernetes default of 600s; raise it for workloads whose
-# pods legitimately take longer than 10m to become Ready (e.g. gated by a
-# startupProbe with a large failureThreshold).
-progressDeadlineSeconds: 600
 
 replicaCount: 1
 
