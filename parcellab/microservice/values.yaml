@@ -370,9 +370,6 @@ podAnnotations: {}
 # opting into an EKS Fargate profile: { parcellab.dev/compute: fargate }.
 podLabels: {}
 
-# Seconds the Deployment controller waits for a rollout to make progress
-# before marking it ProgressDeadlineExceeded (surfaces as ArgoCD "Degraded").
-
 replicaCount: 1
 
 strategy:

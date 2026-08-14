@@ -525,9 +525,6 @@ podLabels: {}
 
 deploymentAnnotations: {}
 
-# Seconds the Deployment controller waits for a rollout to make progress
-# before marking it ProgressDeadlineExceeded (surfaces as ArgoCD "Degraded").
-
 replicaCount: 1
 # disables setting replica count in case of autoscaling enabled
 disableReplicaCount: false
