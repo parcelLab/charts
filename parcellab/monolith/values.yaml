@@ -46,7 +46,6 @@ extraServices:
   #     httpGet:
   #       path: /
   #       port: http
-  #   progressDeadlineSeconds: 600
   #   resources:
   #     limits:
   #       cpu: 100m
@@ -325,7 +324,6 @@ workers: []
 #      httpGet:
 #        path: /
 #        port: http
-#    progressDeadlineSeconds: 600
 #    containerEnv:
 #      - name: MY_ENV_VAR
 #        value: "myvalue"
