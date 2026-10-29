@@ -1,0 +1,35 @@
+name: WAF
+on:
+  pull_request:
+    paths:
+      - "parcellab/common/**"
+      - "parcellab/microservice/**"
+      - "parcellab/monolith/**"
+      - "tests/waf.test.mjs"
+      - ".github/workflows/waf.yaml"
+  push:
+    branches:
+      - main
+    paths:
+      - "parcellab/common/**"
+      - "parcellab/microservice/**"
+      - "parcellab/monolith/**"
+      - "tests/waf.test.mjs"
+      - ".github/workflows/waf.yaml"
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        chart: [microservice, monolith]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+      - name: Build chart dependencies
+        run: helm dependency update parcellab/${{ matrix.chart }}
+      - name: Test route-scoped WAF
+        env:
+          WAF_TEST_CHART: ${{ matrix.chart }}
+        run: npm run test:waf

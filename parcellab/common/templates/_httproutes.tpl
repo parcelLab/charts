@@ -110,6 +110,7 @@ spec:
 {{- if hasKey $route "backendTrafficPolicy" }}
 {{ include "common.backendtrafficpolicy" (dict "Values" $root.Values "Release" $root.Release "Chart" $root.Chart "route" $policyRoute "index" $index "routeName" $routeName "globalLabels" $globalLabels) }}
 {{- end }}
+{{ include "common.waf" (dict "route" $route "routeName" $routeName "Release" $root.Release "globalLabels" $globalLabels) }}
 {{ end }}
 {{- end }}
 {{- end }}
