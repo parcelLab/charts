@@ -112,7 +112,7 @@ envoy:
   httpRoutes: []
   #   - name: my-default-route
   #     waf:
-  #       enabled: false # Opt in to Coraza detection-only inspection per route.
+  #       enabled: false # Enabled routes require config and an explicit failOpen.
   #       # name: my-default-route-waf # Optional policy name for migration/adoption.
   #     hosts:
   #       - my-app.example.com
