@@ -33,8 +33,6 @@ needs.
   - Horizontal automatic scaling rules of pods. Can be defined with the `autoscaling` setting.
 - `envoy`
   - Envoy Gateway resources (HTTPRoute, GRPCRoute, ReferenceGrant, SecurityPolicy, BackendTrafficPolicy). Defined under `envoy.*`.
-  - Set `envoy.httpRoutes[].waf.enabled: true` for shared Coraza detection-only
-    inspection. See [WAF configuration and limits](../common/README.md#route-scoped-coraza-waf).
 - `ingress`
   - Rules to open external access to the workload. Can be defined with `ingress`.
 - `poddisruptionbudget`
