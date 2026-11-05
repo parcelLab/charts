@@ -1,0 +1,23 @@
+name: CI
+on:
+  push:
+    branches:
+      - "**"
+  workflow_dispatch:
+jobs:
+  helm:
+    uses: parcelLab/ci/.github/workflows/helm.yaml@INF-4419-reusable-helm
+    with:
+      chartsPath: parcellab
+
+  # Required status check in branch protection (INF-4419). Fails if any
+  # check failed or was cancelled.
+  ci_check_result:
+    needs:
+      - helm
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail if a required job failed
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: exit 1
