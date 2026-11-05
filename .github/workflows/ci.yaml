@@ -1,8 +1,11 @@
 name: CI
 on:
+  # pull_request, not push to every branch: the repo is public, and a fork PR's
+  # push runs in the fork, so it would never report ci_check_result here.
+  pull_request:
   push:
     branches:
-      - "**"
+      - main
   workflow_dispatch:
 jobs:
   helm:
