@@ -26,8 +26,7 @@ service:
 
 revisionHistoryLimit: 0
 
-extraServices:
-  []
+extraServices: []
   # - name: myservice
   #   command:
   #     - /bin/sh
@@ -63,14 +62,12 @@ ingress:
   className: "nginx"
   annotations:
     # kubernetes.io/tls-acme: "true"
-  hosts:
-    []
+  hosts: []
     # - host: app
     #   paths:
     #     - path: /
     #       pathType: Prefix
-  tls:
-    []
+  tls: []
     # - secretName: chart-example-tls
     #   hosts:
     #     - chart-example.local
@@ -240,8 +237,7 @@ cronjob:
   #   - -c
   #   - date; echo Hello from the Kubernetes cluster
 
-cronjobs:
-  []
+cronjobs: []
   # - name: mycronjob
   #   command:
   #     - /bin/sh
@@ -355,8 +351,7 @@ config: {}
 # environment variables using the external-secrets project and an already
 # configured secret store reference
 # See https://external-secrets.io/latest/spec/#external-secrets.io/v1beta1.ExternalSecretSpec
-externalSecret:
-  {}
+externalSecret: {}
   # dataFrom:
   #   - extract:
   #       key: app-key-in-secrets-manager
@@ -496,8 +491,7 @@ terminationGracePeriodSeconds: 30
 
 nodeSelector: {}
 
-securityContext:
-  {}
+securityContext: {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -555,8 +549,7 @@ containerEnv: []
 # - name: MY_ENV_VAR
 #   value: "myvalue"
 
-podSecurityContext:
-  {}
+podSecurityContext: {}
   # fsGroup: 2000
 
 resources:
