@@ -18,8 +18,7 @@ config: {}
 # environment variables using the external-secrets project and an already
 # configured secret store reference
 # See https://external-secrets.io/latest/spec/#external-secrets.io/v1beta1.ExternalSecretSpec
-externalSecret:
-  {}
+externalSecret: {}
   # dataFrom:
   #   - extract:
   #       key: app-key-in-secrets-manager
@@ -146,8 +145,7 @@ terminationGracePeriodSeconds: 30
 
 nodeSelector: {}
 
-securityContext:
-  {}
+securityContext: {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -217,8 +215,7 @@ containerEnv: []
 # - name: MY_ENV_VAR
 #   value: "myvalue"
 
-podSecurityContext:
-  {}
+podSecurityContext: {}
   # fsGroup: 2000
 
 resources:
