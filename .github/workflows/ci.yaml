@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 jobs:
   helm:
-    uses: parcelLab/ci/.github/workflows/helm.yaml@INF-4419-reusable-helm
+    uses: parcelLab/ci/.github/workflows/helm.yaml@v9
     with:
       chartsPath: parcellab
 
