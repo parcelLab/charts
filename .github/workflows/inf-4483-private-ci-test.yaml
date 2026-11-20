@@ -1,0 +1,26 @@
+# Throwaway caller for INF-4483: checks whether a PUBLIC repo can call a
+# reusable workflow / composite action in a PRIVATE repo of the same org
+# (flask-blueprint-app as a mock of parcelLab/ci). Draft PR only. Do not merge.
+name: INF-4483 private CI test (public caller)
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/inf-4483-private-ci-test.yaml
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  reusable:
+    uses: parcelLab/flask-blueprint-app/.github/workflows/inf-4483-reusable-test.yaml@feat/INF-4483-reusable-test
+    with:
+      greeting: public-caller
+
+  composite-direct:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: parcelLab/flask-blueprint-app/.github/actions/inf-4483-hello@feat/INF-4483-reusable-test
+        with:
+          greeting: public-caller-direct
