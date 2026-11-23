@@ -75,8 +75,7 @@ jobs:
           CR_SKIP_EXISTING: true
 
   publish-ecr:
-    # TEMP(INF-4517): also run from the PR branch for the pre-merge test. Remove before merge.
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feat/INF-4517-ecr-publish'
+    if: github.ref == 'refs/heads/main'
     needs: test
     runs-on: ubuntu-latest
     permissions:
@@ -94,8 +93,6 @@ jobs:
           role-to-assume: ${{ vars.AWS_ASSUME_ROLE_ARN_CUSTOM }}
           aws-region: ${{ env.AWS_REGION }}
 
-      # Pushes each chart version that isn't in ECR yet. charts/<chart> is created
-      # on first publish with immutable tags, so existing versions are skipped.
       - name: Publish charts to ECR
         run: |
           REGISTRY="$(aws sts get-caller-identity --query Account --output text).dkr.ecr.$AWS_REGION.amazonaws.com"
@@ -105,7 +102,7 @@ jobs:
             version="$(yq .version "$dir/Chart.yaml")"
             aws ecr describe-repositories --repository-names "charts/$name" >/dev/null 2>&1 || \
               aws ecr create-repository --repository-name "charts/$name" --image-tag-mutability IMMUTABLE
-            # OCI tags can't contain "+"; Helm stores SemVer build metadata as "_".
+            # Helm stores "+" in versions as "_" in OCI tags
             if aws ecr describe-images --repository-name "charts/$name" --image-ids imageTag="${version//+/_}" >/dev/null 2>&1; then
               echo "Skipping $name $version, already in ECR"
               continue
