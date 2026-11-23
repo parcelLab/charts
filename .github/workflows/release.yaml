@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - .github/workflows/release.yaml
-      - .github/scripts/publish-ecr.sh
       - parcellab/**
       - "!**.md"
   workflow_dispatch:
@@ -95,5 +94,21 @@ jobs:
           role-to-assume: ${{ vars.AWS_ASSUME_ROLE_ARN_CUSTOM }}
           aws-region: ${{ env.AWS_REGION }}
 
+      # Pushes each chart version that isn't in ECR yet. charts/<chart> is
+      # created on first push (ECR creation template, immutable tags), so
+      # existing versions must be skipped rather than re-pushed.
       - name: Publish charts to ECR
-        run: .github/scripts/publish-ecr.sh
+        run: |
+          REGISTRY="$(aws sts get-caller-identity --query Account --output text).dkr.ecr.$AWS_REGION.amazonaws.com"
+          aws ecr get-login-password | helm registry login --username AWS --password-stdin "$REGISTRY"
+          for dir in parcellab/*/; do
+            name="$(yq .name "$dir/Chart.yaml")"
+            version="$(yq .version "$dir/Chart.yaml")"
+            # OCI tags can't contain "+"; Helm stores SemVer build metadata as "_".
+            if aws ecr describe-images --repository-name "charts/$name" --image-ids imageTag="${version//+/_}" >/dev/null 2>&1; then
+              echo "Skipping $name $version, already in ECR"
+              continue
+            fi
+            helm package --dependency-update "$dir" --destination .packages
+            helm push ".packages/$name-$version.tgz" "oci://$REGISTRY/charts"
+          done
