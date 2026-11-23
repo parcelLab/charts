@@ -8,7 +8,31 @@ on:
       - reopened
       - synchronize
 jobs:
-  pr:
-    uses: parcelLab/ci/.github/workflows/pr.yaml@v9
-    secrets:
-      repoAccessToken: ${{ secrets.GITHUB_TOKEN }}
+  label:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Label PR based on pushed file paths
+        continue-on-error: true
+        uses: actions/labeler@v7.0.0
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          configuration-path: .github/labeler.yaml
+          sync-labels: true
+
+  validate_title:
+    name: Validate PR title
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: amannn/action-semantic-pull-request@v6.1.1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          requireScope: false
+          validateSingleCommit: false
