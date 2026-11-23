@@ -81,7 +81,8 @@ jobs:
           CR_SKIP_EXISTING: true
 
   publish-ecr:
-    if: github.ref == 'refs/heads/main'
+    # TEMP(INF-4517): also run from the PR branch for the pre-merge test. Remove before merge.
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feat/INF-4517-ecr-publish'
     needs: test
     runs-on: ubuntu-latest
     permissions:
