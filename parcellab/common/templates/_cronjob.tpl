@@ -21,6 +21,10 @@ metadata:
   name: {{ $name }}
   labels:
     {{- include "common.labels" $componentValues | nindent 4 }}
+  {{- with (default .Values.cronjob.cronjobAnnotations $cronjob.cronjobAnnotations) }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   concurrencyPolicy: {{ default .Values.cronjob.concurrencyPolicy $cronjob.concurrencyPolicy }}
   failedJobsHistoryLimit: {{ default .Values.cronjob.failedJobsHistoryLimit $cronjob.failedJobsHistoryLimit }}

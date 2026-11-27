@@ -228,6 +228,9 @@ cronjob:
   schedule: "* * * * *"
   successfulJobsHistoryLimit: 3
   suspend: false
+  # Annotations on the CronJob object (not its pods). Example: exclude it from Argo CD app health.
+  # cronjobAnnotations:
+  #   argocd.argoproj.io/ignore-healthcheck: "true"
   job:
     activeDeadlineSeconds: 900 # 15 minutes
     backoffLimit: 2
